@@ -7,7 +7,6 @@ import {
   useFeedsModel,
   useMenuModel,
 } from '../../store'
-import greyLogo from '../../assets/images/grey-logo.png'
 import ArticleViewSkeleton from '../skeletons/ArticleViewSkeleton'
 import Utils from '../../utils'
 import WebviewDrawer from '../WebviewDrawer'
@@ -130,7 +129,7 @@ export const ArticleViewComponent: React.FunctionComponent<{}> = () => {
     viewContent = (
       <div className="view-content">
         <div style={{ marginTop: '128px' }}>
-          <Empty image={greyLogo}  />
+          <Empty />
         </div>
       </div>
     )

@@ -9,6 +9,7 @@ export const Avatar: React.FunctionComponent<AvatarProps> = (props) => {
   const {
     src = '',
     size = 32,
+    children
   } = props
   const [imageUrl, setImageUrl] = useState<string>(src)
   
@@ -21,6 +22,7 @@ export const Avatar: React.FunctionComponent<AvatarProps> = (props) => {
       {
         imageUrl && <img src={imageUrl} alt="avatar" onError={onError}/>
       }
+      {children}
     </div>
   )
 }

@@ -8,11 +8,11 @@ import { useMessageModel } from './store'
 import './App.less'
 
 export interface IAppProps {
-  className?: string;
+  className?: string
 }
 
 const App: React.FunctionComponent<IAppProps> = () => {
-  const [isVisible, setVisible] = useState<boolean>(true)
+  const [isVisible, setVisible] = useState<boolean>(false)
   const {
     visible,
     messageParams = {
@@ -36,11 +36,11 @@ const App: React.FunctionComponent<IAppProps> = () => {
         <ArticleView />
       </div>
       <SettingsModal visible={isVisible} onClose={() => setVisible(false)} />
-      <div
-        className="global-message"
-        style={{ display: visible ? 'block' : 'none' }}>
-        <div className="message-content"> {messageParams.message}</div>
-      </div>
+      {visible && (
+        <div className="global-message">
+          <div className="message-content"> {messageParams.message}</div>
+        </div>
+      )}
     </Fragment>
   )
 }

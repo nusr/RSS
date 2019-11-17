@@ -12,7 +12,7 @@ type MessageState = {
   setMessageParams(value: MessageParams): void;
 }
 function useMessage() {
-  const [visible, setVisible] = useState<boolean>(true)
+  const [visible, setVisible] = useState<boolean>(false)
   const [messageParams, setMessage] = useState<MessageParams>()
   const setMessageParams = (data: MessageParams) => {
     const time = data.time || 1000

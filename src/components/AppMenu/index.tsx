@@ -1,9 +1,9 @@
 import { Avatar } from '../Avatar'
 import { SvgIcon, IconType } from '../SvgIcon'
 import React, { Fragment, useState, useEffect } from 'react'
-import defaultFavicon from '../../assets/images/rss.png'
 import { EMenuKey } from '../../schemas'
 import { AddFeedModal } from '../AddFeedModal'
+import Logo from '../../assets/images/icon.png'
 import {
   useMenuModel,
   useFeedsModel,
@@ -12,9 +12,9 @@ import {
 } from '../../store'
 import './index.less'
 type MenuItemType = {
-  key: EMenuKey;
-  icon: IconType;
-  title: string;
+  key: EMenuKey
+  icon: IconType
+  title: string
 }
 const DEFAULT_MENUS: MenuItemType[] = [
   {
@@ -77,7 +77,7 @@ export const AppMenuComponent: React.FunctionComponent<any> = () => {
     <div className="app-menu" style={{ display: showMenu ? 'block' : 'none' }}>
       <div className="menu-content">
         <div className="menu-header">
-          <div className="app-logo" />
+          <Avatar src={Logo} />
           <div className="date-text">{new Date().toDateString()}</div>
           {isReady && <div>sync...</div>}
         </div>
@@ -99,7 +99,12 @@ export const AppMenuComponent: React.FunctionComponent<any> = () => {
             className={getItemClassName(_id)}
             onClick={() => setSelectedKey(_id)}>
             <div className="content">
-              <Avatar size={22} src={favicon || defaultFavicon} />
+              {favicon ? (
+                <Avatar size={22} src={favicon} />
+              ) : (
+                <SvgIcon icon="rss" size={22} />
+              )}
+
               <div className="menu-title" title={title}>
                 {title}
               </div>

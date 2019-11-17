@@ -1,32 +1,30 @@
 import React from 'react'
 import { Avatar } from '../Avatar'
-import defaultFavicon from '../../assets/images/rss.png'
+import { SvgIcon } from '../SvgIcon'
 import Utils from '../../utils'
 import { IArticle } from '../../schemas'
 import './index.less'
 import { useLanguageModel, useFeedsModel } from '../../store'
 
 export interface IArticleItemOwnProps {
-  data: IArticle;
-  className: string;
+  data: IArticle
+  className: string
 }
 
-const ArticleItem: React.FunctionComponent<IArticleItemOwnProps> = (props) => {
-  const {
-    data,
-    className,
-  } = props
+const ArticleItem: React.FunctionComponent<IArticleItemOwnProps> = props => {
+  const { data, className } = props
   const { getLanguageData } = useLanguageModel()
   const { currentFeed = '' } = useFeedsModel()
   const dateTime = Utils.timeToTimeString(data.time)
   const feedTitle = currentFeed.title || getLanguageData('unknown')
-  const feedFavicon = currentFeed.favicon || defaultFavicon
   return (
     <div className={'article-item ' + className}>
       <div className="item-sider">
-        <Avatar size={22} src={feedFavicon}>
-          {feedTitle}
-        </Avatar>
+        {currentFeed.favicon ? (
+          <Avatar size={22} src={currentFeed.favicon} />
+        ) : (
+          <SvgIcon icon="rss" size={22} />
+        )}
       </div>
       <div className="item-main">
         <div className="item-header">
