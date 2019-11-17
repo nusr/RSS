@@ -99,11 +99,7 @@ export const AppMenuComponent: React.FunctionComponent<any> = () => {
             className={getItemClassName(_id)}
             onClick={() => setSelectedKey(_id)}>
             <div className="content">
-              {favicon ? (
-                <Avatar size={22} src={favicon} />
-              ) : (
-                <SvgIcon icon="rss" size={22} />
-              )}
+                <Avatar size={22} src={favicon} default />
 
               <div className="menu-title" title={title}>
                 {title}
