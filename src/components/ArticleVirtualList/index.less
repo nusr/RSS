@@ -1,0 +1,24 @@
+@import '../../assets/theme.less';
+
+.article-virtual-list {
+  height: 100%;
+  position: relative;
+  overflow: auto;
+  .date-divid {
+    color: @black-text-color-dark;
+    border-bottom: none;
+    padding: 0 8px;
+  }
+
+  .list-affix {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    color: @black-text-color-dark;
+    z-index: 999;
+    padding: 2px 8px 2px 8px;
+    background-color: @beige-background-color;
+    border-top: 0.5px solid @grey-border-color;
+    border-bottom: 0.5px solid @grey-border-color;
+  }
+}

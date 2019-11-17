@@ -1,0 +1,22 @@
+appId: io.github.nusr.rss
+npmRebuild: true
+productName: RSS
+artifactName: ${productName}-${version}.${ext}
+asar: true
+mac:
+  category: public.app-category.news
+  icon: build/icons/mac/app.icns
+linux:
+  category: Network
+  icon: build/icons/png
+win:
+  icon: build/icons/win/app.ico
+  target: nsis
+nsis:
+  allowToChangeInstallationDirectory: true
+  oneClick: false
+  menuCategory: true
+  createDesktopShortcut: always
+  allowElevation: false
+files:
+  - build/**/*

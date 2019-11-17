@@ -1,0 +1,42 @@
+@import '../../assets/theme.less';
+
+.setting-feed-list {
+  height: 100%;
+  overflow-y: auto;
+
+  .setting-feed {
+    border: 1px solid @grey-border-color;
+  }
+
+  .setting-feed-item {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid @grey-border-color;
+    padding: 10px;
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+
+  .feed-item-content {
+    flex: 1;
+  }
+
+  .empty-list {
+    color: @black-text-color-dark;
+    height: 40px;
+    padding: 8px 0px;
+    text-align: center;
+    line-height: 21px;
+    margin-bottom: 0;
+  }
+
+  .delete-button {
+    background-color: @danger-color;
+    color: @white-color;
+    padding: 0 7px;
+    border-radius: 4px;
+    width: 50px;
+  }
+}

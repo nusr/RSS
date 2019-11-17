@@ -1,0 +1,39 @@
+@import 'assets/theme.less';
+body,
+html {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: @none-color;
+  font-size: 12px;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+
+.app-side {
+  display: flex;
+}
+
+.app-content {
+  flex: 1;
+  border-left: 0.5px solid @grey-border-color;
+  overflow: hidden;
+  background-color: @grey-background-color;
+}
+.global-message {
+  position: fixed;
+  top: 60px;
+  z-index: 6;
+  left: 50%;
+  display: none;
+}
+.message-content {
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: @white-color;
+}

@@ -1,0 +1,24 @@
+@import '../../assets/theme.less';
+.button {
+  padding: 0 15px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid @grey-border-color;
+  text-align: center;
+  line-height: 32px;
+  &.ghost {
+    color: @black-text-color;
+    background-color: @white-color;
+  }
+  &.danger {
+    background-color: @danger-color;
+    color: @white-color;
+  }
+  &.primary {
+    background-color: @primary-color;
+    color: @white-color;
+  }
+  & + .button{
+    margin-left: 8px;
+  }
+}

@@ -1,0 +1,21 @@
+@import '../../assets/theme.less';
+@header-height: 40px;
+.webview-drawer {
+  .drawer-header {
+    padding: 10px @base-distance;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: @black-text-color;
+    position: sticky;
+  }
+  .drawer-content {
+    position: relative;
+    min-width: 100vw;
+  }
+  webview {
+    height: calc(100vh - @header-height);
+    // padding-top: @header-height;
+    overflow: auto;
+  }
+}
