@@ -8,8 +8,7 @@ export enum ELogicError {
 
 export enum EMenuKey {
   ALL_ITEMS = 'ALL_ITEMS',
-  STARRED_ITEMS = 'STARRED_ITEMS',
-  UNREAD_ITEMS = 'UNREAD_ITEMS',
+  STARRED_ITEMS = 'STARRED_ITEMS'
 }
 
 export enum EArticleFilter {

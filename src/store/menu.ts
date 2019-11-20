@@ -7,28 +7,33 @@ import useArticlesModel from './articles'
 const MenuKeyDefault = EMenuKey.ALL_ITEMS
 
 function useMenu() {
-  const { fetchArticles } = useArticlesModel()
-  const { feedList, setCurrentFeed } = useFeedsModel()
+  const { asyncFetchArticles } = useArticlesModel()
+  const { feedList } = useFeedsModel()
   const [selectedKey, setMenuKey] = useState<string | EMenuKey>(MenuKeyDefault)
   const [showMenu, setShowMenu] = useState<boolean>(true)
   const setSelectedKey = (menuKey: string | EMenuKey) => {
     setMenuKey(menuKey)
     if (menuKey in EMenuKey) {
       // 点击主目录
-      fetchArticles(menuKey)
+      asyncFetchArticles(menuKey, feedList)
     } else if (feedList.some((item: IFeed) => item._id === menuKey)) {
       // 点击订阅
-      const feed: IFeed = feedList.find((item: IFeed) => item._id === menuKey)
-      setCurrentFeed(feed)
-      fetchArticles(menuKey)
+      asyncFetchArticles(menuKey, feedList)
     }
+  }
+  const getCurrentFeed = () => {
+    const feed: IFeed | null = feedList.find(
+      (item: IFeed) => item._id === selectedKey
+    )
+    return feed
   }
   const toggleMenu = () => setShowMenu(!showMenu)
   return {
     selectedKey,
     setSelectedKey,
     toggleMenu,
-    showMenu
+    showMenu,
+    getCurrentFeed,
   }
 }
 

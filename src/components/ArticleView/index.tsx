@@ -1,12 +1,8 @@
-import {SvgIcon} from '../SvgIcon'
+import { SvgIcon } from '../SvgIcon'
 import { Empty } from '../Empty'
+import { shell } from 'electron'
 import React, { useState, useEffect, useRef } from 'react'
-import {
-  useLanguageModel,
-  useArticlesModel,
-  useFeedsModel,
-  useMenuModel,
-} from '../../store'
+import { useLanguageModel, useArticlesModel, useMenuModel } from '../../store'
 import ArticleViewSkeleton from '../skeletons/ArticleViewSkeleton'
 import Utils from '../../utils'
 import WebviewDrawer from '../WebviewDrawer'
@@ -16,8 +12,8 @@ let contentLinks = []
 export const ArticleViewComponent: React.FunctionComponent<{}> = () => {
   const { getLanguageData } = useLanguageModel()
   const { currentArticle, isFetching, asyncStarArticle } = useArticlesModel()
-  const { toggleMenu } = useMenuModel()
-  const { currentFeed } = useFeedsModel()
+  const { toggleMenu, getCurrentFeed } = useMenuModel()
+  const currentFeed = getCurrentFeed()
   const [hoverLink, setHoverLink] = useState<string>(
     'https://bgm.tv/favicon.ico '
   )
@@ -95,11 +91,17 @@ export const ArticleViewComponent: React.FunctionComponent<{}> = () => {
     }
     setHoverLink(link)
   }
-  function closeWebview(){
+  function closeWebview() {
     setVisible(false)
     toggleMenu()
   }
 
+  function handleCompassClick() {
+    const src: string = currentArticle.link
+    if (src) {
+      shell.openExternal(src)
+    }
+  }
   let viewContent: JSX.Element
   if (currentArticle) {
     viewContent = (
@@ -137,11 +139,21 @@ export const ArticleViewComponent: React.FunctionComponent<{}> = () => {
   return (
     <div className="article-view">
       <div className="view-header">
-        <SvgIcon icon="close"/>
-        <SvgIcon icon={starredMap ? 'star-filled' : 'star-outlined'} onClick={handleStarIconClick}/>
+        <div>
+          <SvgIcon icon="close" />
+        </div>
+        <div>
+          <SvgIcon
+            icon={starredMap ? 'star-filled' : 'star-outlined'}
+            onClick={handleStarIconClick}
+          />
+          <SvgIcon icon="compass" onClick={handleCompassClick} />
+        </div>
       </div>
       {viewContent}
-      <div className="view-footer" onClick={handleContentClick}>{ currentArticle && hoverLink ? 'Open ' + hoverLink : ''}</div>
+      <div className="view-footer" onClick={handleContentClick}>
+        {currentArticle && hoverLink ? 'Open ' + hoverLink : ''}
+      </div>
       <WebviewDrawer
         width={'calc(100vw - 264px)'}
         onClose={closeWebview}

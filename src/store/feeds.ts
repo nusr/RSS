@@ -10,7 +10,6 @@ function useFeeds() {
   const [isCreating, setIsCreating] = useState<boolean>(false)
   const [isUpdating, setIsUpdating] = useState<boolean>(false)
   const [feedList, setFeedList] = useState<IFeed[]>([])
-  const [currentFeed, setCurrentFeed] = useState<IFeed>()
   const getAllFeeds = (showMessage?: string) => {
     setIsUpdating(true)
     Logic.getAllFeeds()
@@ -57,8 +56,6 @@ function useFeeds() {
     setFeedList,
     getAllFeeds,
     asyncDeleteFeeds,
-    setCurrentFeed,
-    currentFeed,
     asyncCreateFeed,
   }
 }

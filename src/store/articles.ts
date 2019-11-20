@@ -2,20 +2,21 @@ import { createModel } from 'hox'
 import { useState } from 'react'
 import { EMenuKey, IArticle, EArticleFilter, IFeed } from '../schemas'
 import Logic from '../logic'
-import useFeedsModel from './feeds'
 import useMessageModel from './message'
 import useLanguageModel from './language'
 function useArticles() {
   const { setMessageParams } = useMessageModel()
   const { getLanguageData } = useLanguageModel()
-  const { feedList } = useFeedsModel()
   const [currentArticle, setCurrentArticle] = useState<IArticle>()
   const [isFetching, setIsFetching] = useState<boolean>(false)
   const [articleList, setArticleList] = useState<IArticle[]>([])
   const [articleStatus, setArticleStatus] = useState<EArticleFilter>(
     EArticleFilter.ALL
   )
-  const fetchArticles = (menuKey: string | EMenuKey) => {
+  const asyncFetchArticles = (
+    menuKey: string | EMenuKey,
+    feedList: IFeed[]
+  ) => {
     setIsFetching(true)
     const feedIds = feedList.map((feed: IFeed) => feed._id)
     const selector: PouchDB.Find.Selector = { feedId: { $in: feedIds } }
@@ -24,9 +25,6 @@ function useArticles() {
         break
       case EMenuKey.STARRED_ITEMS:
         selector.isStarred = { $eq: true }
-        break
-      case EMenuKey.UNREAD_ITEMS:
-        selector.isUnread = { $eq: true }
         break
       default:
         selector.feedId = { $eq: menuKey }
@@ -42,6 +40,7 @@ function useArticles() {
     Logic.getArticles(selector).then((articles: IArticle[]) => {
       setIsFetching(false)
       setArticleList(articles)
+      console.info(articles)
     })
   }
   const asyncReadArticle = async (articleId: string) => {
@@ -70,7 +69,7 @@ function useArticles() {
     setIsFetching,
     setArticleStatus,
     articleStatus,
-    fetchArticles,
+    asyncFetchArticles,
     asyncReadArticle,
     asyncStarArticle,
     asyncSetAllArticlesRead,

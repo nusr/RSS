@@ -4,7 +4,7 @@ import { SvgIcon } from '../SvgIcon'
 import Utils from '../../utils'
 import { IArticle } from '../../schemas'
 import './index.less'
-import { useLanguageModel, useFeedsModel } from '../../store'
+import { useLanguageModel, useMenuModel } from '../../store'
 
 export interface IArticleItemOwnProps {
   data: IArticle
@@ -14,14 +14,16 @@ export interface IArticleItemOwnProps {
 const ArticleItem: React.FunctionComponent<IArticleItemOwnProps> = props => {
   const { data, className } = props
   const { getLanguageData } = useLanguageModel()
-  const { currentFeed = '' } = useFeedsModel()
+  const { getCurrentFeed } = useMenuModel()
+  const currentFeed = getCurrentFeed() || ''
   const dateTime = Utils.timeToTimeString(data.time)
+  const favicon = currentFeed.favicon
   const feedTitle = currentFeed.title || getLanguageData('unknown')
   return (
     <div className={'article-item ' + className}>
       <div className="item-sider">
-        {currentFeed.favicon ? (
-          <Avatar size={22} src={currentFeed.favicon} />
+        {favicon ? (
+          <Avatar size={22} src={favicon} />
         ) : (
           <SvgIcon icon="rss" size={22} />
         )}

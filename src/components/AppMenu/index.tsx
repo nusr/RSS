@@ -26,12 +26,7 @@ const DEFAULT_MENUS: MenuItemType[] = [
     key: EMenuKey.STARRED_ITEMS,
     icon: 'star-outlined',
     title: 'menuStarred',
-  },
-  {
-    key: EMenuKey.UNREAD_ITEMS,
-    icon: 'file-text',
-    title: 'menuUnread',
-  },
+  }
 ]
 
 export const AppMenuComponent: React.FunctionComponent<any> = () => {
@@ -99,8 +94,7 @@ export const AppMenuComponent: React.FunctionComponent<any> = () => {
             className={getItemClassName(_id)}
             onClick={() => setSelectedKey(_id)}>
             <div className="content">
-                <Avatar size={22} src={favicon} default />
-
+              <Avatar size={22} src={favicon} default />
               <div className="menu-title" title={title}>
                 {title}
               </div>

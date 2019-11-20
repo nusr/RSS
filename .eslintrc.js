@@ -30,7 +30,7 @@ module.exports = {
   rules: {
     camelcase: 'off',
     'no-restricted-syntax': 'off',
-    'no-console': ['error', { allow: ['error'] }],
+    'no-console': ['error', { allow: ['error', 'info'] }],
     'import/prefer-default-export': 'off',
     'no-await-in-loop': 'off',
     'react/prop-types': 'off',
