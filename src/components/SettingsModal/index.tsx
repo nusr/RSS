@@ -7,8 +7,8 @@ import { LANGUAGE_KEY_TYPE } from '../../locales'
 import './index.less'
 const LanguageList: LANGUAGE_KEY_TYPE[] = ['en-US', 'zh-CN']
 type ISettingsModalOwnProps = {
-  visible: boolean;
-  onClose: (e: any) => any;
+  visible: boolean
+  onClose: (e: any) => any
 }
 
 export const SettingsModalComponent: React.FunctionComponent<ISettingsModalOwnProps> = ({
@@ -52,9 +52,9 @@ export const SettingsModalComponent: React.FunctionComponent<ISettingsModalOwnPr
           <div className="settings-item-title">
             {getLanguageData('languages')}
           </div>
-          <select className="select" onChange={handleChange}>
+          <select className="select" onChange={handleChange} value={language}>
             {LanguageList.map(item => (
-              <option selected={item === language}>{item}</option>
+              <option key={item}>{item}</option>
             ))}
           </select>
         </div>

@@ -20,6 +20,7 @@ export const ArticleViewComponent: React.FunctionComponent<{}> = () => {
   const [isVisible, setVisible] = useState<boolean>(false)
   const [starredMap, setStarredMaps] = useState<boolean>(false)
   const contentRef = useRef<HTMLDivElement>(null)
+  console.log(currentArticle)
   function parseArticleContent(content: string) {
     if (isAppend) {
       return
@@ -97,7 +98,7 @@ export const ArticleViewComponent: React.FunctionComponent<{}> = () => {
   }
 
   function handleCompassClick() {
-    const src: string = currentArticle.link
+    const src: string = currentArticle && currentArticle.link
     if (src) {
       shell.openExternal(src)
     }
@@ -148,6 +149,7 @@ export const ArticleViewComponent: React.FunctionComponent<{}> = () => {
             onClick={handleStarIconClick}
           />
           <SvgIcon icon="compass" onClick={handleCompassClick} />
+          <SvgIcon icon="dot-outlined" />
         </div>
       </div>
       {viewContent}
