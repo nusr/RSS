@@ -137,6 +137,7 @@ export const ArticleViewComponent: React.FunctionComponent<{}> = () => {
       </div>
     )
   }
+  const isUnread = currentArticle && currentArticle.isUnread
   return (
     <div className="article-view">
       <div className="view-header">
@@ -144,12 +145,12 @@ export const ArticleViewComponent: React.FunctionComponent<{}> = () => {
           <SvgIcon icon="close" />
         </div>
         <div>
+          <SvgIcon icon={!isUnread ? 'dot-outlined' : 'dot-filled'} />
           <SvgIcon
             icon={starredMap ? 'star-filled' : 'star-outlined'}
             onClick={handleStarIconClick}
           />
           <SvgIcon icon="compass" onClick={handleCompassClick} />
-          <SvgIcon icon="dot-outlined" />
         </div>
       </div>
       {viewContent}
