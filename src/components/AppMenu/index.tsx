@@ -53,11 +53,12 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
   /* eslint-disable */
   useEffect(() => {
     getAllFeeds()
-    window.addEventListener('online', setOnlineStatus)
-    window.addEventListener('offline', setOnlineStatus)
+    const setStatus = () => setOnlineStatus
+    window.addEventListener('online', setStatus)
+    window.addEventListener('offline', setStatus)
     return () => {
-      window.removeEventListener('online', setOnlineStatus)
-      window.removeEventListener('offline', setOnlineStatus)
+      window.removeEventListener('online', setStatus)
+      window.removeEventListener('offline', setStatus)
     }
   }, [])
   /* eslint-enable */

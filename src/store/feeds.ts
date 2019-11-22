@@ -11,7 +11,7 @@ type FeedsState = {
   setIsUpdating: React.Dispatch<React.SetStateAction<boolean>>;
   feedList: IFeed[];
   setFeedList: React.Dispatch<React.SetStateAction<IFeed[]>>;
-  getAllFeeds(showMessage?: string): void;
+  getAllFeeds(showMessage?: boolean): void;
   asyncDeleteFeeds(ids: string[]): void;
   asyncCreateFeed(feedUrl: string): void;
 }
@@ -21,7 +21,7 @@ function useFeeds() {
   const [isCreating, setIsCreating] = useState<boolean>(false)
   const [isUpdating, setIsUpdating] = useState<boolean>(false)
   const [feedList, setFeedList] = useState<IFeed[]>([])
-  const getAllFeeds = (showMessage?: string) => {
+  const getAllFeeds = (showMessage?: boolean) => {
     setIsUpdating(true)
     Logic.getAllFeeds()
       .then((feeds: IFeed[]) => {
