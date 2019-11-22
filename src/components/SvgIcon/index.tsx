@@ -20,11 +20,11 @@ export type IconType =
   | 'warning'
   | 'refresh'
 type SvgIconProps = {
-  icon: IconType
-  className?: string
-  onClick?(e: any): void
-  color?: string
-  size?: number
+  icon: IconType;
+  className?: string;
+  onClick?(): void;
+  color?: string;
+  size?: number;
 }
 export const SvgIcon: React.FunctionComponent<SvgIconProps> = props => {
   const { className = '', icon, size, color = 'currentColor', ...rest } = props

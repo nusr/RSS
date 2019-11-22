@@ -1,9 +1,20 @@
 import { createModel } from 'hox'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { IFeed } from '../schemas'
 import Logic from '../logic'
 import useLanguageModel from './language'
 import useMessageModel from './message'
+type FeedsState = {
+  isCreating: boolean;
+  setIsCreating: React.Dispatch<React.SetStateAction<boolean>>;
+  isUpdating: boolean;
+  setIsUpdating: React.Dispatch<React.SetStateAction<boolean>>;
+  feedList: IFeed[];
+  setFeedList: React.Dispatch<React.SetStateAction<IFeed[]>>;
+  getAllFeeds(showMessage?: string): void;
+  asyncDeleteFeeds(ids: string[]): void;
+  asyncCreateFeed(feedUrl: string): void;
+}
 function useFeeds() {
   const { setMessageParams } = useMessageModel()
   const { getLanguageData } = useLanguageModel()
@@ -60,4 +71,4 @@ function useFeeds() {
   }
 }
 
-export default createModel<any>(useFeeds)
+export default createModel<FeedsState>(useFeeds)

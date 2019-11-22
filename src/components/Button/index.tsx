@@ -4,7 +4,7 @@ import './index.less'
 
 type EmptyProps = {
   icon?: IconType;
-  onClick?(e: any): void;
+  onClick?(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
   type?: 'ghost' | 'danger' | 'primary';
   className?: string;
 }

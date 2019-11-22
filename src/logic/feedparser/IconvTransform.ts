@@ -4,7 +4,11 @@ import { Transform, TransformCallback } from 'stream'
 
 export default class IconvTransform extends Transform {
   private temp = ''
-  public _transform(chunk: any, encoding: string, callback: TransformCallback) {
+  public _transform(
+    chunk: string,
+    encoding: string,
+    callback: TransformCallback
+  ) {
     this.temp += chunk
     // TODO temp is too big
     callback()

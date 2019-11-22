@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 type OnlineState = {
   onlineStatus: boolean;
-  setOnlineStatus(): void;
+  setOnlineStatus(onlineStatus: boolean): void;
 }
 function useOnline() {
   const [onlineStatus, setStatus] = useState<boolean>(true)

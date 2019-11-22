@@ -1,8 +1,8 @@
 import { SvgIcon, IconType } from '../SvgIcon'
 import React, { useState } from 'react'
 import ArticleVirtualList from '../ArticleVirtualList'
-import SearchArticleModal from '../SearchArticleModal'
-import { EArticleFilter } from '../../schemas'
+import { SearchArticleModal } from '../SearchArticleModal'
+import { EArticleFilter, IArticle } from '../../schemas'
 import ArticleListSkeleton from '../skeletons/ArticleListSkeleton'
 import { useArticlesModel, useFeedsModel } from '../../store'
 import './index.less'
@@ -32,7 +32,7 @@ export const ArticleListComponent: React.FunctionComponent<ArticleListComponentP
     isFetching,
     articleStatus,
     asyncSetAllArticlesRead,
-    setArticleStatus
+    setArticleStatus,
   } = useArticlesModel()
   const [chooseItemIndex, setChooseItemIndex] = useState<number>(-1)
   const [isVisible, setVisible] = useState<boolean>(false)
@@ -45,8 +45,8 @@ export const ArticleListComponent: React.FunctionComponent<ArticleListComponentP
 
   function readAllArticles() {
     const ids: string[] = articleList
-      .filter((article: any) => article.isUnread)
-      .map((article: any) => article._id)
+      .filter((article: IArticle) => article.isUnread)
+      .map((article: IArticle) => article._id)
     asyncSetAllArticlesRead(ids)
   }
   const handleSearchItemChoose = (index: number) => {
@@ -61,7 +61,12 @@ export const ArticleListComponent: React.FunctionComponent<ArticleListComponentP
         <div className="list-header-right">
           <div className="radio-group">
             {StatusList.map(({ icon, status }) => (
-              <div key={status} className={`radio ${articleStatus === status ? 'selected' : ''}`} onClick={() => handleRadioChange(status)}>
+              <div
+                key={status}
+                className={`radio ${
+                  articleStatus === status ? 'selected' : ''
+                }`}
+                onClick={() => handleRadioChange(status)}>
                 <SvgIcon icon={icon} />
               </div>
             ))}
@@ -101,6 +106,7 @@ export const ArticleListComponent: React.FunctionComponent<ArticleListComponentP
         }}
       />
       <SearchArticleModal
+        articles={articleList}
         visible={isVisible}
         onCancel={() => setVisible(false)}
         onItemChoose={handleSearchItemChoose}

@@ -5,8 +5,14 @@ import { IArticle } from '../../schemas'
 import Utils from '../../utils'
 import './index.less'
 import { useLanguageModel } from '../../store'
+type SearchArticleModalProps = {
+  visible: boolean;
+  onCancel(): void;
+  onItemChoose(value: number): void;
+  articles: IArticle[];
+}
 
-export const SearchArticleModalComponent: React.FunctionComponent<any> = props => {
+export const SearchArticleModal: React.FunctionComponent<SearchArticleModalProps> = props => {
   const { onCancel, visible, articles = [], onItemChoose } = props
   const [keywords, setWords] = useState<string>('')
   const [matchedArticles, setArticles] = useState<IArticle[]>([])
@@ -15,7 +21,7 @@ export const SearchArticleModalComponent: React.FunctionComponent<any> = props =
     if (visible) {
       setImmediate(() => {
         const input: HTMLInputElement | null = document.querySelector(
-          '.search-article-keywords input',
+          '.search-article-keywords input'
         )
         if (input) {
           input.focus()
@@ -23,7 +29,7 @@ export const SearchArticleModalComponent: React.FunctionComponent<any> = props =
       })
     }
   }, [visible])
-  
+
   function searchArticles(value: string) {
     const keys = value
       .split(' ')
@@ -44,17 +50,17 @@ export const SearchArticleModalComponent: React.FunctionComponent<any> = props =
           return true
         }
         return false
-      },
+      }
     )
     setArticles(matched)
   }
-  
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value } = e.target
     setWords(value)
     searchArticles(value)
   }
-  
+
   return (
     <Modal
       className="search-article-modal"
@@ -74,7 +80,7 @@ export const SearchArticleModalComponent: React.FunctionComponent<any> = props =
           <div
             key={article._id}
             onClick={() => onItemChoose(article.index as number)}>
-            <ArticleItem data={article} className="item-is-unread"/>
+            <ArticleItem data={article} className="item-is-unread" />
           </div>
         ))}
         {!matchedArticles.length && (
@@ -86,5 +92,3 @@ export const SearchArticleModalComponent: React.FunctionComponent<any> = props =
     </Modal>
   )
 }
-
-export default SearchArticleModalComponent

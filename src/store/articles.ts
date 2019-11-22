@@ -4,6 +4,20 @@ import { EMenuKey, IArticle, EArticleFilter, IFeed } from '../schemas'
 import Logic from '../logic'
 import useMessageModel from './message'
 import useLanguageModel from './language'
+type ArticlesState = {
+  currentArticle: IArticle;
+  setCurrentArticle: React.Dispatch<React.SetStateAction<IArticle>>;
+  articleList: IArticle[];
+  setArticleList: React.Dispatch<React.SetStateAction<IArticle[]>>;
+  isFetching: boolean;
+  setIsFetching: React.Dispatch<React.SetStateAction<boolean>>;
+  setArticleStatus: React.Dispatch<React.SetStateAction<EArticleFilter>>;
+  articleStatus: EArticleFilter;
+  asyncFetchArticles(menuKey: string | EMenuKey, feedList: IFeed[]): void;
+  asyncReadArticle(articleId: string): void;
+  asyncStarArticle(articleId: string, isStar: boolean): void;
+  asyncSetAllArticlesRead(ids: string[]): void;
+}
 function useArticles() {
   const { setMessageParams } = useMessageModel()
   const { getLanguageData } = useLanguageModel()
@@ -40,7 +54,6 @@ function useArticles() {
     Logic.getArticles(selector).then((articles: IArticle[]) => {
       setIsFetching(false)
       setArticleList(articles)
-      console.info(articles)
     })
   }
   const asyncReadArticle = async (articleId: string) => {
@@ -76,4 +89,4 @@ function useArticles() {
   }
 }
 
-export default createModel<any>(useArticles)
+export default createModel<ArticlesState>(useArticles)

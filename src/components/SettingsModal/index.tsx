@@ -7,8 +7,8 @@ import { LANGUAGE_KEY_TYPE } from '../../locales'
 import './index.less'
 const LanguageList: LANGUAGE_KEY_TYPE[] = ['en-US', 'zh-CN']
 type ISettingsModalOwnProps = {
-  visible: boolean
-  onClose: (e: any) => any
+  visible: boolean;
+  onClose: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
 export const SettingsModalComponent: React.FunctionComponent<ISettingsModalOwnProps> = ({

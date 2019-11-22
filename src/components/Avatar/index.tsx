@@ -3,9 +3,9 @@ import { SvgIcon } from '../SvgIcon'
 import './index.less'
 
 type AvatarProps = {
-  size?: number
-  src: string
-  default?: boolean
+  size?: number;
+  src: string;
+  default?: boolean;
 }
 export const Avatar: React.FunctionComponent<AvatarProps> = props => {
   const { src = '', size = 32, children } = props

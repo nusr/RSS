@@ -17,7 +17,6 @@ const ArticleViewSkeleton: React.FunctionComponent<IArticleViewSkeletonProps> = 
             <SpanSkeleton width={138} />
           </div>
           <div className="article-title">
-            {/* <h1>{currentArticle.title}</h1> */}
             <TextSkeleton style={{ height: 40, marginBottom: 8 }} />
           </div>
           <div className="article-author">

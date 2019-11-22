@@ -8,7 +8,7 @@ import { useMessageModel } from './store'
 import './App.less'
 
 export interface IAppProps {
-  className?: string
+  className?: string;
 }
 
 const App: React.FunctionComponent<IAppProps> = () => {
@@ -20,7 +20,7 @@ const App: React.FunctionComponent<IAppProps> = () => {
     },
   } = useMessageModel()
   useEffect(() => {
-    ipcRenderer.on('SETTINGS_MODAL', (event: any, args: string) => {
+    ipcRenderer.on('SETTINGS_MODAL', (event: Event, args: string) => {
       if (args === 'OPEN') {
         setVisible(true)
       }

@@ -20,7 +20,6 @@ export const ArticleViewComponent: React.FunctionComponent<{}> = () => {
   const [isVisible, setVisible] = useState<boolean>(false)
   const [starredMap, setStarredMaps] = useState<boolean>(false)
   const contentRef = useRef<HTMLDivElement>(null)
-  console.log(currentArticle)
   function parseArticleContent(content: string) {
     if (isAppend) {
       return

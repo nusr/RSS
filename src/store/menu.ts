@@ -3,9 +3,14 @@ import { useState } from 'react'
 import { EMenuKey, IFeed } from '../schemas'
 import useFeedsModel from './feeds'
 import useArticlesModel from './articles'
-
+type MenuState = {
+  selectedKey: string;
+  setSelectedKey(selectedKey: string): void;
+  toggleMenu(): void;
+  showMenu: boolean;
+  getCurrentFeed(): void;
+}
 const MenuKeyDefault = EMenuKey.ALL_ITEMS
-
 function useMenu() {
   const { asyncFetchArticles } = useArticlesModel()
   const { feedList } = useFeedsModel()
@@ -37,4 +42,4 @@ function useMenu() {
   }
 }
 
-export default createModel<any>(useMenu)
+export default createModel<MenuState>(useMenu)

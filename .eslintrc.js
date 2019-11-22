@@ -58,7 +58,7 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 'error',
     '@typescript-eslint/unified-signatures': 'error',
     'prefer-destructuring': 'error',
-    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-explicit-any': 'error',
     'react-hooks/exhaustive-deps': 'off',
   },
   settings: {

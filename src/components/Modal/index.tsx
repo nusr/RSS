@@ -7,8 +7,8 @@ type ModalProps = {
   className?: string;
   title?: string;
   width?: number;
-  onCancel?(value: any): void;
-  onOk?(value: any): void;
+  onCancel?(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
+  onOk?(): void;
   closable?: boolean;
   style?: React.CSSProperties;
 }

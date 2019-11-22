@@ -7,8 +7,8 @@ import './index.less'
 import { useLanguageModel, useMenuModel } from '../../store'
 
 export interface IArticleItemOwnProps {
-  data: IArticle
-  className: string
+  data: IArticle;
+  className: string;
 }
 
 const ArticleItem: React.FunctionComponent<IArticleItemOwnProps> = props => {
@@ -17,7 +17,7 @@ const ArticleItem: React.FunctionComponent<IArticleItemOwnProps> = props => {
   const { getCurrentFeed } = useMenuModel()
   const currentFeed = getCurrentFeed() || ''
   const dateTime = Utils.timeToTimeString(data.time)
-  const favicon = currentFeed.favicon
+  const {favicon} = currentFeed
   const feedTitle = currentFeed.title || getLanguageData('unknown')
   return (
     <div className={'article-item ' + className}>

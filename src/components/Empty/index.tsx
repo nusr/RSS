@@ -3,8 +3,8 @@ import mac from '../../assets/images/empty.png'
 import './index.less'
 
 type EmptyProps = {
-  image?: string
-  description?: string
+  image?: string;
+  description?: string;
 }
 export const Empty: React.FunctionComponent<EmptyProps> = props => {
   const { image = mac, description = '暂无数据' } = props

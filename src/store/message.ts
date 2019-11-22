@@ -7,9 +7,9 @@ type MessageParams = {
 }
 type MessageState = {
   visible: boolean;
-  setVisible(value: boolean): void;
+  setVisible(visible: boolean): void;
   messageParams: MessageParams;
-  setMessageParams(value: MessageParams): void;
+  setMessageParams(messageParams: MessageParams): void;
 }
 function useMessage() {
   const [visible, setVisible] = useState<boolean>(false)

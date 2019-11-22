@@ -12,9 +12,9 @@ import {
 } from '../../store'
 import './index.less'
 type MenuItemType = {
-  key: EMenuKey
-  icon: IconType
-  title: string
+  key: EMenuKey;
+  icon: IconType;
+  title: string;
 }
 const DEFAULT_MENUS: MenuItemType[] = [
   {
@@ -28,8 +28,8 @@ const DEFAULT_MENUS: MenuItemType[] = [
     title: 'menuStarred',
   }
 ]
-
-export const AppMenuComponent: React.FunctionComponent<any> = () => {
+type AppMenuProps = {}
+export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
   const { getLanguageData } = useLanguageModel()
   const { selectedKey, setSelectedKey, showMenu } = useMenuModel()
   const { onlineStatus, setOnlineStatus } = useOnlineModel()
@@ -133,4 +133,4 @@ export const AppMenuComponent: React.FunctionComponent<any> = () => {
   )
 }
 
-export default AppMenuComponent
+export default AppMenu

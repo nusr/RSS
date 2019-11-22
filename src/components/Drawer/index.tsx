@@ -4,7 +4,7 @@ type DrawerProps = {
   visible: boolean;
   className?: string;
   width?: number | string;
-  onClose?(value: any): void;
+  onClose?(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
   style?: React.CSSProperties;
 }
 export const Drawer: React.FunctionComponent<DrawerProps> = props => {

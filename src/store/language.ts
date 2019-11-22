@@ -6,7 +6,7 @@ const LANGUAGE = 'LANGUAGE'
 const languageDefault = (localStorage.getItem(LANGUAGE) || navigator.language) as LANGUAGE_KEY_TYPE
 type LanguageState = {
   language: LANGUAGE_KEY_TYPE;
-  setLanguage(lang: LANGUAGE_KEY_TYPE): void;
+  setLanguage(language: LANGUAGE_KEY_TYPE): void;
   getLanguageData(key: string): string;
 }
 function useLanguage() {
