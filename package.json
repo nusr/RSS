@@ -2,8 +2,14 @@
   "name": "rss",
   "version": "0.0.1",
   "private": true,
-  "description": "rss",
+  "description": "RSS Reader",
   "main": "public/electron.js",
+  "homepage": "https://github.com:nusr/RSS",
+  "author": {
+    "email": "stevexugc@gmail.com",
+    "name": "nusr",
+    "url": "https://github.com/nusr"
+  },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "prebuild": "npm run build:renderer",
@@ -11,7 +17,6 @@
     "preelectron-dist": "npm run build",
     "electron-dev": "cross-env BROWSER=none concurrently \"npm run start\" \"wait-on http://localhost:3000 && npm run electron-start\"",
     "electron-dist": "electron-builder build",
-    "electron-pack": "electron-builder build",
     "electron-start": "electron .",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",

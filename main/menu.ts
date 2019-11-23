@@ -195,7 +195,6 @@ if (process.platform === 'darwin') {
 
 if (process.platform === 'win32' || process.platform === 'linux') {
   const helpMenu = template[template.length - 1].submenu
-
   addPreferencesMenu(template, template.length - 1)
   addUpdateMenuItems(helpMenu as MenuItemConstructorOptions[], 0)
 }

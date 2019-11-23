@@ -1,4 +1,4 @@
-import { ELogicError, IFeed } from '../schemas'
+import { ELogicError, IFeed } from '../shared'
 import LogicError from './error'
 import { parseFeed } from './feedparser'
 import { articleDB, feedDB } from './pouchdb'
@@ -21,7 +21,7 @@ const Logic = {
       if (articles) {
         articles.forEach(article => (article.feedId = newFeed._id))
         return await articleDB.batchInsertArticles(articles)
-      } 
+      }
     }
     return newFeed
   },

@@ -4,7 +4,7 @@ const {
   override,
   addBundleVisualizer,
   addWebpackModuleRule,
-  babelExclude
+  babelExclude,
 } = require('customize-cra')
 const path = require('path')
 const setWebpackTargetPlugin = config => {
@@ -21,10 +21,6 @@ if (process.env.NODE_ENV === 'production') {
   process.env.REACT_APP_CONTENT_SECURITY_POLICY = ''
 }
 
-function resolve(dir) {
-  return path.join(__dirname, '..', dir)
-}
-
 const setPublicPathPlugin = config => {
   if (config.output) {
     config.output.publicPath = ''
@@ -33,7 +29,7 @@ const setPublicPathPlugin = config => {
   }
   return config
 }
-const svgPath = path.resolve("src/icons/svg")
+const svgPath = path.resolve('src/icons/svg')
 const webpackMaker = override(
   addLessLoader({
     javascriptEnabled: true,
