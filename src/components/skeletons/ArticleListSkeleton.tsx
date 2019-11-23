@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react'
-import ArticleItemSkeleton from './ArticleItemSkeleton'
+import {ArticleItemSkeleton} from './ArticleItemSkeleton'
 import { SpanSkeleton } from './index'
 
 import '../../assets/Skeletons.less'
@@ -9,7 +9,7 @@ interface IArticleListSkeletonProps {
   row: number;
   style?: CSSProperties;
 }
-const ArticleListSkeleton: React.FunctionComponent<IArticleListSkeletonProps> = ({ className, row, style }) => {
+export const ArticleListSkeleton: React.FunctionComponent<IArticleListSkeletonProps> = ({ className, row, style }) => {
   const classes = 'article-list-skeleton ' + (className || '')
   const list = Array(row)
     .fill(0)
@@ -23,5 +23,4 @@ const ArticleListSkeleton: React.FunctionComponent<IArticleListSkeletonProps> = 
     </div>
   )
 }
-export default ArticleListSkeleton
 

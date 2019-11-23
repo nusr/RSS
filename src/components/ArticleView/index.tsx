@@ -3,13 +3,13 @@ import { Empty } from '../Empty'
 import { shell } from 'electron'
 import React, { useState, useEffect, useRef } from 'react'
 import { useLanguageModel, useArticlesModel, useMenuModel } from '../../store'
-import ArticleViewSkeleton from '../skeletons/ArticleViewSkeleton'
+import {ArticleViewSkeleton } from '../skeletons/ArticleViewSkeleton'
 import Utils from '../../utils'
-import WebviewDrawer from '../WebviewDrawer'
+import {WebviewDrawer} from '../WebviewDrawer'
 import './index.less'
 let isAppend = false
 let contentLinks = []
-export const ArticleViewComponent: React.FunctionComponent<{}> = () => {
+export const ArticleView: React.FunctionComponent<{}> = () => {
   const { getLanguageData } = useLanguageModel()
   const { currentArticle, isFetching, asyncStarArticle } = useArticlesModel()
   const { toggleMenu, getCurrentFeed } = useMenuModel()
@@ -171,4 +171,3 @@ export const ArticleViewComponent: React.FunctionComponent<{}> = () => {
   )
 }
 
-export default ArticleViewComponent

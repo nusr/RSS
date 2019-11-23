@@ -7,7 +7,7 @@ interface IArticleViewSkeletonProps {
   className?: string;
   style?: CSSProperties;
 }
-const ArticleViewSkeleton: React.FunctionComponent<IArticleViewSkeletonProps> = ({ className, style }) =>{
+export const ArticleViewSkeleton: React.FunctionComponent<IArticleViewSkeletonProps> = ({ className, style }) =>{
   const classes = 'article-view-skeleton ' + (className || '')
   return (
     <div className={classes} style={style}>
@@ -45,4 +45,3 @@ const ArticleViewSkeleton: React.FunctionComponent<IArticleViewSkeletonProps> = 
     </div>
   )
 }
-export default ArticleViewSkeleton

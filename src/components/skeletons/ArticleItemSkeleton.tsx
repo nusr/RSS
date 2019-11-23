@@ -7,7 +7,7 @@ interface IArticleItemSkeletonProps {
   key: string | number;
 }
 
-const ArticleItemSkeleton: React.FunctionComponent<IArticleItemSkeletonProps> = () => {
+export const ArticleItemSkeleton: React.FunctionComponent<IArticleItemSkeletonProps> = () => {
   return (
     <div className="article-item">
       <div className="item-sider">
@@ -33,4 +33,3 @@ const ArticleItemSkeleton: React.FunctionComponent<IArticleItemSkeletonProps> = 
     </div>
   )
 }
-export default ArticleItemSkeleton

@@ -2,7 +2,7 @@ import char_det from 'chardet'
 import iconv from 'iconv-lite'
 import { Transform, TransformCallback } from 'stream'
 
-export default class IconvTransform extends Transform {
+export class IconvTransform extends Transform {
   private temp = ''
   public _transform(
     chunk: string,

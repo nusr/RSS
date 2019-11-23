@@ -10,7 +10,7 @@ if (typeof window === 'undefined' || window.indexedDB === undefined) {
   POUCHDB_ADAPTER = 'memory'
 }
 
-export default class BaseModel<Type> {
+export class BaseModel<Type> {
   private _db: PouchDB.Database<Type>
   private _createIndexResponseList: Array<
   Promise<PouchDB.Find.CreateIndexResponse<Type>>

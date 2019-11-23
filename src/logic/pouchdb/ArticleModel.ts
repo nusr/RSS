@@ -1,7 +1,7 @@
 import AsyncTaskThrottle from '../../utils/asyncThrottle'
 import FeedParser from 'feedparser'
 import { IArticle } from '../../schemas'
-import BaseModel from './BaseModel'
+import { BaseModel } from './BaseModel'
 
 export default class ArticleModel extends BaseModel<IArticle> {
   public throttleReadArticle: (id: string) => Promise<boolean>

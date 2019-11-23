@@ -4,11 +4,11 @@ import { EMenuKey, IFeed } from '../schemas'
 import useFeedsModel from './feeds'
 import useArticlesModel from './articles'
 type MenuState = {
-  selectedKey: string
-  setSelectedKey(selectedKey: string): void
-  toggleMenu(): void
-  showMenu: boolean
-  getCurrentFeed(): IFeed | null
+  selectedKey: string;
+  setSelectedKey(selectedKey: string): void;
+  toggleMenu(): void;
+  showMenu: boolean;
+  getCurrentFeed(): IFeed | null;
 }
 const MenuKeyDefault = EMenuKey.ALL_ITEMS
 function useMenu() {

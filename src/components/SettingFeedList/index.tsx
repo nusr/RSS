@@ -10,7 +10,7 @@ export interface ISettingFeedListProps {
   onDeleteFeed?: (feedId: string) => void;
 }
 
-export const SettingFeedListComponent: React.FunctionComponent<ISettingFeedListProps> = props => {
+export const SettingFeedList: React.FunctionComponent<ISettingFeedListProps> = props => {
   const { onDeleteFeed, feeds } = props
   const { getLanguageData } = useLanguageModel()
 
@@ -44,4 +44,3 @@ export const SettingFeedListComponent: React.FunctionComponent<ISettingFeedListP
   )
 }
 
-export default SettingFeedListComponent

@@ -1,6 +1,6 @@
 import FeedParser from 'feedparser'
 import { IArticle, IFeed } from '../../schemas'
-import BaseModel from './BaseModel'
+import { BaseModel } from './BaseModel'
 
 export default class FeedModel extends BaseModel<IFeed> {
   public constructor() {

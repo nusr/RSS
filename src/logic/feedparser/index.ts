@@ -5,7 +5,7 @@ import url from 'url'
 import { ELogicError, IArticle, IFeed } from '../../schemas'
 import LogicError from '../error'
 import { articleDB, feedDB } from '../pouchdb'
-import IconvTransform from './IconvTransform'
+import { IconvTransform } from './IconvTransform'
 
 function feedXmlRequest(feedUrl: string, options: http.RequestOptions) {
   return new Promise<http.IncomingMessage>((resolve, reject) => {

@@ -134,4 +134,3 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
   )
 }
 
-export default AppMenu

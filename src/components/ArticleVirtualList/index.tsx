@@ -1,6 +1,6 @@
 import { Empty } from '../Empty'
 import React, { useState } from 'react'
-import ArticleItem from '../ArticleItem'
+import { ArticleItem } from '../ArticleItem'
 import { IArticle } from '../../schemas'
 import Utils from '../../utils'
 import './index.less'
@@ -12,7 +12,7 @@ type ArticleVirtualListProps = {
   scrollToIndex?: number;
 }
 
-const Index: React.FunctionComponent<ArticleVirtualListProps> = props => {
+export const ArticleVirtualList: React.FunctionComponent<ArticleVirtualListProps> = props => {
   const { articleList = [], currentArticle } = props
   const [readItems, setItems] = useState<{ [_id: string]: boolean }>({})
   const { asyncReadArticle } = useArticlesModel()
@@ -71,4 +71,4 @@ const Index: React.FunctionComponent<ArticleVirtualListProps> = props => {
   )
 }
 
-export default Index
+

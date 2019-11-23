@@ -7,11 +7,11 @@ import './index.less'
 import { useLanguageModel, useMenuModel } from '../../store'
 
 export interface IArticleItemOwnProps {
-  data: IArticle
-  className: string
+  data: IArticle;
+  className: string;
 }
 
-const ArticleItem: React.FunctionComponent<IArticleItemOwnProps> = props => {
+export const ArticleItem: React.FunctionComponent<IArticleItemOwnProps> = props => {
   const { data, className } = props
   const { getLanguageData } = useLanguageModel()
   const { getCurrentFeed } = useMenuModel()
@@ -45,4 +45,3 @@ const ArticleItem: React.FunctionComponent<IArticleItemOwnProps> = props => {
   )
 }
 
-export default ArticleItem

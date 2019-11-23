@@ -1,7 +1,7 @@
 import { Modal } from '../Modal'
 import React, { useEffect, useState } from 'react'
 import { IFeed } from '../../schemas'
-import SettingFeedList from '../SettingFeedList'
+import {SettingFeedList} from '../SettingFeedList'
 import { useLanguageModel, useFeedsModel } from '../../store'
 import { LANGUAGE_KEY_TYPE } from '../../locales'
 import './index.less'
@@ -11,7 +11,7 @@ type ISettingsModalOwnProps = {
   onClose: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
-export const SettingsModalComponent: React.FunctionComponent<ISettingsModalOwnProps> = ({
+export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = ({
   visible,
   onClose,
 }) => {
@@ -67,4 +67,3 @@ export const SettingsModalComponent: React.FunctionComponent<ISettingsModalOwnPr
   )
 }
 
-export default SettingsModalComponent

@@ -81,7 +81,7 @@
     "webpack-cli": "^3.3.6"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "*.{ts,tsx,jsx,js}": [
       "eslint --fix",
       "git add"
     ]

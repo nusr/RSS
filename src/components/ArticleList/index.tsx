@@ -1,9 +1,9 @@
 import { SvgIcon, IconType } from '../SvgIcon'
 import React, { useState } from 'react'
-import ArticleVirtualList from '../ArticleVirtualList'
+import {ArticleVirtualList } from '../ArticleVirtualList'
 import { SearchArticleModal } from '../SearchArticleModal'
 import { EArticleFilter, IArticle } from '../../schemas'
-import ArticleListSkeleton from '../skeletons/ArticleListSkeleton'
+import {ArticleListSkeleton} from '../skeletons/ArticleListSkeleton'
 import { useArticlesModel, useFeedsModel } from '../../store'
 import './index.less'
 type StatusItem = {
@@ -24,8 +24,8 @@ const StatusList: StatusItem[] = [
     icon: 'list-filled',
   },
 ]
-type ArticleListComponentProps = {}
-export const ArticleListComponent: React.FunctionComponent<ArticleListComponentProps> = () => {
+type ArticleListProps = {}
+export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
   const { feedList } = useFeedsModel()
   const {
     articleList,
@@ -115,4 +115,3 @@ export const ArticleListComponent: React.FunctionComponent<ArticleListComponentP
   )
 }
 
-export default ArticleListComponent
