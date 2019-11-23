@@ -1,4 +1,4 @@
-appId: io.github.nusr.rss
+appId: com.github.nusr
 npmRebuild: true
 productName: RSS
 artifactName: ${productName}-${version}.${ext}

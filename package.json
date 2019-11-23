@@ -17,6 +17,7 @@
     "preelectron-dist": "npm run build",
     "electron-dev": "cross-env BROWSER=none concurrently \"npm run start\" \"wait-on http://localhost:3000 && npm run electron-start\"",
     "electron-dist": "electron-builder build",
+    "electron-pack": "electron-builder build",
     "electron-start": "electron .",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
