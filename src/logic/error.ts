@@ -1,4 +1,4 @@
-import { ELogicError } from '../schemas'
+import { ELogicError } from '../shared'
 
 const LogicErrorMessages = {
   [ELogicError.FEED_PARSER_FETCH_ERROR]: 'Feedparser fetch error.',

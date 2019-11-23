@@ -2,7 +2,7 @@ import React from 'react'
 import { Avatar } from '../Avatar'
 import { SvgIcon } from '../SvgIcon'
 import Utils from '../../utils'
-import { IArticle } from '../../schemas'
+import { IArticle } from '../../shared'
 import './index.less'
 import { useLanguageModel, useMenuModel } from '../../store'
 

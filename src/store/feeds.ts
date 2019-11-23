@@ -1,6 +1,6 @@
 import { createModel } from 'hox'
 import React, { useState } from 'react'
-import { IFeed } from '../schemas'
+import { IFeed } from '../shared'
 import Logic from '../logic'
 import useLanguageModel from './language'
 import useMessageModel from './message'

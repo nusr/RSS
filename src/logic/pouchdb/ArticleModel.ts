@@ -1,6 +1,6 @@
 import AsyncTaskThrottle from '../../utils/asyncThrottle'
 import FeedParser from 'feedparser'
-import { IArticle } from '../../schemas'
+import { IArticle } from '../../shared'
 import { BaseModel } from './BaseModel'
 
 export default class ArticleModel extends BaseModel<IArticle> {

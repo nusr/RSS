@@ -1,7 +1,7 @@
 import { Avatar } from '../Avatar'
 import { SvgIcon, IconType } from '../SvgIcon'
 import React, { Fragment, useState, useEffect } from 'react'
-import { EMenuKey } from '../../schemas'
+import { EMenuKey } from '../../shared'
 import { AddFeedModal } from '../AddFeedModal'
 import Logo from '../../assets/images/icon.png'
 import {

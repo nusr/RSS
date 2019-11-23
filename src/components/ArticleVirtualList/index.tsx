@@ -1,7 +1,7 @@
 import { Empty } from '../Empty'
 import React, { useState } from 'react'
 import { ArticleItem } from '../ArticleItem'
-import { IArticle } from '../../schemas'
+import { IArticle } from '../../shared'
 import Utils from '../../utils'
 import './index.less'
 import { useArticlesModel } from '../../store'

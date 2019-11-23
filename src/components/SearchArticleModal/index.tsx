@@ -1,7 +1,7 @@
 import { Modal } from '../Modal'
 import React, { useState, useEffect } from 'react'
 import {ArticleItem } from '../ArticleItem'
-import { IArticle } from '../../schemas'
+import { IArticle } from '../../shared'
 import Utils from '../../utils'
 import './index.less'
 import { useLanguageModel } from '../../store'

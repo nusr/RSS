@@ -1,6 +1,6 @@
 import React from 'react'
 import { Avatar } from '../Avatar'
-import { IFeed } from '../../schemas'
+import { IFeed } from '../../shared'
 import { Button } from '../Button'
 import { useLanguageModel } from '../../store'
 import './index.less'

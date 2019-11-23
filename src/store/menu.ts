@@ -1,6 +1,6 @@
 import { createModel } from 'hox'
 import { useState } from 'react'
-import { EMenuKey, IFeed } from '../schemas'
+import { EMenuKey, IFeed } from '../shared'
 import useFeedsModel from './feeds'
 import useArticlesModel from './articles'
 type MenuState = {

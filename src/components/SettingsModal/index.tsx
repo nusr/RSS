@@ -1,6 +1,6 @@
 import { Modal } from '../Modal'
 import React, { useEffect, useState } from 'react'
-import { IFeed } from '../../schemas'
+import { IFeed } from '../../shared'
 import {SettingFeedList} from '../SettingFeedList'
 import { useLanguageModel, useFeedsModel } from '../../store'
 import { LANGUAGE_KEY_TYPE } from '../../locales'
