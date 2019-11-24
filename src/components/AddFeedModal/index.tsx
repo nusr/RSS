@@ -47,7 +47,7 @@ export const AddFeedModal: React.FunctionComponent<IAddFeedModalProps> = props =
     <Modal
       className="add-feed-modal"
       title={getLanguageData('addFeed')}
-      width={376}
+      width={400}
       visible={visible}
       onCancel={onClose}
       onOk={handleSubmit}>

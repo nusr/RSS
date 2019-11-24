@@ -21,6 +21,8 @@ const zhCN = {
   title: 'RSS',
   unfoundFeed: '没有找到 Feed',
   unknown: '未知',
+  cancel: '取消',
+  ok: '确定'
 }
 
 export default zhCN

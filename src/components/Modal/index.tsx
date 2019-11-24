@@ -2,17 +2,19 @@ import React from 'react'
 import { SvgIcon } from '../SvgIcon'
 import './index.less'
 import { Button } from '../Button'
+import { useLanguageModel } from '../../store'
 type ModalProps = {
-  visible: boolean;
-  className?: string;
-  title?: string;
-  width?: number;
-  onCancel?(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
-  onOk?(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
-  closable?: boolean;
-  style?: React.CSSProperties;
+  visible: boolean
+  className?: string
+  title?: string
+  width?: number
+  onCancel?(e: React.MouseEvent<HTMLElement, MouseEvent>): void
+  onOk?(e: React.MouseEvent<HTMLElement, MouseEvent>): void
+  closable?: boolean
+  style?: React.CSSProperties
 }
 export const Modal: React.FunctionComponent<ModalProps> = props => {
+  const { getLanguageData } = useLanguageModel()
   const {
     visible,
     children,
@@ -41,9 +43,9 @@ export const Modal: React.FunctionComponent<ModalProps> = props => {
         </div>
         <div className={`body ${className}`}>{children}</div>
         <div className="footer">
-          <Button onClick={onCancel}>cancel</Button>
+          <Button onClick={onCancel}>{getLanguageData('cancel')}</Button>
           <Button type="primary" onClick={onOk}>
-            ok
+            {getLanguageData('ok')}
           </Button>
         </div>
       </div>

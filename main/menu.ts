@@ -128,20 +128,15 @@ function addPreferencesMenu(
   position: number
 ) {
   const settingsMenu = {
-    label: 'Preferences',
-    submenu: [
-      {
-        click: (
-          menuItem: MenuItem,
-          browserWindow: BrowserWindow
-        ) => {
-          if (browserWindow) {
-            browserWindow.webContents.send('SETTINGS_MODAL', 'OPEN')
-          }
-        },
-        label: 'Settings',
-      },
-    ],
+    click: (
+      menuItem: MenuItem,
+      browserWindow: BrowserWindow
+    ) => {
+      if (browserWindow) {
+        browserWindow.webContents.send('SETTINGS_MODAL', 'OPEN')
+      }
+    },
+    label: 'Settings',
   }
   menus.splice.apply(menus, [position, 0, settingsMenu])
 }

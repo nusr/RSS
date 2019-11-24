@@ -21,6 +21,8 @@ const enUS = {
   title: 'RSS',
   unfoundFeed: 'Unfound Feed',
   unknown: 'Unknown',
+  cancel: 'Cancel',
+  ok: 'Ok'
 }
 
 export default enUS
