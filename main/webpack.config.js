@@ -7,7 +7,8 @@ function setExternal(name) {
     callback()
   }
 }
-
+console.log('__dirname', __dirname)
+console.log('process.cwd', process.cwd())
 module.exports = {
   context: path.resolve(__dirname),
   devtool: 'source-map',

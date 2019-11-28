@@ -5,7 +5,6 @@ import { initMenu } from "./menu";
 import { initUpdaterMenuItems } from "./updater";
 let mainWindow: BrowserWindow | null = null;
 const isWindows = process.platform === "win32";
-const dirName: string = __dirname;
 initMenu();
 initUpdaterMenuItems();
 
@@ -21,7 +20,7 @@ function createWindow() {
     minHeight: 600,
     minWidth: 960,
     width: 960,
-    icon: path.join(dirName, "../icons/png/256x256.png"),
+    icon: path.join(__dirname, "../icons/png/256x256.png"),
     show: false,
     titleBarStyle: "hiddenInset",
     vibrancy: "dark",
@@ -31,7 +30,7 @@ function createWindow() {
     mainWindow.webContents.openDevTools()
     mainWindow.maximize()
   } else {
-    mainWindow.loadFile(path.join(dirName, "../build/index.html"));
+    mainWindow.loadFile(path.join(__dirname, "../build/index.html"));
   }
   mainWindow.on("closed", () => {
     mainWindow = null;
