@@ -65,7 +65,6 @@ export const SearchArticleModal: React.FunctionComponent<SearchArticleModalProps
     <Modal
       className="search-article-modal"
       closable={false}
-      width={376}
       style={{ top: Utils.getModalTop(42) }}
       visible={visible}
       title="Search"

@@ -4,9 +4,9 @@ import { useLanguageModel, useMessageModel } from '../../store'
 import './index.less'
 
 export interface IAddFeedModalProps {
-  visible: boolean;
-  onOk: (feedUrl: string) => void;
-  onCancel: () => void;
+  visible: boolean
+  onOk: (feedUrl: string) => void
+  onCancel: () => void
 }
 
 enum KeyMap {
@@ -18,11 +18,13 @@ export const AddFeedModal: React.FunctionComponent<IAddFeedModalProps> = props =
   const { setMessageParams } = useMessageModel()
   const { onOk, visible, onCancel } = props
   const [feedUrl, setFeedUrl] = useState<string>('')
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function handleSubmit(event: any) {
+  function onKeyDown(event: React.KeyboardEvent<HTMLElement>) {
     if (event.keyCode !== KeyMap.ENTER) {
       return
     }
+    handleSubmit()
+  }
+  function handleSubmit() {
     const temp = feedUrl.trim()
     if (
       /^https?:\/\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i.test(
@@ -47,7 +49,6 @@ export const AddFeedModal: React.FunctionComponent<IAddFeedModalProps> = props =
     <Modal
       className="add-feed-modal"
       title={getLanguageData('addFeed')}
-      width={400}
       visible={visible}
       onCancel={onClose}
       onOk={handleSubmit}>
@@ -56,7 +57,7 @@ export const AddFeedModal: React.FunctionComponent<IAddFeedModalProps> = props =
         placeholder={getLanguageData('feedUrl')}
         value={feedUrl}
         onChange={handleChange}
-        onKeyDown={handleSubmit}
+        onKeyDown={onKeyDown}
       />
     </Modal>
   )

@@ -43,7 +43,6 @@ export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = ({
     <Modal
       className="settings-modal"
       title={getLanguageData('settings')}
-      width={512}
       visible={visible}
       onCancel={onClose}
       onOk={handleOk}>

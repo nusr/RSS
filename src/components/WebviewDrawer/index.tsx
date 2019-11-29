@@ -5,10 +5,10 @@ import { SvgIcon } from '../SvgIcon'
 import './index.less'
 
 export interface IWebviewDrawerProps {
-  visible: boolean;
-  src: string;
-  width: string | number;
-  onClose: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  visible: boolean
+  src: string
+  width: string | number
+  onClose: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
 }
 
 let webview: WebviewTag = null
@@ -23,29 +23,17 @@ export const WebviewDrawer: React.FunctionComponent<IWebviewDrawerProps> = props
     }
   }
 
-  function handleDrawerClose(e: React.MouseEvent<HTMLElement, MouseEvent>) {
-    onClose(e)
-    if (webview) {
-      setTimeout(() => {
-        if (props.visible === false && webview.src === src) {
-          webview.remove()
-          webview = null
-        }
-      }, 10 * 1000)
-    }
-  }
-
   function makeWebView(url: string) {
     if (webview) {
       webview.src = url
-    } else {
-      const div = document.querySelector('.drawer-content.webview')
-      if (div) {
-        webview = document.createElement('webview')
-        webview.src = url
-        webview.useragent = userAgent
-        div.appendChild(webview)
-      }
+      return
+    }
+    const div = document.querySelector('.drawer-content.webview')
+    if (div) {
+      webview = document.createElement('webview')
+      webview.src = url
+      webview.useragent = userAgent
+      div.appendChild(webview)
     }
   }
 
@@ -56,15 +44,20 @@ export const WebviewDrawer: React.FunctionComponent<IWebviewDrawerProps> = props
       })
     }
   }, [src, visible])
-
+  useEffect(() => {
+    if (!visible && webview) {
+      webview.remove()
+      webview = null
+    }
+  }, [visible])
   return (
     <Drawer
       className="webview-drawer"
       visible={visible}
-      onClose={handleDrawerClose}
+      onClose={onClose}
       width={width}>
       <div className="drawer-header">
-        <div onClick={handleDrawerClose}>
+        <div onClick={onClose}>
           <SvgIcon icon="close" />
         </div>
         <div onClick={handleCompassClick}>
@@ -75,4 +68,3 @@ export const WebviewDrawer: React.FunctionComponent<IWebviewDrawerProps> = props
     </Drawer>
   )
 }
-

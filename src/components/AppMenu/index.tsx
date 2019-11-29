@@ -12,9 +12,9 @@ import {
 } from '../../store'
 import './index.less'
 type MenuItemType = {
-  key: EMenuKey;
-  icon: IconType;
-  title: string;
+  key: EMenuKey
+  icon: IconType
+  title: string
 }
 const DEFAULT_MENUS: MenuItemType[] = [
   {
@@ -26,7 +26,7 @@ const DEFAULT_MENUS: MenuItemType[] = [
     key: EMenuKey.STARRED_ITEMS,
     icon: 'star-outlined',
     title: 'menuStarred',
-  }
+  },
 ]
 type AppMenuProps = {}
 export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
@@ -69,8 +69,17 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
   const getItemClassName = (value: string) => {
     return (selectedKey === value ? 'selected' : '') + ' item'
   }
+  let style: React.CSSProperties = {
+    display: 'block',
+    width: 386,
+  }
+  if (!showMenu) {
+    style = {
+      display: 'none',
+    }
+  }
   return (
-    <div className="app-menu" style={{ display: showMenu ? 'block' : 'none' }}>
+    <div className="app-menu" style={style}>
       <div className="menu-content">
         <div className="menu-header">
           <Avatar src={Logo} />
@@ -133,4 +142,3 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
     </div>
   )
 }
-

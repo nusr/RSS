@@ -2,6 +2,7 @@ appId: com.github.nusr
 npmRebuild: true
 productName: RSS
 artifactName: ${productName}-${version}.${ext}
+asar: true
 mac:
   category: public.app-category.news
   icon: build/icons/mac/app.icns

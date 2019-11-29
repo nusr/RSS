@@ -7,16 +7,11 @@ function setExternal(name) {
     callback()
   }
 }
-console.log('__dirname', __dirname)
-console.log('process.cwd', process.cwd())
 module.exports = {
   context: path.resolve(__dirname),
   devtool: 'source-map',
   entry: './index.ts',
-  externals: [
-    setExternal('electron-is-dev'),
-    setExternal('electron-updater'),
-  ],
+  externals: [setExternal('electron-is-dev'), setExternal('electron-updater')],
   mode: 'production',
   module: {
     rules: [
@@ -26,6 +21,9 @@ module.exports = {
         use: 'ts-loader',
       },
     ],
+  },
+  node: {
+    __dirname: false,
   },
   output: {
     filename: 'electron.js',
