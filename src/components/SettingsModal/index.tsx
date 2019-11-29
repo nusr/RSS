@@ -1,7 +1,7 @@
 import { Modal } from '../Modal'
 import React, { useEffect, useState } from 'react'
 import { IFeed } from '../../shared'
-import {SettingFeedList} from '../SettingFeedList'
+import {Settings} from '../Settings'
 import { useLanguageModel, useFeedsModel } from '../../store'
 import { LANGUAGE_KEY_TYPE } from '../../locales'
 import './index.less'
@@ -59,7 +59,7 @@ export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = ({
         </div>
         <div className="feeds-setting">
           <div className="settings-item-title">{getLanguageData('feeds')}</div>
-          <SettingFeedList feeds={allFeeds} onDeleteFeed={handleDeleteFeed} />
+          <Settings feeds={allFeeds} onDeleteFeed={handleDeleteFeed} />
         </div>
       </div>
     </Modal>

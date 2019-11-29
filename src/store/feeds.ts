@@ -5,15 +5,15 @@ import Logic from '../logic'
 import useLanguageModel from './language'
 import useMessageModel from './message'
 type FeedsState = {
-  isCreating: boolean
-  setIsCreating: React.Dispatch<React.SetStateAction<boolean>>
-  isUpdating: boolean
-  setIsUpdating: React.Dispatch<React.SetStateAction<boolean>>
-  feedList: IFeed[]
-  setFeedList: React.Dispatch<React.SetStateAction<IFeed[]>>
-  getAllFeeds(showMessage?: boolean): void
-  asyncDeleteFeeds(ids: string[]): void
-  asyncCreateFeed(feedUrl: string): void
+  isCreating: boolean;
+  setIsCreating: React.Dispatch<React.SetStateAction<boolean>>;
+  isUpdating: boolean;
+  setIsUpdating: React.Dispatch<React.SetStateAction<boolean>>;
+  feedList: IFeed[];
+  setFeedList: React.Dispatch<React.SetStateAction<IFeed[]>>;
+  getAllFeeds(showMessage?: boolean): void;
+  asyncDeleteFeeds(ids: string[]): void;
+  asyncCreateFeed(feedUrl: string): void;
 }
 function useFeeds() {
   const { setMessageParams } = useMessageModel()

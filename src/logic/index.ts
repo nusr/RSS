@@ -28,6 +28,7 @@ const Logic = {
   deleteFeeds: async (feedIds: string[]) => {
     let changes = 0
     for (const feedId of feedIds) {
+      // eslint-disable-next-line
       const response = await feedDB.deleteFeed(feedId)
       changes += response.ok ? 1 : 0
     }

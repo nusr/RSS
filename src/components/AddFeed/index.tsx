@@ -3,32 +3,27 @@ import React, { useState } from 'react'
 import { useLanguageModel, useMessageModel } from '../../store'
 import './index.less'
 
-export interface IAddFeedModalProps {
-  visible: boolean
-  onOk: (feedUrl: string) => void
-  onCancel: () => void
+export interface IAddFeedProps {
+  visible: boolean;
+  onOk: (feedUrl: string) => void;
+  onCancel: () => void;
 }
 
 enum KeyMap {
   ENTER = 13,
 }
 
-export const AddFeedModal: React.FunctionComponent<IAddFeedModalProps> = props => {
+export const AddFeed: React.FunctionComponent<IAddFeedProps> = props => {
   const { getLanguageData } = useLanguageModel()
   const { setMessageParams } = useMessageModel()
   const { onOk, visible, onCancel } = props
   const [feedUrl, setFeedUrl] = useState<string>('')
-  function onKeyDown(event: React.KeyboardEvent<HTMLElement>) {
-    if (event.keyCode !== KeyMap.ENTER) {
-      return
-    }
-    handleSubmit()
-  }
+  
   function handleSubmit() {
     const temp = feedUrl.trim()
     if (
       /^https?:\/\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i.test(
-        temp
+        temp,
       )
     ) {
       onOk(temp)
@@ -38,13 +33,24 @@ export const AddFeedModal: React.FunctionComponent<IAddFeedModalProps> = props =
       })
     }
   }
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  
+  function onKeyDown(event: React.KeyboardEvent<HTMLElement>) {
+    if (event.keyCode !== KeyMap.ENTER) {
+      return
+    }
+    handleSubmit()
+  }
+  
+  
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFeedUrl(e.target.value)
   }
+  
   function onClose() {
     onCancel()
     setFeedUrl('')
   }
+  
   return (
     <Modal
       className="add-feed-modal"

@@ -2,7 +2,7 @@ import { Avatar } from '../Avatar'
 import { SvgIcon, IconType } from '../SvgIcon'
 import React, { Fragment, useState, useEffect } from 'react'
 import { EMenuKey } from '../../shared'
-import { AddFeedModal } from '../AddFeedModal'
+import { AddFeed } from '../AddFeed'
 import Logo from '../../assets/images/icon.png'
 import {
   useMenuModel,
@@ -12,9 +12,9 @@ import {
 } from '../../store'
 import './index.less'
 type MenuItemType = {
-  key: EMenuKey
-  icon: IconType
-  title: string
+  key: EMenuKey;
+  icon: IconType;
+  title: string;
 }
 const DEFAULT_MENUS: MenuItemType[] = [
   {
@@ -133,7 +133,7 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
             </Fragment>
           )}
         </div>
-        <AddFeedModal
+        <AddFeed
           visible={isVisible}
           onOk={handleAddFeedModalOk}
           onCancel={() => setVisible(false)}

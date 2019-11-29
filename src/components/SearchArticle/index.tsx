@@ -5,14 +5,14 @@ import { IArticle } from '../../shared'
 import Utils from '../../utils'
 import './index.less'
 import { useLanguageModel } from '../../store'
-type SearchArticleModalProps = {
+type SearchArticleProps = {
   visible: boolean;
   onCancel(): void;
   onItemChoose(value: number): void;
   articles: IArticle[];
 }
 
-export const SearchArticleModal: React.FunctionComponent<SearchArticleModalProps> = props => {
+export const SearchArticle: React.FunctionComponent<SearchArticleProps> = props => {
   const { onCancel, visible, articles = [], onItemChoose } = props
   const [keywords, setWords] = useState<string>('')
   const [matchedArticles, setArticles] = useState<IArticle[]>([])

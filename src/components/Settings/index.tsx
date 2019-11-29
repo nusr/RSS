@@ -5,12 +5,12 @@ import { Button } from '../Button'
 import { useLanguageModel } from '../../store'
 import './index.less'
 
-export interface ISettingFeedListProps {
+export interface ISettingsProps {
   feeds: IFeed[];
   onDeleteFeed?: (feedId: string) => void;
 }
 
-export const SettingFeedList: React.FunctionComponent<ISettingFeedListProps> = props => {
+export const Settings: React.FunctionComponent<ISettingsProps> = props => {
   const { onDeleteFeed, feeds } = props
   const { getLanguageData } = useLanguageModel()
 

@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useLanguageModel, useArticlesModel, useMenuModel } from '../../store'
 import {ArticleViewSkeleton } from '../skeletons/ArticleViewSkeleton'
 import Utils from '../../utils'
-import {WebviewDrawer} from '../WebviewDrawer'
+import {WebviewDrawer} from '../Webview'
 import './index.less'
 let isAppend = false
 let contentLinks = []

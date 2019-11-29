@@ -1,7 +1,7 @@
 import { SvgIcon, IconType } from '../SvgIcon'
 import React, { useState } from 'react'
 import {ArticleVirtualList } from '../ArticleVirtualList'
-import { SearchArticleModal } from '../SearchArticleModal'
+import { SearchArticle } from '../SearchArticle'
 import { EArticleFilter, IArticle } from '../../shared'
 import {ArticleListSkeleton} from '../skeletons/ArticleListSkeleton'
 import { useArticlesModel, useFeedsModel } from '../../store'
@@ -105,7 +105,7 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
           display: isFetching && feedList.length ? 'block' : 'none',
         }}
       />
-      <SearchArticleModal
+      <SearchArticle
         articles={articleList}
         visible={isVisible}
         onCancel={() => setVisible(false)}
