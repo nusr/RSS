@@ -1,7 +1,6 @@
 import { IArticle } from './IArticle'
 export interface IFeed {
-  _id: string;
-  _rev: string;
+  _id?: string;
   articles?: IArticle[];
   author: string;
   categories: string[];
@@ -16,5 +15,4 @@ export interface IFeed {
   publishTime: number;
   time: number;
   title: string;
-  url: string;
 }

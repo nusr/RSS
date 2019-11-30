@@ -25,7 +25,7 @@ export const Settings: React.FunctionComponent<ISettingsProps> = props => {
       <div className="setting-feed">
         {feeds.map((feed: IFeed) => (
           <div className="setting-feed-item" key={feed._id}>
-            <div title={feed.url} className="feed-item-content">
+            <div title={feed._id} className="feed-item-content">
               <Avatar size={16} src={feed.favicon} />
               {feed.title}
             </div>

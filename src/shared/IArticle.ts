@@ -2,7 +2,6 @@ import { Enclosure } from 'feedparser'
 
 export interface IArticle {
   _id: string;
-  _rev: string;
   author: string;
   categories: string[];
   comments: string;
@@ -12,7 +11,6 @@ export interface IArticle {
   enclosures: Enclosure[];
   feedId: string;
   image: string;
-  index?: number;
   isDayFirst?: boolean;
   isStarred: boolean;
   isUnread: boolean;

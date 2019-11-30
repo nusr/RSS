@@ -1,84 +1,52 @@
 import { ELogicError, IFeed } from '../shared'
 import LogicError from './error'
 import { parseFeed } from './feedparser'
-import { articleDB, feedDB } from './pouchdb'
+import { articleDB, feedDB } from './customDB'
 
 const Logic = {
   createFeed: async (feedUrl: string) => {
-    const isExists = await feedDB.isFeedExists(feedUrl)
-    if (isExists && !isExists.deleteTime) {
+    const feeds = await feedDB.getAllFeeds()
+    if (feeds && feeds.find(item => item._id === feedUrl)) {
       return null
     }
     const newFeed = await parseFeed(feedUrl, '')
     if (!newFeed) {
       throw new LogicError(ELogicError.FEED_PARSER_NOT_FOUND)
     }
-    const response = await feedDB.insertFeed(newFeed)
-    if (response && response.ok) {
-      newFeed._id = response.id
-      newFeed._rev = response.rev
-      const { articles } = newFeed
-      if (articles) {
-        articles.forEach(article => (article.feedId = newFeed._id))
-        return await articleDB.batchInsertArticles(articles)
-      }
-    }
+    const { articles, ...rest } = newFeed
+    articleDB.batchInsertArticles(articles)
+    feedDB.insertFeed(rest)
     return newFeed
   },
   deleteFeeds: async (feedIds: string[]) => {
-    let changes = 0
-    for (const feedId of feedIds) {
-      // eslint-disable-next-line
-      const response = await feedDB.deleteFeed(feedId)
-      changes += response.ok ? 1 : 0
-    }
-    return changes
+    return await feedDB.deleteFeeds(feedIds)
   },
   getAllFeeds: async () => {
-    const feeds = await feedDB.getAllFeeds()
-    return feeds
+    return await feedDB.getAllFeeds()
   },
   getArticle: async (articleId: string) => {
-    const article = await articleDB.get(articleId)
-    return article
+    return await articleDB.getArticle(articleId)
   },
-  getArticleContent: async (articleId: string) => {
-    const articleContent = await articleDB.getArticleContent(articleId)
-    return articleContent
-  },
-  getArticles: async (
-    selector: PouchDB.Find.Selector = {},
-    limit = 9999,
-    skip = 0
-  ) => {
-    const articles = await articleDB.queryArticles(selector, limit, skip)
-    return articles
+  getAllArticles: async () => {
+    return await articleDB.getAllArticles()
   },
   setArticlesIsRead: async (articleIds: string[]) => {
-    const changes = await articleDB.batchReadArticles(articleIds)
-    return changes
-  },
-  setArticleIsRead: async (articleId: string) => {
-    await articleDB.readArticle(articleId)
+    return await articleDB.setArticlesIsRead(articleIds)
   },
   setArticleIsStarred: async (articleId: string, isStarred: boolean) => {
-    await articleDB.starArticle(articleId, isStarred)
+    await articleDB.setArticleIsStarred(articleId, isStarred)
   },
   updateFeedArticles: async (feed: IFeed) => {
-    const newFeed = await parseFeed(feed.url, feed.etag || '')
+    const newFeed = await parseFeed(feed._id, feed.etag || '')
     // TODO newFeed.publishTime should not eq feed.publishTime
     if (!newFeed || newFeed.publishTime <= feed.publishTime) {
       return 0
     }
     newFeed.createTime = feed.createTime
-    newFeed.url = feed.url
     newFeed._id = feed._id
     const { articles } = newFeed
-    const response = await feedDB.updateFeed(newFeed)
-    if (response && response.ok && articles && articles.length) {
-      articles.forEach(article => (article.feedId = feed._id))
-      await articleDB.batchInsertArticles(articles)
-    }
+    await feedDB.updateFeed(newFeed)
+    await articleDB.batchInsertArticles(articles)
     return 1
   },
 }

@@ -1,9 +1,9 @@
 import { createModel } from 'hox'
 import React, { useState } from 'react'
 import { IFeed } from '../shared'
-import Logic from '../logic'
 import useLanguageModel from './language'
 import useMessageModel from './message'
+import Logic from '../logic'
 type FeedsState = {
   isCreating: boolean;
   setIsCreating: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,7 +23,8 @@ function useFeeds() {
   const [feedList, setFeedList] = useState<IFeed[]>([])
   const getAllFeeds = (showMessage?: boolean) => {
     setIsUpdating(true)
-    Logic.getAllFeeds()
+    Logic
+      .getAllFeeds()
       .then((feeds: IFeed[]) => {
         setFeedList(feeds)
         setIsUpdating(false)
@@ -44,14 +45,15 @@ function useFeeds() {
   }
   const asyncCreateFeed = (feedUrl: string) => {
     setIsCreating(true)
-    Logic.createFeed(feedUrl)
+    Logic
+      .createFeed(feedUrl)
       .then(() => {
         setIsCreating(false)
         getAllFeeds(true)
       })
       .catch(() => {
         setMessageParams({
-          message: getLanguageData('unfoundFeed'),
+          message: getLanguageData('unfound_feed'),
         })
         setIsCreating(false)
       })

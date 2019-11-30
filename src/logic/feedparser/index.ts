@@ -4,7 +4,7 @@ import https from 'https'
 import url from 'url'
 import { ELogicError, IArticle, IFeed } from '../../shared'
 import LogicError from '../error'
-import { articleDB, feedDB } from '../pouchdb'
+import { articleDB, feedDB } from '../customDB'
 import { IconvTransform } from './IconvTransform'
 
 function feedXmlRequest(feedUrl: string, options: http.RequestOptions) {
@@ -90,7 +90,6 @@ export function parseFeed(feedUrl: string, eTag: string) {
             }
           })
           feedParser.on('error', (error: Error) => {
-            // TODO
             return reject(error)
           })
         } else if (response.statusCode === 301) {

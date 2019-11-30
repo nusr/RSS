@@ -1,4 +1,3 @@
 config-overrides.js
 main/webpack.config.js
-src/utils/asyncThrottle.ts
 src/utils/tools.ts

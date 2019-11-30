@@ -19,7 +19,7 @@ const enUS = {
   settings: 'Settings',
   somethingWrong: 'Something Wrong!',
   title: 'RSS',
-  unfoundFeed: 'Unfound Feed',
+  unfound_feed: 'Unfound Feed',
   unknown: 'Unknown',
   cancel: 'Cancel',
   ok: 'Ok'

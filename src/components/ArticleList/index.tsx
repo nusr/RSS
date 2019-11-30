@@ -34,7 +34,7 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
     asyncSetAllArticlesRead,
     setArticleStatus,
   } = useArticlesModel()
-  const [chooseItemIndex, setChooseItemIndex] = useState<number>(-1)
+  const [chooseItemIndex] = useState<number>(-1)
   const [isVisible, setVisible] = useState<boolean>(false)
   const [showCheckAll, setShowCheckAll] = useState<boolean>(false)
 
@@ -49,11 +49,12 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
       .map((article: IArticle) => article._id)
     asyncSetAllArticlesRead(ids)
   }
-  const handleSearchItemChoose = (index: number) => {
+  const handleSearchItemChoose = (value: IArticle) => {
     setVisible(false)
-    if (index > -1 && index !== chooseItemIndex) {
-      setChooseItemIndex(index)
-    }
+    console.info(value)
+    // if (index > -1 && index !== chooseItemIndex) {
+    //   setChooseItemIndex(index)
+    // }
   }
   return (
     <div className="article-list">

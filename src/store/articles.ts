@@ -51,17 +51,18 @@ function useArticles() {
         selector.isUnread = { $eq: true }
       }
     }
-    Logic.getArticles(selector).then((articles: IArticle[]) => {
+    Logic.getAllArticles().then((articles: IArticle[]) => {
       setIsFetching(false)
       setArticleList(articles)
     })
   }
   const asyncReadArticle = async (articleId: string) => {
-    const article: IArticle | null = await Logic.getArticle(articleId)
-    if (article) {
-      await Logic.setArticleIsRead(articleId)
-      setCurrentArticle(article)
-    }
+    console.info(articleId)
+    // const article: IArticle | null = await Logic.getArticle(articleId)
+    // if (article) {
+    //   await Logic.setArticleIsRead(articleId)
+    //   setCurrentArticle(article)
+    // }
   }
   const asyncSetAllArticlesRead = (ids: string[]) => {
     Logic.setArticlesIsRead(ids).then(() => {
@@ -71,7 +72,7 @@ function useArticles() {
     })
   }
   const asyncStarArticle = async (articleId: string, isStar: boolean) => {
-    await Logic.setArticleIsStarred(articleId, isStar)
+    return await Logic.setArticleIsStarred(articleId, isStar)
   }
   return {
     currentArticle,

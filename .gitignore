@@ -33,3 +33,5 @@ public/electron.js.map
 dev-app-update.yml
 yarn.lock
 package-lock.json
+articles.json
+feeds.json

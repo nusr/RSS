@@ -8,7 +8,7 @@ import { useLanguageModel } from '../../store'
 type SearchArticleProps = {
   visible: boolean;
   onCancel(): void;
-  onItemChoose(value: number): void;
+  onItemChoose(value: IArticle): void;
   articles: IArticle[];
 }
 
@@ -37,17 +37,13 @@ export const SearchArticle: React.FunctionComponent<SearchArticleProps> = props 
       .filter(key => !!key)
     const len = keys.length
     const matched: IArticle[] = articles.filter(
-      (article: IArticle, index: number) => {
+      (article: IArticle) => {
         const str = article.title + article.author + article.summary
         let i = 0
         for (; i < len; i++) {
           if (str.indexOf(keys[i]) === -1) {
             break
           }
-        }
-        if (i === len) {
-          article.index = index
-          return true
         }
         return false
       }
@@ -79,7 +75,7 @@ export const SearchArticle: React.FunctionComponent<SearchArticleProps> = props 
         {matchedArticles.map((article: IArticle) => (
           <div
             key={article._id}
-            onClick={() => onItemChoose(article.index as number)}>
+            onClick={() => onItemChoose(article)}>
             <ArticleItem data={article} className="item-is-unread" />
           </div>
         ))}
