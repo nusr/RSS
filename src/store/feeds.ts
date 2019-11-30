@@ -25,7 +25,6 @@ function useFeeds() {
     setIsUpdating(true)
     Logic.getAllFeeds()
       .then((feeds: IFeed[]) => {
-        console.info(feeds)
         setFeedList(feeds)
         setIsUpdating(false)
         if (showMessage) {

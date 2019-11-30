@@ -1,4 +1,3 @@
-import { Empty } from '../Empty'
 import React, { useState } from 'react'
 import { ArticleItem } from '../ArticleItem'
 import { IArticle } from '../../shared'
@@ -63,11 +62,6 @@ export const ArticleVirtualList: React.FunctionComponent<ArticleVirtualListProps
           </div>
         )
       })}
-      {articleList.length === 0 && (
-        <div style={{ paddingTop: '30px' }}>
-          <Empty/>
-        </div>
-      )}
     </div>
   )
 }

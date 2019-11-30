@@ -7,11 +7,12 @@ type EmptyProps = {
   description?: string;
 }
 export const Empty: React.FunctionComponent<EmptyProps> = props => {
-  const { image = mac, description = '暂无数据' } = props
+  const { image = mac, description = '暂无数据', children } = props
   return (
     <div className="empty">
       <img src={image} alt={description} />
-      <div>{description}</div>
+      {children}
+      <div className="desc">{description}</div>
     </div>
   )
 }

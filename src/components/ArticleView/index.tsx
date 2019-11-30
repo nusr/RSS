@@ -3,15 +3,20 @@ import { Empty } from '../Empty'
 import { shell } from 'electron'
 import React, { useState, useEffect, useRef } from 'react'
 import { useLanguageModel, useArticlesModel, useMenuModel } from '../../store'
-import {ArticleViewSkeleton } from '../skeletons/ArticleViewSkeleton'
+import { ArticleViewSkeleton } from '../skeletons/ArticleViewSkeleton'
 import Utils from '../../utils'
-import {WebviewDrawer} from '../Webview'
+import { WebviewDrawer } from '../Webview'
 import './index.less'
 let isAppend = false
 let contentLinks = []
 export const ArticleView: React.FunctionComponent<{}> = () => {
   const { getLanguageData } = useLanguageModel()
-  const { currentArticle, isFetching, asyncStarArticle } = useArticlesModel()
+  const {
+    currentArticle,
+    isFetching,
+    asyncStarArticle,
+    setCurrentArticle,
+  } = useArticlesModel()
   const { toggleMenu, getCurrentFeed } = useMenuModel()
   const currentFeed = getCurrentFeed()
   const [hoverLink, setHoverLink] = useState<string>(
@@ -131,7 +136,9 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
     viewContent = (
       <div className="view-content">
         <div style={{ marginTop: '128px' }}>
-          <Empty />
+          <Empty>
+            <div className="feed-title">{currentFeed && currentFeed.title}</div>
+          </Empty>
         </div>
       </div>
     )
@@ -141,7 +148,7 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
     <div className="article-view">
       <div className="view-header">
         <div>
-          <SvgIcon icon="close" />
+          <SvgIcon icon="close" onClick={() => setCurrentArticle(null)} />
         </div>
         <div>
           <SvgIcon icon={!isUnread ? 'dot-outlined' : 'dot-filled'} />
@@ -170,4 +177,3 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
     </div>
   )
 }
-

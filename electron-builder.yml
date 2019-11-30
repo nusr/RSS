@@ -2,18 +2,16 @@ appId: com.github.nusr
 productName: RSS
 npmRebuild: true
 asar: true
+artifactName: ${productName}-${version}-${os}-${arch}.${ext}
 mac:
   category: public.app-category.news
   icon: build/icons/mac/app.icns
-  artifactName: ${productName}_mac_${version}.${ext}
 linux:
   category: Network
   icon: build/icons/png
-  artifactName: ${productName}_linux_${version}.${ext}
 win:
   icon: build/icons/win/app.ico
   target: nsis
-  artifactName: ${productName}_windows_${version}.${ext}
 nsis:
   allowToChangeInstallationDirectory: true
   oneClick: false
@@ -22,3 +20,8 @@ nsis:
   allowElevation: false
 files:
   - build/**/*
+publish:
+  provider: github
+  repo: RSS
+  owner: nusr
+  host: github.com

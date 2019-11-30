@@ -19,7 +19,7 @@ export const Modal: React.FunctionComponent<ModalProps> = props => {
     visible,
     children,
     className,
-    width = 400,
+    width = 500,
     title,
     onCancel,
     style = {},
