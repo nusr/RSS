@@ -71,7 +71,7 @@ function addAboutMenuItem(
   position: number
 ) {
   const aboutItem: MenuItemConstructorOptions = {
-    label: `About ${app.getName()}`,
+    label: `About ${app.name}`,
     role: 'about',
   }
   items.splice.apply(items, [position, 0, aboutItem])
@@ -142,7 +142,7 @@ function addPreferencesMenu(
 }
 
 if (process.platform === 'darwin') {
-  const appName = app.getName()
+  const appName = app.name
   template.unshift({
     label: appName,
     submenu: [

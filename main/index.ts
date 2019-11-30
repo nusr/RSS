@@ -14,7 +14,7 @@ function createWindow() {
       contextIsolation: false,
       nodeIntegration: true,
       webviewTag: true,
-      webSecurity: false,
+      webSecurity: true,
     },
     frame: !isWindows,
     height: 600,
@@ -24,7 +24,7 @@ function createWindow() {
     icon: path.join(__dirname, './icons/png/256x256.png'),
     show: false,
     titleBarStyle: 'hiddenInset',
-    vibrancy: 'dark',
+    // vibrancy: 'dark',
   })
   if (isDev) {
     mainWindow.loadURL('http://localhost:3000')
@@ -55,3 +55,16 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+app.on(
+  'web-contents-created',
+  (event: Event, contents: Electron.WebContents) => {
+    contents.on(
+      'will-attach-webview',
+      (event, webPreferences: Electron.WebPreferences) => {
+        delete webPreferences.preload
+        webPreferences.nodeIntegration = false
+      }
+    )
+  }
+)

@@ -1,18 +1,19 @@
 appId: com.github.nusr
-npmRebuild: true
 productName: RSS
-artifactName: ${productName}-${version}.${ext}
+npmRebuild: true
 asar: true
 mac:
   category: public.app-category.news
   icon: build/icons/mac/app.icns
-  target: dmg
+  artifactName: ${productName}_mac_${version}.${ext}
 linux:
   category: Network
   icon: build/icons/png
+  artifactName: ${productName}_linux_${version}.${ext}
 win:
   icon: build/icons/win/app.ico
   target: nsis
+  artifactName: ${productName}_windows_${version}.${ext}
 nsis:
   allowToChangeInstallationDirectory: true
   oneClick: false
