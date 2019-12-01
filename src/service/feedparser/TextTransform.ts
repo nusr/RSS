@@ -1,8 +1,8 @@
 import char_det from 'chardet'
-import iconv from 'iconv-lite'
+import iconLite from 'iconv-lite'
 import { Transform, TransformCallback } from 'stream'
 
-export class IconvTransform extends Transform {
+export class TextTransform extends Transform {
   private temp = ''
   public _transform(
     chunk: string,
@@ -20,8 +20,8 @@ export class IconvTransform extends Transform {
     if (charset) {
       output =
         typeof charset === 'string'
-          ? iconv.decode(buffer, charset as string)
-          : iconv.decode(buffer, (charset as char_det.Confidence[])[0].name)
+          ? iconLite.decode(buffer, charset as string)
+          : iconLite.decode(buffer, (charset as char_det.Confidence[])[0].name)
     }
     this.push(output)
     callback()

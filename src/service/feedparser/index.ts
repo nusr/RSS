@@ -4,8 +4,8 @@ import https from 'https'
 import url from 'url'
 import { ELogicError, IArticle, IFeed } from '../../shared'
 import LogicError from '../error'
-import { articleDB, feedDB } from '../customDB'
-import { IconvTransform } from './IconvTransform'
+import { articleDB, feedDB } from '../jsonDB'
+import { TextTransform } from './TextTransform'
 
 function feedXmlRequest(feedUrl: string, options: http.RequestOptions) {
   return new Promise<http.IncomingMessage>((resolve, reject) => {
@@ -66,7 +66,7 @@ export function parseFeed(feedUrl: string, eTag: string) {
           const articles: IArticle[] = []
           let feed: IFeed
           let item: FeedParser.Item
-          response.pipe(new IconvTransform())
+          response.pipe(new TextTransform())
           response.pipe(feedParser)
           feedParser.on('meta', (meta: FeedParser.Meta) => {
             meta.favicon = meta.favicon

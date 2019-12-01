@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { IFeed } from '../shared'
 import useLanguageModel from './language'
 import useMessageModel from './message'
-import Logic from '../logic'
+import Logic from '../service'
 type FeedsState = {
   isCreating: boolean;
   setIsCreating: React.Dispatch<React.SetStateAction<boolean>>;

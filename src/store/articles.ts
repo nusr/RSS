@@ -1,7 +1,7 @@
 import { createModel } from 'hox'
 import { useState } from 'react'
 import { EMenuKey, IArticle, EArticleFilter, IFeed } from '../shared'
-import Logic from '../logic'
+import Logic from '../service'
 import useMessageModel from './message'
 import useLanguageModel from './language'
 type ArticlesState = {

@@ -1,7 +1,7 @@
 import { ELogicError, IFeed } from '../shared'
 import LogicError from './error'
 import { parseFeed } from './feedparser'
-import { articleDB, feedDB } from './customDB'
+import { articleDB, feedDB } from './jsonDB'
 
 const Logic = {
   createFeed: async (feedUrl: string) => {
