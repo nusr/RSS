@@ -1,32 +1,20 @@
 import { createModel } from 'hox'
 import { useState } from 'react'
 import { EMenuKey, IFeed } from '../shared'
-import useFeedsModel from './feeds'
-import useArticlesModel from './articles'
 type MenuState = {
   selectedKey: string;
-  setSelectedKey(selectedKey: string): void;
+  setSelectedKey: React.Dispatch<React.SetStateAction<string | EMenuKey>>;
   toggleMenu(): void;
   showMenu: boolean;
-  getCurrentFeed(): IFeed | null;
+  getCurrentFeed(feedList: IFeed[]): IFeed | null;
 }
 const MenuKeyDefault = EMenuKey.ALL_ITEMS
 function useMenu() {
-  const { asyncFetchArticles } = useArticlesModel()
-  const { feedList } = useFeedsModel()
-  const [selectedKey, setMenuKey] = useState<string | EMenuKey>(MenuKeyDefault)
+  const [selectedKey, setSelectedKey] = useState<string | EMenuKey>(
+    MenuKeyDefault
+  )
   const [showMenu, setShowMenu] = useState<boolean>(true)
-  const setSelectedKey = (menuKey: string | EMenuKey) => {
-    setMenuKey(menuKey)
-    if (menuKey in EMenuKey) {
-      // 点击主目录
-      asyncFetchArticles(menuKey, feedList)
-    } else if (feedList.some((item: IFeed) => item.id === menuKey)) {
-      // 点击订阅
-      asyncFetchArticles(menuKey, feedList)
-    }
-  }
-  const getCurrentFeed = (): IFeed | null => {
+  const getCurrentFeed = (feedList: IFeed[]): IFeed | null => {
     const feed: IFeed | null = feedList.find(
       (item: IFeed) => item.id === selectedKey
     )

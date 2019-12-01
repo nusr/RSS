@@ -2,7 +2,12 @@ import { SvgIcon } from '../SvgIcon'
 import { Empty } from '../Empty'
 import { shell } from 'electron'
 import React, { useState, useEffect, useRef } from 'react'
-import { useLanguageModel, useArticlesModel, useMenuModel } from '../../store'
+import {
+  useLanguageModel,
+  useArticlesModel,
+  useMenuModel,
+  useFeedsModel,
+} from '../../store'
 import { ArticleViewSkeleton } from '../skeletons/ArticleViewSkeleton'
 import Utils from '../../utils'
 import { WebviewDrawer } from '../Webview'
@@ -11,6 +16,7 @@ let isAppend = false
 let contentLinks = []
 export const ArticleView: React.FunctionComponent<{}> = () => {
   const { getLanguageData } = useLanguageModel()
+  const { feedList } = useFeedsModel()
   const {
     currentArticle,
     isFetching,
@@ -18,12 +24,9 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
     setCurrentArticle,
   } = useArticlesModel()
   const { toggleMenu, getCurrentFeed } = useMenuModel()
-  const currentFeed = getCurrentFeed()
-  const [hoverLink, setHoverLink] = useState<string>(
-    'https://bgm.tv/favicon.ico '
-  )
+  const currentFeed = getCurrentFeed(feedList)
+  const [hoverLink, setHoverLink] = useState<string>('')
   const [isVisible, setVisible] = useState<boolean>(false)
-  const [starredMap, setStarredMaps] = useState<boolean>(false)
   const contentRef = useRef<HTMLDivElement>(null)
   function parseArticleContent(content: string) {
     if (isAppend) {
@@ -60,7 +63,6 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
 
   useEffect(() => {
     if (currentArticle) {
-      setStarredMaps(currentArticle.isStarred)
       parseArticleContent(currentArticle.description)
     }
   }, [currentArticle])
@@ -68,9 +70,8 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
   function handleStarIconClick() {
     if (currentArticle) {
       const articleId = currentArticle.id
-      const data = !currentArticle.isStarred
-      setStarredMaps(data)
-      asyncStarArticle(articleId, data)
+      const isStarred = !currentArticle.isStarred
+      asyncStarArticle(articleId, isStarred)
     }
   }
 
@@ -153,7 +154,11 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
         <div>
           <SvgIcon icon={!isUnread ? 'dot-outlined' : 'dot-filled'} />
           <SvgIcon
-            icon={starredMap ? 'star-filled' : 'star-outlined'}
+            icon={
+              currentArticle && currentArticle.isStarred
+                ? 'star-filled'
+                : 'star-outlined'
+            }
             onClick={handleStarIconClick}
           />
           <SvgIcon icon="compass" onClick={handleCompassClick} />

@@ -29,13 +29,13 @@ export const App: React.FunctionComponent<IAppProps> = () => {
   return (
     <Fragment>
       <div className="app-side">
-        <AppMenu/>
-        <ArticleList/>
+        <AppMenu />
+        <ArticleList />
       </div>
       <div className="app-content">
-        <ArticleView/>
+        <ArticleView />
       </div>
-      <SettingsModal visible={isVisible} onClose={() => setVisible(false)}/>
+      <SettingsModal visible={isVisible} onClose={() => setVisible(false)} />
       {visible && (
         <div className="global-message">
           <div className="message-content"> {messageParams.message}</div>

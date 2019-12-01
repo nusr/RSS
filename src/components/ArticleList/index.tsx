@@ -1,9 +1,9 @@
 import { SvgIcon, IconType } from '../SvgIcon'
 import React, { useState } from 'react'
-import {ArticleVirtualList } from '../ArticleVirtualList'
+import { ArticleVirtualList } from '../ArticleVirtualList'
 import { SearchArticle } from '../SearchArticle'
 import { EArticleFilter, IArticle } from '../../shared'
-import {ArticleListSkeleton} from '../skeletons/ArticleListSkeleton'
+import { ArticleListSkeleton } from '../skeletons/ArticleListSkeleton'
 import { useArticlesModel, useFeedsModel } from '../../store'
 import './index.less'
 type StatusItem = {
@@ -29,22 +29,17 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
   const { feedList } = useFeedsModel()
   const {
     articleList,
+    articleListData,
     isFetching,
     articleStatus,
     asyncSetAllArticlesRead,
     setArticleStatus,
   } = useArticlesModel()
-  const [chooseItemIndex] = useState<number>(-1)
   const [isVisible, setVisible] = useState<boolean>(false)
   const [showCheckAll, setShowCheckAll] = useState<boolean>(false)
 
-  function handleRadioChange(value: EArticleFilter) {
-    console.error(value)
-    setArticleStatus(value)
-  }
-
   function readAllArticles() {
-    const ids: string[] = articleList
+    const ids: string[] = articleListData
       .filter((article: IArticle) => article.isUnread)
       .map((article: IArticle) => article.id)
     asyncSetAllArticlesRead(ids)
@@ -52,9 +47,6 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
   const handleSearchItemChoose = (value: IArticle) => {
     setVisible(false)
     console.info(value)
-    // if (index > -1 && index !== chooseItemIndex) {
-    //   setChooseItemIndex(index)
-    // }
   }
   return (
     <div className="article-list">
@@ -67,7 +59,7 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
                 className={`radio ${
                   articleStatus === status ? 'selected' : ''
                 }`}
-                onClick={() => handleRadioChange(status)}>
+                onClick={() => setArticleStatus(status)}>
                 <SvgIcon icon={icon} />
               </div>
             ))}
@@ -75,10 +67,7 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
         </div>
       </div>
       <div className="list-content">
-        <ArticleVirtualList
-          articleList={articleList}
-          scrollToIndex={chooseItemIndex}
-        />
+        <ArticleVirtualList articles={articleListData} />
       </div>
       <div className="list-footer">
         <div className="footer-top">
@@ -115,4 +104,3 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
     </div>
   )
 }
-

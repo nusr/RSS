@@ -44,7 +44,7 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
   const { onlineStatus, setOnlineStatus } = useOnlineModel()
   const {
     feedList = [],
-    getAllFeeds,
+    asyncFetchAllFeeds,
     isUpdating,
     isCreating,
     asyncCreateFeed,
@@ -56,12 +56,12 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
     if (isUpdating || feedList.length === 0) {
       return
     }
-    getAllFeeds(true)
+    asyncFetchAllFeeds(true)
   }
 
   /* eslint-disable */
   useEffect(() => {
-    getAllFeeds()
+    asyncFetchAllFeeds()
     const setStatus = () => setOnlineStatus
     window.addEventListener('online', setStatus)
     window.addEventListener('offline', setStatus)
@@ -77,6 +77,11 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
   }
   const getItemClassName = (value: string) => {
     return (selectedKey === value ? 'selected' : '') + ' item'
+  }
+  function handleSelect(menuKey: string | EMenuKey) {
+    if (menuKey) {
+      setSelectedKey(menuKey)
+    }
   }
   let style: React.CSSProperties = {
     display: 'block',
@@ -99,7 +104,7 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
           <div
             key={key}
             className={getItemClassName(key)}
-            onClick={() => setSelectedKey(key)}>
+            onClick={() => handleSelect(key)}>
             <div className="content">
               <SvgIcon icon={icon} />
               <div className="menu-title">{getLanguageData(title)}</div>
@@ -111,7 +116,7 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
           <div
             key={id}
             className={getItemClassName(id)}
-            onClick={() => setSelectedKey(id)}>
+            onClick={() => handleSelect(id)}>
             <div className="content">
               <Avatar size={22} src={favicon} default />
               <div className="menu-title" title={title}>

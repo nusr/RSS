@@ -3,7 +3,9 @@ import React, { useState } from 'react'
 import { IFeed } from '../shared'
 import useLanguageModel from './language'
 import useMessageModel from './message'
-import Logic from '../service'
+import useArticlesModel from './articles'
+import Services from '../service'
+
 type FeedsState = {
   isCreating: boolean;
   setIsCreating: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,45 +13,38 @@ type FeedsState = {
   setIsUpdating: React.Dispatch<React.SetStateAction<boolean>>;
   feedList: IFeed[];
   setFeedList: React.Dispatch<React.SetStateAction<IFeed[]>>;
-  getAllFeeds(showMessage?: boolean): void;
+  asyncFetchAllFeeds(showMessage?: boolean): void;
   asyncDeleteFeeds(ids: string[]): void;
   asyncCreateFeed(feedUrl: string): void;
 }
 function useFeeds() {
+  const { asyncFetchAllArticles } = useArticlesModel()
   const { setMessageParams } = useMessageModel()
   const { getLanguageData } = useLanguageModel()
   const [isCreating, setIsCreating] = useState<boolean>(false)
   const [isUpdating, setIsUpdating] = useState<boolean>(false)
   const [feedList, setFeedList] = useState<IFeed[]>([])
-  const getAllFeeds = (showMessage?: boolean) => {
+  const asyncFetchAllFeeds = async (showMessage?: boolean) => {
     setIsUpdating(true)
-    Logic
-      .getAllFeeds()
-      .then((feeds: IFeed[]) => {
-        setFeedList(feeds)
-        setIsUpdating(false)
-        if (showMessage) {
-          setMessageParams({
-            message: getLanguageData('feedsAreUpdated'),
-          })
-        }
+    const feeds = await Services.getAllFeeds()
+    for (const feed of feeds) {
+      await Services.updateFeedArticles(feed)
+    }
+    setFeedList(feeds)
+    await asyncFetchAllArticles()
+    if (showMessage) {
+      setMessageParams({
+        message: getLanguageData('feedsAreUpdated'),
       })
-      .catch(() => {
-        setIsUpdating(false)
-        if (showMessage) {
-          setMessageParams({
-            message: getLanguageData('somethingWrong'),
-          })
-        }
-      })
+    }
+    setIsUpdating(false)
   }
   const asyncCreateFeed = (feedUrl: string) => {
     setIsCreating(true)
-    Logic
-      .createFeed(feedUrl)
+    Services.createFeed(feedUrl)
       .then(() => {
         setIsCreating(false)
-        getAllFeeds(true)
+        asyncFetchAllFeeds(true)
       })
       .catch(() => {
         setMessageParams({
@@ -59,7 +54,7 @@ function useFeeds() {
       })
   }
   const asyncDeleteFeeds = (ids: string[]) => {
-    Logic.deleteFeeds(ids)
+    Services.deleteFeeds(ids)
   }
   return {
     isCreating,
@@ -68,7 +63,7 @@ function useFeeds() {
     setIsUpdating,
     feedList,
     setFeedList,
-    getAllFeeds,
+    asyncFetchAllFeeds,
     asyncDeleteFeeds,
     asyncCreateFeed,
   }

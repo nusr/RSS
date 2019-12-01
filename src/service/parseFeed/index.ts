@@ -77,7 +77,8 @@ export function parseFeed(feedUrl: string, eTag: string) {
           feedParser.on('readable', () => {
             item = feedParser.read()
             while (item) {
-              articles.push(articleDB.makeArticleBaseOnItem(item))
+              const article = articleDB.makeArticleBaseOnItem(item, feedUrl)
+              article && articles.push(article)
               item = feedParser.read()
             }
           })

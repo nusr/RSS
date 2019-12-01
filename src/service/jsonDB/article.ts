@@ -1,4 +1,4 @@
-import { IArticle,EDBName } from '../../shared'
+import { IArticle, EDBName } from '../../shared'
 import FeedParser from 'feedparser'
 import { BaseModel } from './base'
 export default class ArticleDB extends BaseModel<IArticle> {
@@ -26,7 +26,7 @@ export default class ArticleDB extends BaseModel<IArticle> {
     })
     return this.updateArticles(result)
   }
-  public async setArticleIsStarred(articleId: string, isStarred = true) {
+  public async setArticleIsStarred(articleId: string, isStarred: boolean) {
     const articles = await this.getAllArticles()
     const article = articles.find(item => item.id === articleId)
     if (article.isStarred !== isStarred) {
@@ -56,9 +56,13 @@ export default class ArticleDB extends BaseModel<IArticle> {
     })
     return this.updateArticles(result.concat(list))
   }
-  public makeArticleBaseOnItem(item: FeedParser.Item, feedId = '') {
+  public makeArticleBaseOnItem(item: FeedParser.Item, feedId: string) {
+    const id = item.guid || item.link
+    if (!id) {
+      return null
+    }
     const article: IArticle = {
-      id: item.guid,
+      id: id,
       author: item.author,
       categories: item.categories,
       comments: item.comments,
