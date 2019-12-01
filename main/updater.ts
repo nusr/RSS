@@ -1,4 +1,4 @@
-import {  UpdateInfo } from 'builder-util-runtime'
+import { UpdateInfo } from 'builder-util-runtime'
 import { dialog, Menu } from 'electron'
 import { autoUpdater } from 'electron-updater'
 export type IUpdaterStatus =
@@ -79,10 +79,7 @@ function initAutoUpdater() {
     setUpdaterStatus(UPDATER_STATUS_MAP.NORMAL)
   })
 
-  autoUpdater.on('download-progress', () => {
-    // Do Nothing
-    // setUpdaterStatus(UPDATER_STATUS_MAP.PROGRESS, { progress: ~~info.percent })
-  })
+  autoUpdater.on('download-progress', () => {})
 
   autoUpdater.on('update-downloaded', (info: UpdateInfo) => {
     dialog

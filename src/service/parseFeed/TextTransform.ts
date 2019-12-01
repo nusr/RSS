@@ -10,7 +10,6 @@ export class TextTransform extends Transform {
     callback: TransformCallback
   ) {
     this.temp += chunk
-    // TODO temp is too big
     callback()
   }
   public _flush(callback: TransformCallback) {

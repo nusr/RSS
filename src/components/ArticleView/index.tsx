@@ -9,22 +9,22 @@ import {
   useFeedsModel,
 } from '../../store'
 import { ArticleViewSkeleton } from '../Skeletons/ArticleViewSkeleton'
-import Utils from '../../utils'
+import { timeToDateTimeString } from '../../utils'
 import { WebviewDrawer } from '../Webview'
 import './index.less'
 let isAppend = false
 let contentLinks: string[] = []
 export const ArticleView: React.FunctionComponent<{}> = () => {
   const { getLanguageData } = useLanguageModel()
-  const { feedList } = useFeedsModel()
+  const { getCurrentFeed } = useFeedsModel()
   const {
     currentArticle,
     isFetching,
     asyncStarArticle,
     setCurrentArticle,
   } = useArticlesModel()
-  const { toggleMenu, getCurrentFeed } = useMenuModel()
-  const currentFeed = getCurrentFeed(feedList)
+  const { toggleMenu } = useMenuModel()
+  const currentFeed = getCurrentFeed(currentArticle && currentArticle.feedId)
   const [hoverLink, setHoverLink] = useState<string>('')
   const [isVisible, setVisible] = useState<boolean>(false)
   const contentRef = useRef<HTMLDivElement>(null)
@@ -118,7 +118,7 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
         onClick={handleContentClick}>
         <div className="article-info" data-link={currentArticle.link}>
           <div className="article-date">
-            {Utils.timeToDateTimeString(currentArticle.time)}
+            {timeToDateTimeString(currentArticle.time)}
           </div>
           <h1 className="article-title">{currentArticle.title}</h1>
           <div className="article-author">

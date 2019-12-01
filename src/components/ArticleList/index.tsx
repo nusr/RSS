@@ -4,6 +4,7 @@ import { ArticleVirtualList } from '../ArticleVirtualList'
 import { EArticleFilter, IArticle } from '../../shared'
 import { ArticleListSkeleton } from '../Skeletons/ArticleListSkeleton'
 import { useArticlesModel, useFeedsModel } from '../../store'
+import { throttle } from '../../utils'
 import './index.less'
 type StatusItem = {
   icon: IconType;
@@ -37,16 +38,22 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
   } = useArticlesModel()
   const [isVisible, setVisible] = useState<boolean>(false)
   const [showCheckAll, setShowCheckAll] = useState<boolean>(false)
-
   function readAllArticles() {
     const ids: string[] = articleListData
       .filter((article: IArticle) => article.isUnread)
       .map((article: IArticle) => article.id)
     asyncSetAllArticlesRead(ids)
   }
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setSearchValue(e.target.value)
+  function handleSearch() {
+    if (showCheckAll) {
+      setShowCheckAll(false)
+      return
+    }
+    setVisible(true)
   }
+  const handleChange = throttle((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value)
+  }, 1000)
   const articleNum = articleListData.length
   return (
     <div className="article-list">
@@ -90,7 +97,7 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
             </div>
           )}
 
-          <div className="list-footer-right" onClick={() => setVisible(true)}>
+          <div className="list-footer-right" onClick={handleSearch}>
             <SvgIcon icon="search" className="search-item" />
           </div>
         </div>

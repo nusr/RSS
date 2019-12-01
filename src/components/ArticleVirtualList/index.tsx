@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ArticleItem } from '../ArticleItem'
 import { IArticle } from '../../shared'
-import Utils from '../../utils'
+import { timeToDateString } from '../../utils'
 import './index.less'
 import { useArticlesModel } from '../../store'
 type ArticleVirtualListProps = {
@@ -43,7 +43,7 @@ export const ArticleVirtualList: React.FunctionComponent<ArticleVirtualListProps
             data-index={index}
             className="item">
             {article.isDayFirst && (
-              <div className="date">{Utils.timeToDateString(article.time)}</div>
+              <div className="date">{timeToDateString(article.time)}</div>
             )}
             <ArticleItem
               data={article}

@@ -16,6 +16,7 @@ type FeedsState = {
   asyncFetchAllFeeds(showMessage?: boolean): void;
   asyncDeleteFeeds(ids: string[]): void;
   asyncCreateFeed(feedUrl: string): void;
+  getCurrentFeed(feedId?: string): IFeed | undefined;
 }
 function useFeeds() {
   const { asyncFetchAllArticles } = useArticlesModel()
@@ -27,9 +28,9 @@ function useFeeds() {
   const asyncFetchAllFeeds = async (showMessage?: boolean) => {
     setIsUpdating(true)
     const feeds = await Services.getAllFeeds()
-    // for (const feed of feeds) {
-    //   await Services.updateFeedArticles(feed)
-    // }
+    for (const feed of feeds) {
+      await Services.updateFeedArticles(feed)
+    }
     console.info(feeds)
     setFeedList(feeds)
     await asyncFetchAllArticles()
@@ -58,6 +59,10 @@ function useFeeds() {
   const asyncDeleteFeeds = (ids: string[]) => {
     Services.deleteFeeds(ids)
   }
+  const getCurrentFeed = (feedId: string) => {
+    const feed = feedList.find((item: IFeed) => item.id === feedId)
+    return feed
+  }
   return {
     isCreating,
     setIsCreating,
@@ -68,6 +73,7 @@ function useFeeds() {
     asyncFetchAllFeeds,
     asyncDeleteFeeds,
     asyncCreateFeed,
+    getCurrentFeed,
   }
 }
 

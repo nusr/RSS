@@ -1,10 +1,10 @@
 import React from 'react'
 import { Avatar } from '../Avatar'
 import { SvgIcon } from '../SvgIcon'
-import Utils from '../../utils'
+import { timeToTimeString } from '../../utils'
 import { IArticle } from '../../shared'
 import './index.less'
-import { useLanguageModel, useMenuModel, useFeedsModel } from '../../store'
+import { useLanguageModel, useFeedsModel } from '../../store'
 
 export interface IArticleItemOwnProps {
   data: IArticle;
@@ -14,10 +14,12 @@ export interface IArticleItemOwnProps {
 export const ArticleItem: React.FunctionComponent<IArticleItemOwnProps> = props => {
   const { data, className } = props
   const { getLanguageData } = useLanguageModel()
-  const { feedList } = useFeedsModel()
-  const { getCurrentFeed } = useMenuModel()
-  const currentFeed = getCurrentFeed(feedList) || { favicon: '', title: '' }
-  const dateTime = Utils.timeToTimeString(data.time)
+  const { getCurrentFeed } = useFeedsModel()
+  const currentFeed = getCurrentFeed(data.feedId) || {
+    favicon: '',
+    title: '',
+  }
+  const dateTime = timeToTimeString(data.time)
   const { favicon, title } = currentFeed
   const feedTitle = title || getLanguageData('unknown')
   return (

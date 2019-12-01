@@ -38,7 +38,6 @@ const Logic = {
   },
   updateFeedArticles: async (feed: IFeed) => {
     const newFeed = await parseFeed(feed.id || '', feed.etag || '')
-    // TODO newFeed.publishTime should not eq feed.publishTime
     if (!newFeed || newFeed.publishTime <= feed.publishTime) {
       return 0
     }
