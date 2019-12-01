@@ -1,6 +1,6 @@
 import { ELogicError, IFeed } from '../shared'
 import LogicError from './error'
-import { parseFeed } from './feedparser'
+import { parseFeed } from './parseFeed'
 import { articleDB, feedDB } from './jsonDB'
 
 const Logic = {

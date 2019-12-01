@@ -1,9 +1,9 @@
 import FeedParser from 'feedparser'
-import { IArticle, IFeed } from '../../shared'
+import { IArticle, IFeed,EDBName } from '../../shared'
 import { BaseModel } from './base'
 export default class FeedDB extends BaseModel<IFeed> {
   public constructor() {
-    super('feeds.json')
+    super(EDBName.feed)
   }
   public async getAllFeeds(): Promise<IFeed[]> {
     return (await this.readJsonFile()) || []

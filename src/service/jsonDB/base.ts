@@ -1,7 +1,8 @@
 import fs from 'fs'
+import { EDBName } from '../../shared'
 export class BaseModel<Type> {
-  private filePath: string
-  public constructor(filePath: string) {
+  private filePath: EDBName
+  public constructor(filePath: EDBName) {
     this.filePath = filePath
   }
   // eslint-disable-next-line

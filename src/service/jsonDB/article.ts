@@ -1,9 +1,9 @@
-import { IArticle } from '../../shared'
+import { IArticle,EDBName } from '../../shared'
 import FeedParser from 'feedparser'
 import { BaseModel } from './base'
 export default class ArticleDB extends BaseModel<IArticle> {
   public constructor() {
-    super('articles.json')
+    super(EDBName.article)
   }
   public async getAllArticles(): Promise<IArticle[]> {
     return (await this.readJsonFile()) || []

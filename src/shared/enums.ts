@@ -16,3 +16,7 @@ export enum EArticleFilter {
   UNREAD = 'UNREAD',
   ALL = 'ALL',
 }
+export enum EDBName {
+  article= 'articles.json',
+  feed = 'feeds.json'
+}

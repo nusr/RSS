@@ -53,7 +53,7 @@ function useFeeds() {
       })
       .catch(() => {
         setMessageParams({
-          message: getLanguageData('unfound_feed'),
+          message: getLanguageData('un_found_feed'),
         })
         setIsCreating(false)
       })
