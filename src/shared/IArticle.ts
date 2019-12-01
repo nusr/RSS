@@ -1,7 +1,7 @@
 import { Enclosure } from 'feedparser'
 
 export interface IArticle {
-  _id: string;
+  id: string;
   author: string;
   categories: string[];
   comments: string;

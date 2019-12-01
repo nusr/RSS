@@ -4,7 +4,6 @@ const LogicErrorMessages = {
   [ELogicError.FEED_PARSER_FETCH_ERROR]: 'Feedparser fetch error.',
   [ELogicError.FEED_PARSER_NOT_FOUND]: 'Feedparser feed not error.',
   [ELogicError.FEED_PARSER_WRONG_URL]: 'Feedparser wrong url.',
-  [ELogicError.POUCHDB_EXISTS]: 'PouchDB doc exists.',
   [ELogicError.UNKNOWN]: 'Unknown error.',
 }
 

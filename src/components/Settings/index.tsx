@@ -24,13 +24,13 @@ export const Settings: React.FunctionComponent<ISettingsProps> = props => {
     <div className="setting-feed-list">
       <div className="setting-feed">
         {feeds.map((feed: IFeed) => (
-          <div className="setting-feed-item" key={feed._id}>
-            <div title={feed._id} className="feed-item-content">
+          <div className="setting-feed-item" key={feed.id}>
+            <div title={feed.id} className="feed-item-content">
               <Avatar size={16} src={feed.favicon} />
               {feed.title}
             </div>
             <div>
-              <Button type="danger" onClick={() => handleDeleteClick(feed._id)}>
+              <Button type="danger" onClick={() => handleDeleteClick(feed.id)}>
                 {getLanguageData('delete')}
               </Button>
             </div>

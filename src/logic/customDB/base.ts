@@ -23,7 +23,7 @@ export class BaseModel<Type> {
         if (error) {
           reject(error)
         } else {
-          resolve(true)
+          resolve(data)
         }
       })
     })

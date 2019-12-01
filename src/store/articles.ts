@@ -32,7 +32,7 @@ function useArticles() {
     feedList: IFeed[]
   ) => {
     setIsFetching(true)
-    const feedIds = feedList.map((feed: IFeed) => feed._id)
+    const feedIds = feedList.map((feed: IFeed) => feed.id)
     const selector: PouchDB.Find.Selector = { feedId: { $in: feedIds } }
     switch (menuKey) {
       case EMenuKey.ALL_ITEMS:

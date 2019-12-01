@@ -12,16 +12,16 @@ type ArticleVirtualListProps = {
 
 export const ArticleVirtualList: React.FunctionComponent<ArticleVirtualListProps> = props => {
   const { articleList = [], currentArticle } = props
-  const [readItems, setItems] = useState<{ [_id: string]: boolean }>({})
+  const [readItems, setItems] = useState<{ [id: string]: boolean }>({})
   const { asyncReadArticle } = useArticlesModel()
-  
+
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
     const { target } = e
     const $item = (target as HTMLDivElement).closest('.vlist-item')
     if ($item) {
       const { id, index } = ($item as HTMLDivElement).dataset
       const article = currentArticle
-      if (article && article._id === id) {
+      if (article && article.id === id) {
         return
       }
       if (id && index) {
@@ -33,19 +33,13 @@ export const ArticleVirtualList: React.FunctionComponent<ArticleVirtualListProps
       }
     }
   }
-  
+
   return (
     <div className="article-virtual-list" onClick={handleClick}>
-      {articleList.map((article: IArticle, index: number) => {
-        const isCurrent = currentArticle && article._id === currentArticle._id
+      {articleList.map((article: IArticle) => {
+        const isCurrent = currentArticle && article.id === currentArticle.id
         return (
-          <div
-            key={article._id}
-            data-id={article._id}
-            data-index={index}
-            className={
-              index === 0 ? 'vlist-item first-list-item' : 'vlist-item'
-            }>
+          <div key={article.id} data-id={article.id} className="vlist-item">
             {article.isDayFirst && (
               <div className="date-divid">
                 {Utils.timeToDateString(article.time)}
@@ -54,7 +48,7 @@ export const ArticleVirtualList: React.FunctionComponent<ArticleVirtualListProps
             <ArticleItem
               data={article}
               className={
-                (article.isUnread && !readItems[article._id]
+                (article.isUnread && !readItems[article.id]
                   ? 'item-is-unread'
                   : '') + (isCurrent ? ' item-is-selected' : '')
               }
@@ -65,5 +59,3 @@ export const ArticleVirtualList: React.FunctionComponent<ArticleVirtualListProps
     </div>
   )
 }
-
-

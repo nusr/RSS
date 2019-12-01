@@ -67,7 +67,7 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
 
   function handleStarIconClick() {
     if (currentArticle) {
-      const articleId = currentArticle._id
+      const articleId = currentArticle.id
       const data = !currentArticle.isStarred
       setStarredMaps(data)
       asyncStarArticle(articleId, data)

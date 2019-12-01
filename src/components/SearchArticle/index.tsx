@@ -74,7 +74,7 @@ export const SearchArticle: React.FunctionComponent<SearchArticleProps> = props 
       <div className="matched-list">
         {matchedArticles.map((article: IArticle) => (
           <div
-            key={article._id}
+            key={article.id}
             onClick={() => onItemChoose(article)}>
             <ArticleItem data={article} className="item-is-unread" />
           </div>

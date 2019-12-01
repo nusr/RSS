@@ -10,14 +10,14 @@ export default class ArticleDB extends BaseModel<IArticle> {
   }
   public async getArticle(articleId: string) {
     const articles = await this.getAllArticles()
-    return articles.find(item => item._id === articleId)
+    return articles.find(item => item.id === articleId)
   }
   public async setArticlesIsRead(articleIds: string[]) {
     const articles = await this.getAllArticles()
     const result = []
     articles.forEach(item => {
       let temp = item
-      if (articleIds.includes(item._id)) {
+      if (articleIds.includes(item.id)) {
         temp = Object.assign(item, {
           isUnread: false,
         })
@@ -28,7 +28,7 @@ export default class ArticleDB extends BaseModel<IArticle> {
   }
   public async setArticleIsStarred(articleId: string, isStarred = true) {
     const articles = await this.getAllArticles()
-    const article = articles.find(item => item._id === articleId)
+    const article = articles.find(item => item.id === articleId)
     if (article.isStarred !== isStarred) {
       article.isStarred = isStarred
     }
@@ -39,9 +39,18 @@ export default class ArticleDB extends BaseModel<IArticle> {
   }
   public async batchInsertArticles(articles: IArticle[]) {
     const list = await this.getAllArticles()
+    const map = {}
+    list.forEach(item => {
+      const key = item.id
+      if (!map[key]) {
+        map[key] = 1
+      }
+    })
     const result = []
     articles.forEach(item => {
-      if (!list.find(v => v._id === item._id)) {
+      const key = item.id
+      if (!map[key]) {
+        map[key] = 1
         result.push(item)
       }
     })
@@ -49,7 +58,7 @@ export default class ArticleDB extends BaseModel<IArticle> {
   }
   public makeArticleBaseOnItem(item: FeedParser.Item, feedId = '') {
     const article: IArticle = {
-      _id: item.guid,
+      id: item.guid,
       author: item.author,
       categories: item.categories,
       comments: item.comments,

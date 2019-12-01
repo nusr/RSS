@@ -1,6 +1,6 @@
 import { IArticle } from './IArticle'
 export interface IFeed {
-  _id?: string;
+  id?: string;
   articles?: IArticle[];
   author: string;
   categories: string[];

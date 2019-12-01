@@ -32,7 +32,7 @@ export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = ({
   }
 
   function handleDeleteFeed(feedId: string) {
-    setFeeds(allFeeds.filter((item: IFeed) => item._id !== feedId))
+    setFeeds(allFeeds.filter((item: IFeed) => item.id !== feedId))
     setDeletedIds([...needDeletedIds, feedId])
   }
   function handleChange(e) {

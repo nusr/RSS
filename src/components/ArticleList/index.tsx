@@ -46,7 +46,7 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
   function readAllArticles() {
     const ids: string[] = articleList
       .filter((article: IArticle) => article.isUnread)
-      .map((article: IArticle) => article._id)
+      .map((article: IArticle) => article.id)
     asyncSetAllArticlesRead(ids)
   }
   const handleSearchItemChoose = (value: IArticle) => {

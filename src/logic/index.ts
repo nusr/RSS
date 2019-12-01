@@ -6,7 +6,7 @@ import { articleDB, feedDB } from './customDB'
 const Logic = {
   createFeed: async (feedUrl: string) => {
     const feeds = await feedDB.getAllFeeds()
-    if (feeds && feeds.find(item => item._id === feedUrl)) {
+    if (feeds && feeds.find(item => item.id === feedUrl)) {
       return null
     }
     const newFeed = await parseFeed(feedUrl, '')
@@ -14,8 +14,8 @@ const Logic = {
       throw new LogicError(ELogicError.FEED_PARSER_NOT_FOUND)
     }
     const { articles, ...rest } = newFeed
-    articleDB.batchInsertArticles(articles)
-    feedDB.insertFeed(rest)
+    await feedDB.insertFeed(rest)
+    await articleDB.batchInsertArticles(articles)
     return newFeed
   },
   deleteFeeds: async (feedIds: string[]) => {
@@ -37,13 +37,13 @@ const Logic = {
     await articleDB.setArticleIsStarred(articleId, isStarred)
   },
   updateFeedArticles: async (feed: IFeed) => {
-    const newFeed = await parseFeed(feed._id, feed.etag || '')
+    const newFeed = await parseFeed(feed.id, feed.etag || '')
     // TODO newFeed.publishTime should not eq feed.publishTime
     if (!newFeed || newFeed.publishTime <= feed.publishTime) {
       return 0
     }
     newFeed.createTime = feed.createTime
-    newFeed._id = feed._id
+    newFeed.id = feed.id
     const { articles } = newFeed
     await feedDB.updateFeed(newFeed)
     await articleDB.batchInsertArticles(articles)

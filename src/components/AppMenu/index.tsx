@@ -29,6 +29,15 @@ const DEFAULT_MENUS: MenuItemType[] = [
   },
 ]
 type AppMenuProps = {}
+type ArticleNumProps = {
+  count: number;
+}
+const ArticleNum: React.FunctionComponent<ArticleNumProps> = ({ count }) => {
+  if (count <= 0) {
+    return null
+  }
+  return <div>{count}</div>
+}
 export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
   const { getLanguageData } = useLanguageModel()
   const { selectedKey, setSelectedKey, showMenu } = useMenuModel()
@@ -95,21 +104,21 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
               <SvgIcon icon={icon} />
               <div className="menu-title">{getLanguageData(title)}</div>
             </div>
-            <div>22</div>
+            <ArticleNum count={0} />
           </div>
         ))}
-        {feedList.map(({ _id, favicon, title }) => (
+        {feedList.map(({ id, favicon, title }) => (
           <div
-            key={_id}
-            className={getItemClassName(_id)}
-            onClick={() => setSelectedKey(_id)}>
+            key={id}
+            className={getItemClassName(id)}
+            onClick={() => setSelectedKey(id)}>
             <div className="content">
               <Avatar size={22} src={favicon} default />
               <div className="menu-title" title={title}>
                 {title}
               </div>
             </div>
-            <div>22</div>
+            <ArticleNum count={0} />
           </div>
         ))}
       </div>

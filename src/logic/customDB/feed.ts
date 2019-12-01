@@ -14,7 +14,7 @@ export default class FeedDB extends BaseModel<IFeed> {
     articles: IArticle[] = []
   ) {
     const feed: IFeed = {
-      _id: meta.xmlurl,
+      id: meta.xmlurl,
       articles,
       author: meta.author,
       categories: meta.categories,
@@ -34,8 +34,8 @@ export default class FeedDB extends BaseModel<IFeed> {
   }
   public async updateFeedUrl(feedUrl: string, newUrl: string) {
     const feeds = await this.getAllFeeds()
-    const item = feeds.find(item => item._id === feedUrl)
-    item._id = newUrl
+    const item = feeds.find(item => item.id === feedUrl)
+    item.id = newUrl
     return this.updateFeeds(feeds)
   }
   public async updateFeed(feed: IFeed) {
@@ -43,7 +43,7 @@ export default class FeedDB extends BaseModel<IFeed> {
     const result = []
     feeds.forEach(item => {
       let temp = item
-      if (item._id === feed._id) {
+      if (item.id === feed.id) {
         temp = Object.assign(item, feed)
       }
       result.push(temp)
@@ -52,15 +52,18 @@ export default class FeedDB extends BaseModel<IFeed> {
   }
   public async insertFeed(feed: IFeed) {
     const feeds = await this.getAllFeeds()
-    const item = feeds.find(v => v._id === feed._id)
-    return item
+    const item = feeds.find(v => v.id === feed.id)
+    if (!item) {
+      feeds.push(feed)
+    }
+    return this.updateFeeds(feeds)
   }
-  protected async updateFeeds(feeds: IFeed[]) {
+  private async updateFeeds(feeds: IFeed[]) {
     return this.updateJsonFile(feeds, true)
   }
   public async deleteFeeds(ids: string[]) {
     const feeds = await this.getAllFeeds()
-    const result = feeds.filter(item => !ids.includes(item._id))
+    const result = feeds.filter(item => !ids.includes(item.id))
     return this.updateFeeds(result)
   }
 }

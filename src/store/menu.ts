@@ -21,14 +21,14 @@ function useMenu() {
     if (menuKey in EMenuKey) {
       // 点击主目录
       asyncFetchArticles(menuKey, feedList)
-    } else if (feedList.some((item: IFeed) => item._id === menuKey)) {
+    } else if (feedList.some((item: IFeed) => item.id === menuKey)) {
       // 点击订阅
       asyncFetchArticles(menuKey, feedList)
     }
   }
   const getCurrentFeed = (): IFeed | null => {
     const feed: IFeed | null = feedList.find(
-      (item: IFeed) => item._id === selectedKey
+      (item: IFeed) => item.id === selectedKey
     )
     return feed
   }
