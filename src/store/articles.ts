@@ -14,6 +14,8 @@ type ArticlesState = {
   setIsFetching: React.Dispatch<React.SetStateAction<boolean>>;
   setArticleStatus: React.Dispatch<React.SetStateAction<EArticleFilter>>;
   articleStatus: EArticleFilter;
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
   asyncFetchAllArticles(): void;
   asyncReadArticle(articleId: string): void;
   asyncStarArticle(articleId: string, isStar: boolean): void;
@@ -30,12 +32,14 @@ function useArticles() {
   const [articleStatus, setArticleStatus] = useState<EArticleFilter>(
     EArticleFilter.ALL
   )
+  const [searchValue, setSearchValue] = useState<string>('')
   useEffect(() => {
     if (isFetching) {
       return
     }
     let list = []
-    const result = []
+    let result = []
+    // 右侧筛选
     switch (selectedKey) {
       case EMenuKey.ALL_ITEMS:
         list = articleList
@@ -47,6 +51,7 @@ function useArticles() {
         list = articleList.filter(item => item.feedId === selectedKey)
         break
     }
+    // 中间栏状态筛选
     list.forEach(item => {
       if (articleStatus === 'STARRED') {
         item.isStarred && result.push(item)
@@ -56,9 +61,29 @@ function useArticles() {
         result.push(item)
       }
     })
+    list = result
+    // 搜索
+    if (searchValue) {
+      const keys = searchValue
+        .split(' ')
+        .map(key => key.trim())
+        .filter(key => !!key)
+      const len = keys.length
+      result = list.filter((article: IArticle) => {
+        const str = article.title + article.author + article.summary
+        let i = 0
+        for (; i < len; i++) {
+          if (str.indexOf(keys[i]) >= 0) {
+            return true
+          }
+        }
+        return false
+      })
+    }
+
     console.info(result)
     setArticleListData(result)
-  }, [selectedKey, articleList, articleStatus, isFetching])
+  }, [selectedKey, articleList, articleStatus, isFetching, searchValue])
   const asyncFetchAllArticles = async () => {
     setIsFetching(true)
     const articles = await Services.getAllArticles()
@@ -97,6 +122,8 @@ function useArticles() {
     asyncReadArticle,
     asyncStarArticle,
     asyncSetAllArticlesRead,
+    searchValue,
+    setSearchValue,
   }
 }
 

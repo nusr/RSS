@@ -1,9 +1,8 @@
 import { SvgIcon, IconType } from '../SvgIcon'
 import React, { useState } from 'react'
 import { ArticleVirtualList } from '../ArticleVirtualList'
-import { SearchArticle } from '../SearchArticle'
 import { EArticleFilter, IArticle } from '../../shared'
-import { ArticleListSkeleton } from '../skeletons/ArticleListSkeleton'
+import { ArticleListSkeleton } from '../Skeletons/ArticleListSkeleton'
 import { useArticlesModel, useFeedsModel } from '../../store'
 import './index.less'
 type StatusItem = {
@@ -28,12 +27,13 @@ type ArticleListProps = {}
 export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
   const { feedList } = useFeedsModel()
   const {
-    articleList,
     articleListData,
     isFetching,
     articleStatus,
     asyncSetAllArticlesRead,
     setArticleStatus,
+    searchValue,
+    setSearchValue,
   } = useArticlesModel()
   const [isVisible, setVisible] = useState<boolean>(false)
   const [showCheckAll, setShowCheckAll] = useState<boolean>(false)
@@ -44,10 +44,10 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
       .map((article: IArticle) => article.id)
     asyncSetAllArticlesRead(ids)
   }
-  const handleSearchItemChoose = (value: IArticle) => {
-    setVisible(false)
-    console.info(value)
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setSearchValue(e.target.value)
   }
+  const articleNum = articleListData.length
   return (
     <div className="article-list">
       <div className="list-header">
@@ -76,6 +76,20 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
             onClick={() => setShowCheckAll(true)}>
             <SvgIcon icon="check-circle" className="check-all" />
           </div>
+          {isVisible ? (
+            <div>
+              <input
+                className="search"
+                value={searchValue}
+                onChange={handleChange}
+              />
+            </div>
+          ) : (
+            <div>
+              {articleListData.length > 0 ? `${articleNum} items` : 'No items'}
+            </div>
+          )}
+
           <div className="list-footer-right" onClick={() => setVisible(true)}>
             <SvgIcon icon="search" className="search-item" />
           </div>
@@ -94,12 +108,6 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
         style={{
           display: isFetching && feedList.length ? 'block' : 'none',
         }}
-      />
-      <SearchArticle
-        articles={articleList}
-        visible={isVisible}
-        onCancel={() => setVisible(false)}
-        onItemChoose={handleSearchItemChoose}
       />
     </div>
   )

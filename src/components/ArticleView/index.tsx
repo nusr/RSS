@@ -8,7 +8,7 @@ import {
   useMenuModel,
   useFeedsModel,
 } from '../../store'
-import { ArticleViewSkeleton } from '../skeletons/ArticleViewSkeleton'
+import { ArticleViewSkeleton } from '../Skeletons/ArticleViewSkeleton'
 import Utils from '../../utils'
 import { WebviewDrawer } from '../Webview'
 import './index.less'
