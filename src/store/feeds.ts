@@ -27,9 +27,10 @@ function useFeeds() {
   const asyncFetchAllFeeds = async (showMessage?: boolean) => {
     setIsUpdating(true)
     const feeds = await Services.getAllFeeds()
-    for (const feed of feeds) {
-      await Services.updateFeedArticles(feed)
-    }
+    // for (const feed of feeds) {
+    //   await Services.updateFeedArticles(feed)
+    // }
+    console.info(feeds)
     setFeedList(feeds)
     await asyncFetchAllArticles()
     if (showMessage) {
@@ -43,6 +44,7 @@ function useFeeds() {
     setIsCreating(true)
     Services.createFeed(feedUrl)
       .then(() => {
+        console.info(feedUrl)
         setIsCreating(false)
         asyncFetchAllFeeds(true)
       })

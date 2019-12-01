@@ -15,7 +15,7 @@ const Logic = {
     }
     const { articles, ...rest } = newFeed
     await feedDB.insertFeed(rest)
-    await articleDB.batchInsertArticles(articles)
+    await articleDB.batchInsertArticles(articles || [])
     return newFeed
   },
   deleteFeeds: async (feedIds: string[]) => {
@@ -37,15 +37,15 @@ const Logic = {
     await articleDB.setArticleIsStarred(articleId, isStarred)
   },
   updateFeedArticles: async (feed: IFeed) => {
-    const newFeed = await parseFeed(feed.id, feed.etag || '')
+    const newFeed = await parseFeed(feed.id || '', feed.etag || '')
     // TODO newFeed.publishTime should not eq feed.publishTime
     if (!newFeed || newFeed.publishTime <= feed.publishTime) {
       return 0
     }
     newFeed.createTime = feed.createTime
     newFeed.id = feed.id
-    const { articles } = newFeed
-    await feedDB.updateFeed(newFeed)
+    const { articles = [], ...rest } = newFeed
+    await feedDB.updateFeed(rest)
     await articleDB.batchInsertArticles(articles)
     return 1
   },

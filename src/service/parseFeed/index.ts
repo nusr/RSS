@@ -13,13 +13,17 @@ function feedXmlRequest(feedUrl: string, options: http.RequestOptions) {
     if (!parseResult) {
       return reject(new LogicError(ELogicError.FEED_PARSER_WRONG_URL))
     }
-    const { protocol, host, hostname, path, port } = parseResult
+    const { protocol, host = '', hostname, path, port } = parseResult
     const client = protocol === 'http:' ? http : https
-    const headers = options.headers || {}
-    headers['user-agent'] =
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36'
-    headers.host = host
-    headers.origin = headers.referer = protocol + '//' + host + '/'
+    const origin = `${protocol}//${host}/`
+    const headers = Object.assign(options.headers || {}, {
+      'user-agent':
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36',
+      host,
+      origin,
+      referer: origin,
+    })
+
     const params: http.RequestOptions = {
       headers,
       host: host,
@@ -45,7 +49,7 @@ function makeFaviconUrl(feedUrl: string) {
   return `${u.protocol}//${u.host}/favicon.ico`
 }
 
-function parseEtag(response: http.IncomingMessage) {
+function parseETag(response: http.IncomingMessage) {
   let Tag = response.headers.etag || ''
   Tag = Tag.toString()
   Tag = Tag.slice(0, 2) === 'W/' ? Tag.slice(2) : Tag
@@ -72,7 +76,7 @@ export function parseFeed(feedUrl: string, eTag: string) {
             meta.favicon = meta.favicon
               ? meta.favicon
               : makeFaviconUrl(meta.link)
-            feed = feedDB.makeFeedBaseOnMate(meta, parseEtag(response))
+            feed = feedDB.makeFeedBaseOnMate(meta, parseETag(response))
           })
           feedParser.on('readable', () => {
             item = feedParser.read()

@@ -11,7 +11,7 @@ export interface IWebviewDrawerProps {
   onClose: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
-let webview: WebviewTag = null
+let webview: WebviewTag;
 const userAgent =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'
 export const WebviewDrawer: React.FunctionComponent<IWebviewDrawerProps> = props => {
@@ -47,7 +47,6 @@ export const WebviewDrawer: React.FunctionComponent<IWebviewDrawerProps> = props
   useEffect(() => {
     if (!visible && webview) {
       webview.remove()
-      webview = null
     }
   }, [visible])
   return (

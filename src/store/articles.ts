@@ -6,8 +6,8 @@ import useMessageModel from './message'
 import useLanguageModel from './language'
 import useMenuModel from './menu'
 type ArticlesState = {
-  currentArticle: IArticle;
-  setCurrentArticle: React.Dispatch<React.SetStateAction<IArticle>>;
+  currentArticle: IArticle | undefined;
+  setCurrentArticle: React.Dispatch<React.SetStateAction<IArticle | undefined>>;
   articleList: IArticle[];
   articleListData: IArticle[];
   isFetching: boolean;
@@ -37,8 +37,8 @@ function useArticles() {
     if (isFetching) {
       return
     }
-    let list = []
-    let result = []
+    let list: IArticle[] = []
+    let result: IArticle[] = []
     // 右侧筛选
     switch (selectedKey) {
       case EMenuKey.ALL_ITEMS:
@@ -93,7 +93,7 @@ function useArticles() {
   }
 
   const asyncReadArticle = async (articleId: string) => {
-    const article: IArticle | null = await Services.getArticle(articleId)
+    const article = await Services.getArticle(articleId)
     if (article) {
       await Services.setArticlesIsRead([articleId])
       setCurrentArticle(article)

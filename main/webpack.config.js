@@ -9,7 +9,6 @@ function setExternal(name) {
 }
 module.exports = {
   context: path.resolve(__dirname),
-  devtool: 'source-map',
   entry: './index.ts',
   externals: [setExternal('electron-is-dev'), setExternal('electron-updater')],
   mode: 'production',

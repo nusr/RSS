@@ -14,7 +14,7 @@ export default class ArticleDB extends BaseModel<IArticle> {
   }
   public async setArticlesIsRead(articleIds: string[]) {
     const articles = await this.getAllArticles()
-    const result = []
+    const result: IArticle[] = []
     articles.forEach(item => {
       let temp = item
       if (articleIds.includes(item.id)) {
@@ -29,7 +29,7 @@ export default class ArticleDB extends BaseModel<IArticle> {
   public async setArticleIsStarred(articleId: string, isStarred: boolean) {
     const articles = await this.getAllArticles()
     const article = articles.find(item => item.id === articleId)
-    if (article.isStarred !== isStarred) {
+    if (article && article.isStarred !== isStarred) {
       article.isStarred = isStarred
     }
     return this.updateArticles(articles)
@@ -39,14 +39,16 @@ export default class ArticleDB extends BaseModel<IArticle> {
   }
   public async batchInsertArticles(articles: IArticle[]) {
     const list = await this.getAllArticles()
-    const map = {}
+    const map: {
+      [key: string]: number;
+    } = {}
     list.forEach(item => {
       const key = item.id
       if (!map[key]) {
         map[key] = 1
       }
     })
-    const result = []
+    const result: IArticle[] = []
     articles.forEach(item => {
       const key = item.id
       if (!map[key]) {

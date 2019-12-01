@@ -1,7 +1,7 @@
 import { Modal } from '../Modal'
 import React, { useEffect, useState } from 'react'
 import { IFeed } from '../../shared'
-import {Settings} from '../Settings'
+import { Settings } from '../Settings'
 import { useLanguageModel, useFeedsModel } from '../../store'
 import { LANGUAGE_KEY_TYPE } from '../../locales'
 import './index.less'
@@ -35,8 +35,8 @@ export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = ({
     setFeeds(allFeeds.filter((item: IFeed) => item.id !== feedId))
     setDeletedIds([...needDeletedIds, feedId])
   }
-  function handleChange(e) {
-    setLanguage(e.target.value)
+  function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setLanguage(e.target.value as LANGUAGE_KEY_TYPE)
   }
 
   return (
@@ -65,4 +65,3 @@ export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = ({
     </Modal>
   )
 }
-

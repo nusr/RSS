@@ -34,13 +34,13 @@ export class BaseModel<Type> {
     return new Promise(resolve => {
       fs.readFile(this.filePath, 'utf8', (error, data) => {
         if (error) {
-          resolve(null)
+          resolve([])
           return
         }
         if (data) {
           resolve(JSON.parse(data))
         } else {
-          resolve(null)
+          resolve([])
         }
       })
     })

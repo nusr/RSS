@@ -1,5 +1,5 @@
 import FeedParser from 'feedparser'
-import { IArticle, IFeed,EDBName } from '../../shared'
+import { IArticle, IFeed, EDBName } from '../../shared'
 import { BaseModel } from './base'
 export default class FeedDB extends BaseModel<IFeed> {
   public constructor() {
@@ -35,12 +35,17 @@ export default class FeedDB extends BaseModel<IFeed> {
   public async updateFeedUrl(feedUrl: string, newUrl: string) {
     const feeds = await this.getAllFeeds()
     const item = feeds.find(item => item.id === feedUrl)
-    item.id = newUrl
+    if (item) {
+      item.id = newUrl
+    }
     return this.updateFeeds(feeds)
   }
   public async updateFeed(feed: IFeed) {
+    if (!feed.id) {
+      return false
+    }
     const feeds = await this.getAllFeeds()
-    const result = []
+    const result: IFeed[] = []
     feeds.forEach(item => {
       let temp = item
       if (item.id === feed.id) {
@@ -63,7 +68,7 @@ export default class FeedDB extends BaseModel<IFeed> {
   }
   public async deleteFeeds(ids: string[]) {
     const feeds = await this.getAllFeeds()
-    const result = feeds.filter(item => !ids.includes(item.id))
+    const result = feeds.filter(item => !ids.includes(item.id || ''))
     return this.updateFeeds(result)
   }
 }

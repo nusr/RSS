@@ -13,7 +13,9 @@ type MessageState = {
 }
 function useMessage() {
   const [visible, setVisible] = useState<boolean>(false)
-  const [messageParams, setMessage] = useState<MessageParams>()
+  const [messageParams, setMessage] = useState<MessageParams>({
+    message: ''
+  })
   const setMessageParams = (data: MessageParams) => {
     const time = data.time || 1000
     setVisible(true)

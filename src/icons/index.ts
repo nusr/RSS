@@ -1,4 +1,5 @@
-const requireAll = requireContext => {
+// @ts-ignore
+const requireAll = (requireContext) => {
   return requireContext.keys().map(requireContext)
 }
 // @ts-ignore
@@ -9,4 +10,4 @@ const data = requireAll(req)
 //   return temp.slice(5)
 // })
 // console.log(result.join('" | "'))
-export default  data;
+export default data

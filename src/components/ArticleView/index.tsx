@@ -13,7 +13,7 @@ import Utils from '../../utils'
 import { WebviewDrawer } from '../Webview'
 import './index.less'
 let isAppend = false
-let contentLinks = []
+let contentLinks: string[] = []
 export const ArticleView: React.FunctionComponent<{}> = () => {
   const { getLanguageData } = useLanguageModel()
   const { feedList } = useFeedsModel()
@@ -41,9 +41,8 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
     })
     const links = div.querySelectorAll('a')
     contentLinks = []
-    links.forEach((link, i) => {
-      contentLinks.push(link)
-      link.dataset.index = `${i}`
+    links.forEach((link: HTMLAnchorElement) => {
+      contentLinks.push(link.href)
     })
 
     const frames = div.querySelectorAll('iframe')
@@ -56,7 +55,8 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
         dom.removeChild(dom.firstChild)
       }
       dom.appendChild(div)
-      contentRef.current.scrollTo(0, 0)
+      const containerDom = contentRef.current
+      containerDom && containerDom.scrollTo(0, 0)
       isAppend = false
     }
   }
@@ -103,7 +103,7 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
   }
 
   function handleCompassClick() {
-    const src: string = currentArticle && currentArticle.link
+    const src = currentArticle && currentArticle.link
     if (src) {
       shell.openExternal(src)
     }
@@ -135,7 +135,7 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
     )
   } else {
     viewContent = (
-      <div className="view-content">
+      <div className="view-content" ref={contentRef}>
         <div style={{ marginTop: '128px' }}>
           <Empty>
             <div className="feed-title">{currentFeed && currentFeed.title}</div>
@@ -149,7 +149,7 @@ export const ArticleView: React.FunctionComponent<{}> = () => {
     <div className="article-view">
       <div className="view-header">
         <div>
-          <SvgIcon icon="close" onClick={() => setCurrentArticle(null)} />
+          <SvgIcon icon="close" onClick={() => setCurrentArticle(undefined)} />
         </div>
         <div>
           <SvgIcon icon={!isUnread ? 'dot-outlined' : 'dot-filled'} />

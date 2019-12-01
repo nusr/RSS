@@ -112,7 +112,7 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
             <ArticleNum count={0} />
           </div>
         ))}
-        {feedList.map(({ id, favicon, title }) => (
+        {feedList.map(({ id = '', favicon, title }) => (
           <div
             key={id}
             className={getItemClassName(id)}
