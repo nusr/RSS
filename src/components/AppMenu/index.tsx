@@ -9,6 +9,7 @@ import {
   useFeedsModel,
   useOnlineModel,
   useLanguageModel,
+  useArticlesModel,
 } from '../../store'
 import './index.less'
 type MenuItemType = {
@@ -42,6 +43,7 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
   const { getLanguageData } = useLanguageModel()
   const { selectedKey, setSelectedKey, showMenu } = useMenuModel()
   const { onlineStatus, setOnlineStatus } = useOnlineModel()
+  const { countArticlesNum } = useArticlesModel()
   const {
     feedList = [],
     asyncFetchAllFeeds,
@@ -51,14 +53,12 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
   } = useFeedsModel()
   const isReady = isCreating || isUpdating
   const [isVisible, setVisible] = useState<boolean>(false)
-
   function handleUpdateFeedsClick() {
     if (isUpdating || feedList.length === 0) {
       return
     }
     asyncFetchAllFeeds(true)
   }
-
   /* eslint-disable */
   useEffect(() => {
     asyncFetchAllFeeds()
@@ -109,7 +109,7 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
               <SvgIcon icon={icon} />
               <div className="menu-title">{getLanguageData(title)}</div>
             </div>
-            <ArticleNum count={0} />
+            <ArticleNum count={countArticlesNum[key]} />
           </div>
         ))}
         {feedList.map(({ id = '', favicon, title }) => (
@@ -123,7 +123,7 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
                 {title}
               </div>
             </div>
-            <ArticleNum count={0} />
+            <ArticleNum count={countArticlesNum[id]} />
           </div>
         ))}
       </div>

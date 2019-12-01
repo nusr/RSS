@@ -5,6 +5,9 @@ import Services from '../service'
 import useMessageModel from './message'
 import useLanguageModel from './language'
 import useMenuModel from './menu'
+type CountType = {
+  [key: string]: number;
+}
 type ArticlesState = {
   currentArticle: IArticle | undefined;
   setCurrentArticle: React.Dispatch<React.SetStateAction<IArticle | undefined>>;
@@ -20,11 +23,13 @@ type ArticlesState = {
   asyncReadArticle(articleId: string): void;
   asyncStarArticle(articleId: string, isStar: boolean): void;
   asyncSetAllArticlesRead(ids: string[]): void;
+  countArticlesNum: CountType;
 }
 function useArticles() {
   const { setMessageParams } = useMessageModel()
   const { getLanguageData } = useLanguageModel()
   const { selectedKey } = useMenuModel()
+  const [countArticlesNum, setCountArticlesNum] = useState<CountType>({})
   const [currentArticle, setCurrentArticle] = useState<IArticle>()
   const [isFetching, setIsFetching] = useState<boolean>(true)
   const [articleList, setArticleList] = useState<IArticle[]>([])
@@ -84,14 +89,34 @@ function useArticles() {
     console.info(result)
     setArticleListData(result)
   }, [selectedKey, articleList, articleStatus, isFetching, searchValue])
+
+  const getMenuCount = (articles: IArticle[]) => {
+    const starKey = EMenuKey.STARRED_ITEMS
+    const result: CountType = {
+      [EMenuKey.ALL_ITEMS]: articles.length,
+      [starKey]: 0,
+    }
+    articles.forEach(item => {
+      const key = item.feedId
+      if (item.isStarred) {
+        result[starKey]++
+      }
+      if (result[key]) {
+        result[key]++
+      } else {
+        result[key] = 1
+      }
+    })
+    setCountArticlesNum(result)
+  }
   const asyncFetchAllArticles = async () => {
     setIsFetching(true)
     const articles = await Services.getAllArticles()
     setArticleList(articles)
+    getMenuCount(articles)
     setIsFetching(false)
     return articles
   }
-
   const asyncReadArticle = async (articleId: string) => {
     const article = await Services.getArticle(articleId)
     if (article) {
@@ -124,6 +149,7 @@ function useArticles() {
     asyncSetAllArticlesRead,
     searchValue,
     setSearchValue,
+    countArticlesNum,
   }
 }
 
