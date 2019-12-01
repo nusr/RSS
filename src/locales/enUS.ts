@@ -22,7 +22,8 @@ const enUS = {
   un_found_feed: 'Unfound Feed',
   unknown: 'Unknown',
   cancel: 'Cancel',
-  ok: 'Ok'
+  ok: 'Ok',
+  readAll: 'Mark All as Read'
 }
 
 export default enUS

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { ArticleVirtualList } from '../ArticleVirtualList'
 import { EArticleFilter, IArticle } from '../../shared'
 import { ArticleListSkeleton } from '../Skeletons/ArticleListSkeleton'
-import { useArticlesModel, useFeedsModel } from '../../store'
+import { useArticlesModel, useFeedsModel, useLanguageModel } from '../../store'
 import { throttle } from '../../utils'
 import './index.less'
 type StatusItem = {
@@ -27,6 +27,7 @@ const StatusList: StatusItem[] = [
 type ArticleListProps = {}
 export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
   const { feedList } = useFeedsModel()
+  const { getLanguageData } = useLanguageModel()
   const {
     articleListData,
     isFetching,
@@ -44,12 +45,13 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
       .map((article: IArticle) => article.id)
     asyncSetAllArticlesRead(ids)
   }
+  function handleCheck() {
+    setVisible(false)
+    setShowCheckAll(!showCheckAll)
+  }
   function handleSearch() {
-    if (showCheckAll) {
-      setShowCheckAll(false)
-      return
-    }
-    setVisible(true)
+    setShowCheckAll(false)
+    setVisible(!isVisible)
   }
   const handleChange = throttle((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
@@ -78,9 +80,7 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
       </div>
       <div className="list-footer">
         <div className="footer-top">
-          <div
-            className="list-footer-left"
-            onClick={() => setShowCheckAll(true)}>
+          <div className="list-footer-left" onClick={handleCheck}>
             <SvgIcon icon="check-circle" className="check-all" />
           </div>
           {isVisible ? (
@@ -103,10 +103,10 @@ export const ArticleList: React.FunctionComponent<ArticleListProps> = () => {
         </div>
         <div style={{ display: showCheckAll ? 'block' : 'none' }}>
           <div className="check-item" onClick={() => setShowCheckAll(false)}>
-            cancel
+            {getLanguageData('cancel')}
           </div>
           <div className="check-item" onClick={readAllArticles}>
-            Check All
+            {getLanguageData('readAll')}
           </div>
         </div>
       </div>

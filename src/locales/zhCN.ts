@@ -22,7 +22,8 @@ const zhCN = {
   un_found_feed: '没有找到 Feed',
   unknown: '未知',
   cancel: '取消',
-  ok: '确定'
+  ok: '确定',
+  readAll: '全部已读'
 }
 
 export default zhCN
