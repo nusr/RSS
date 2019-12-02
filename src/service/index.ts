@@ -7,15 +7,18 @@ const Logic = {
   createFeed: async (feedUrl: string) => {
     const feeds = await feedDB.getAllFeeds()
     if (feeds && feeds.find(item => item.id === feedUrl)) {
-      return null
+      throw new Error(`你已经订阅${feedUrl}`)
     }
+    console.info(`正在解析 ${feedUrl} ...`)
     const newFeed = await parseFeed(feedUrl, '')
     if (!newFeed) {
       throw new LogicError(ELogicError.FEED_PARSER_NOT_FOUND)
     }
     const { articles, ...rest } = newFeed
     await feedDB.insertFeed(rest)
+    console.info(`解析成功！`)
     await articleDB.batchInsertArticles(articles || [])
+    console.info(`插入文章成功！`)
     return newFeed
   },
   deleteFeeds: async (feedIds: string[]) => {
@@ -41,10 +44,12 @@ const Logic = {
     if (!newFeed || newFeed.publishTime <= feed.publishTime) {
       return 0
     }
+    console.info(`更新 ${feed.id} ...`)
     newFeed.createTime = feed.createTime
     newFeed.id = feed.id
     const { articles = [], ...rest } = newFeed
     await feedDB.updateFeed(rest)
+    console.info(`更新成功！`)
     await articleDB.batchInsertArticles(articles)
     return 1
   },

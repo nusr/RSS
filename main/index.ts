@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, systemPreferences } from 'electron'
 import isDev from 'electron-is-dev'
 import path from 'path'
 import { initMenu } from './menu'
@@ -14,7 +14,7 @@ function createWindow() {
       contextIsolation: false,
       nodeIntegration: true,
       webviewTag: true,
-      webSecurity: true,
+      webSecurity: false,
     },
     frame: !isWindows,
     height: 600,
@@ -41,6 +41,13 @@ function createWindow() {
       mainWindow.show()
     }
   })
+  // 监控深色模式切换
+  systemPreferences.subscribeNotification(
+    'AppleInterfaceThemeChangedNotification',
+    function theThemeHasChanged() {
+      console.info(systemPreferences.isDarkMode())
+    }
+  )
 }
 app.on('ready', createWindow)
 

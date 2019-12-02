@@ -49,7 +49,8 @@ function useFeeds() {
         setIsCreating(false)
         asyncFetchAllFeeds(true)
       })
-      .catch(() => {
+      .catch(error => {
+        console.error(error)
         setMessageParams({
           message: getLanguageData('un_found_feed'),
         })

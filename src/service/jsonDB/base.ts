@@ -2,6 +2,7 @@ import fs from 'fs'
 import { EDBName } from '../../shared'
 export class BaseModel<Type> {
   private filePath: EDBName
+  private fileEncoding = 'utf8'
   public constructor(filePath: EDBName) {
     this.filePath = filePath
   }
@@ -20,9 +21,11 @@ export class BaseModel<Type> {
       jsonData = JSON.stringify(data)
     }
     return new Promise((resolve, reject) => {
-      fs.writeFile(this.filePath, jsonData, error => {
+      fs.writeFile(this.filePath, jsonData, this.fileEncoding, error => {
         if (error) {
-          reject(error)
+          // TODO 无法调用 fs 模块
+          console.error(error)
+          reject(`JSON 写入${this.filePath}失败`)
         } else {
           resolve(data)
         }
@@ -32,8 +35,9 @@ export class BaseModel<Type> {
 
   protected readJsonFile(): Promise<Type[]> {
     return new Promise(resolve => {
-      fs.readFile(this.filePath, 'utf8', (error, data) => {
+      fs.readFile(this.filePath, this.fileEncoding, (error, data) => {
         if (error) {
+          // console.error(error)
           resolve([])
           return
         }
