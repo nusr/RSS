@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createModel } from 'hox'
 import { useState, useEffect } from 'react'
 import { EMenuKey, IArticle, EArticleFilter } from '../shared'

@@ -1,2 +1,4 @@
 config-overrides.js
 main/webpack.config.js
+/src/store
+/src/service

@@ -4,7 +4,7 @@ import https from 'https'
 import url from 'url'
 import { ELogicError, IArticle, IFeed } from '../../shared'
 import LogicError from '../error'
-import { articleDB, feedDB } from '../jsonDB'
+import { feedDB, makeFeedBaseOnMate, makeArticleBaseOnItem } from '../jsonDB'
 import { TextTransform } from './TextTransform'
 
 function feedXmlRequest(feedUrl: string, options: http.RequestOptions) {
@@ -76,12 +76,12 @@ export function parseFeed(feedUrl: string, eTag: string) {
             meta.favicon = meta.favicon
               ? meta.favicon
               : makeFaviconUrl(meta.link)
-            feed = feedDB.makeFeedBaseOnMate(meta, parseETag(response))
+            feed = makeFeedBaseOnMate(meta, parseETag(response))
           })
           feedParser.on('readable', () => {
             item = feedParser.read()
             while (item) {
-              const article = articleDB.makeArticleBaseOnItem(item, feedUrl)
+              const article = makeArticleBaseOnItem(item, feedUrl)
               article && articles.push(article)
               item = feedParser.read()
             }
@@ -100,7 +100,16 @@ export function parseFeed(feedUrl: string, eTag: string) {
         } else if (response.statusCode === 301) {
           const newUrl = response.headers.location
           if (newUrl) {
-            feedDB.updateFeedUrl(feedUrl, newUrl)
+            feedDB.update(
+              { id: feedUrl },
+              { $set: { id: newUrl } },
+              { multi: true },
+              function(error) {
+                if (error) {
+                  console.error(error)
+                }
+              }
+            )
           }
           return resolve(null)
         } else if (response.statusCode === 304) {
