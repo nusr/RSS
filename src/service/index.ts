@@ -1,13 +1,12 @@
 import { ELogicError, IFeed } from '../shared'
 import LogicError from './error'
 import { parseFeed } from './parseFeed'
-import { articleDB, feedDB } from './jsonDB'
+import { articleDB, feedDB } from './nedb'
 
 const Logic = {
   createFeed: async (feedUrl: string) => {
-    // @ts-ignore
-    const feeds: any[] = await Logic.getAllFeeds()
-    if (feeds && feeds.find((item: any) => item.id === feedUrl)) {
+    const feeds: IFeed[] = await Logic.getAllFeeds()
+    if (feeds && feeds.find((item: IFeed) => item.id === feedUrl)) {
       throw new Error(`你已经订阅${feedUrl}`)
     }
     console.info(`正在解析 ${feedUrl} ...`)
@@ -16,61 +15,29 @@ const Logic = {
       throw new LogicError(ELogicError.FEED_PARSER_NOT_FOUND)
     }
     const { articles, ...rest } = newFeed
-    feedDB.insert(rest, error => {
-      if (error) {
-        console.log(error)
-      }
-    })
+    await feedDB.insertFeed(rest)
     console.info(`解析成功！`)
-    articleDB.insert(articles || [], error => {
-      if (error) {
-        console.log(error)
-      }
-    })
+    await articleDB.batchInsertArticles(articles)
     console.info(`插入文章成功！`)
     return newFeed
   },
   deleteFeeds: async (feedIds: string[]) => {
-    // return await feedDB.deleteFeeds(feedIds)
+    return await feedDB.deleteFeeds(feedIds)
   },
   getAllFeeds: async () => {
-    return new Promise((resolve, reject) => {
-      feedDB.find({}, (error, docs) => {
-        console.log(docs)
-        if (error) {
-          reject()
-        } else {
-          resolve(docs)
-        }
-      })
-    })
+    return feedDB.getAllFeeds()
   },
   getArticle: async (articleId: string) => {
-    return await articleDB.find({
-      id: articleId,
-    })
+    return articleDB.find(articleId)
   },
   getAllArticles: async () => {
-    return new Promise((resolve, reject) => {
-      articleDB.find({}, (error, docs) => {
-        console.log(docs)
-        if (error) {
-          reject()
-        } else {
-          resolve(docs)
-        }
-      })
-    })
+    return articleDB.getAllArticles()
   },
   setArticlesIsRead: async (articleIds: string[]) => {
-    // return await articleDB.setArticlesIsRead(articleIds)
+    return await articleDB.setArticlesIsRead(articleIds)
   },
   setArticleIsStarred: async (articleId: string, isStarred: boolean) => {
-    return await articleDB.update(
-      { id: articleId },
-      { $set: { isStarred } },
-      { multi: true }
-    )
+    return articleDB.setArticleIsStarred(articleId, isStarred)
   },
   updateFeedArticles: async (feed: IFeed) => {
     const newFeed = await parseFeed(feed.id || '', feed.etag || '')
@@ -81,9 +48,9 @@ const Logic = {
     newFeed.createTime = feed.createTime
     newFeed.id = feed.id
     const { articles = [], ...rest } = newFeed
-    await feedDB.update({ id: feed.id }, rest, { upsert: true })
+    await feedDB.updateFeed(rest)
     console.info(`更新成功！`)
-    await articleDB.insert(articles)
+    await articleDB.batchInsertArticles(articles)
     return 1
   },
 }

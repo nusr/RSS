@@ -6,7 +6,7 @@ export default class FeedDB extends BaseModel<IFeed> {
     super(EDBName.feed)
   }
   public async getAllFeeds(): Promise<IFeed[]> {
-    return (await this.readJsonFile()) || []
+    return (await this.getAll()) as IFeed[]
   }
   public makeFeedBaseOnMate(
     meta: FeedParser.Meta,
@@ -33,42 +33,18 @@ export default class FeedDB extends BaseModel<IFeed> {
     return feed
   }
   public async updateFeedUrl(feedUrl: string, newUrl: string) {
-    const feeds = await this.getAllFeeds()
-    const item = feeds.find(item => item.id === feedUrl)
-    if (item) {
-      item.id = newUrl
-    }
-    return this.updateFeeds(feeds)
+    return this.updateOne<string>(feedUrl, 'id', newUrl)
   }
   public async updateFeed(feed: IFeed) {
-    if (!feed.id) {
-      return false
-    }
-    const feeds = await this.getAllFeeds()
-    const result: IFeed[] = []
-    feeds.forEach(item => {
-      let temp = item
-      if (item.id === feed.id) {
-        temp = Object.assign(item, feed)
-      }
-      result.push(temp)
-    })
-    return this.updateFeeds(result)
+    return this.updateAll(feed.id, feed)
   }
   public async insertFeed(feed: IFeed) {
-    const feeds = await this.getAllFeeds()
-    const item = feeds.find(v => v.id === feed.id)
-    if (!item) {
-      feeds.push(feed)
-    }
-    return this.updateFeeds(feeds)
-  }
-  private async updateFeeds(feeds: IFeed[]) {
-    return this.updateJsonFile(feeds, true)
+    return this.insert([feed])
   }
   public async deleteFeeds(ids: string[]) {
-    const feeds = await this.getAllFeeds()
-    const result = feeds.filter(item => !ids.includes(item.id || ''))
-    return this.updateFeeds(result)
+    for (let id of ids) {
+      await this.remove(id)
+    }
+    return true
   }
 }

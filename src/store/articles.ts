@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createModel } from 'hox'
 import { useState, useEffect } from 'react'
 import { EMenuKey, IArticle, EArticleFilter } from '../shared'
@@ -7,24 +6,24 @@ import useMessageModel from './message'
 import useLanguageModel from './language'
 import useMenuModel from './menu'
 type CountType = {
-  [key: string]: number;
+  [key: string]: number
 }
 type ArticlesState = {
-  currentArticle: IArticle | undefined;
-  setCurrentArticle: React.Dispatch<React.SetStateAction<IArticle | undefined>>;
-  articleList: IArticle[];
-  articleListData: IArticle[];
-  isFetching: boolean;
-  setIsFetching: React.Dispatch<React.SetStateAction<boolean>>;
-  setArticleStatus: React.Dispatch<React.SetStateAction<EArticleFilter>>;
-  articleStatus: EArticleFilter;
-  searchValue: string;
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
-  asyncFetchAllArticles(): void;
-  asyncReadArticle(articleId: string): void;
-  asyncStarArticle(articleId: string, isStar: boolean): void;
-  asyncSetAllArticlesRead(ids: string[]): void;
-  countArticlesNum: CountType;
+  currentArticle: IArticle | undefined
+  setCurrentArticle: React.Dispatch<React.SetStateAction<IArticle>>
+  articleList: IArticle[]
+  articleListData: IArticle[]
+  isFetching: boolean
+  setIsFetching: React.Dispatch<React.SetStateAction<boolean>>
+  setArticleStatus: React.Dispatch<React.SetStateAction<EArticleFilter>>
+  articleStatus: EArticleFilter
+  searchValue: string
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>
+  asyncFetchAllArticles(): void
+  asyncReadArticle(articleId: string): void
+  asyncStarArticle(articleId: string, isStar: boolean): void
+  asyncSetAllArticlesRead(ids: string[]): void
+  countArticlesNum: CountType
 }
 function useArticles() {
   const { setMessageParams } = useMessageModel()
@@ -119,7 +118,7 @@ function useArticles() {
     return articles
   }
   const asyncReadArticle = async (articleId: string) => {
-    const article = await Services.getArticle(articleId)
+    const article = (await Services.getArticle(articleId)) as IArticle
     if (article) {
       await Services.setArticlesIsRead([articleId])
       setCurrentArticle(article)

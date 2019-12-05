@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createModel } from 'hox'
 import React, { useState } from 'react'
 import { IFeed } from '../shared'
@@ -28,11 +27,10 @@ function useFeeds() {
   const [feedList, setFeedList] = useState<IFeed[]>([])
   const asyncFetchAllFeeds = async (showMessage?: boolean) => {
     setIsUpdating(true)
-    // @ts-ignore
-    const feeds: any[] = await Services.getAllFeeds()
-    // for (const feed of feeds) {
-    //   await Services.updateFeedArticles(feed)
-    // }
+    const feeds: IFeed[] = await Services.getAllFeeds()
+    for (const feed of feeds) {
+      await Services.updateFeedArticles(feed)
+    }
     console.info(feeds)
     setFeedList(feeds)
     await asyncFetchAllArticles()
