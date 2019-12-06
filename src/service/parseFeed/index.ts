@@ -70,7 +70,7 @@ export function parseFeed(feedUrl: string, eTag: string) {
           const articles: IArticle[] = []
           let feed: IFeed
           let item: FeedParser.Item
-          response.pipe(new TextTransform())
+          response.pipe(new TextTransform(response.headers['content-type']))
           response.pipe(feedParser)
           feedParser.on('meta', (meta: FeedParser.Meta) => {
             meta.favicon = meta.favicon

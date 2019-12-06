@@ -110,6 +110,7 @@ function useArticles() {
     setCountArticlesNum(result)
   }
   const asyncFetchAllArticles = async () => {
+
     setIsFetching(true)
     const articles = await Services.getAllArticles()
     setArticleList(articles)
