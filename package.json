@@ -14,7 +14,7 @@
     "prebuild": "npm run build:main",
     "predev": "npm run build:main",
     "prepackage:mac": "npm run build",
-    "dev": "cross-env BROWSER=none concurrently \"npm run start\" \"wait-on http://localhost:3000 && electron .\"",
+    "dev": "cross-env BROWSER=none concurrently \"npm run start\" \"wait-on http://localhost:3000 && electron . --debug\"",
     "package:mac": "electron-builder build -m",
     "package:linux": "electron-builder build -l",
     "package:win": "electron-builder build --win",

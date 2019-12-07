@@ -1,5 +1,6 @@
 import { Modal } from '../Modal'
 import React, { useEffect, useState } from 'react'
+import { ipcRenderer } from 'electron'
 import { IFeed } from '../../shared'
 import { Settings } from '../Settings'
 import { useLanguageModel, useFeedsModel } from '../../store'
@@ -7,28 +8,32 @@ import { LANGUAGE_KEY_TYPE } from '../../locales'
 import './index.less'
 const LanguageList: LANGUAGE_KEY_TYPE[] = ['en-US', 'zh-CN']
 type ISettingsModalOwnProps = {
-  visible: boolean;
-  onClose: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+
 }
 
-export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = ({
-  visible,
-  onClose,
-}) => {
+export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = () => {
+  const [visible, setVisible] = useState<boolean>(false)
   const { feedList = [], asyncDeleteFeeds } = useFeedsModel()
   const { language, setLanguage, getLanguageData } = useLanguageModel()
   const [allFeeds, setFeeds] = useState<IFeed[]>(feedList)
   const [needDeletedIds, setDeletedIds] = useState<string[]>([])
   useEffect(() => {
+    ipcRenderer.on('SETTINGS_MODAL', (event: Event, args: string) => {
+      if (args === 'OPEN') {
+        setVisible(true)
+      }
+    })
+  }, [])
+  useEffect(() => {
     if (visible) {
       setFeeds(feedList)
     }
   }, [feedList, visible])
-  function handleOk(e: React.MouseEvent<HTMLElement, MouseEvent>) {
+  function handleOk() {
     if (needDeletedIds.length) {
       asyncDeleteFeeds(needDeletedIds)
     }
-    onClose(e)
+    setVisible(false)
   }
 
   function handleDeleteFeed(feedId: string) {
@@ -44,7 +49,7 @@ export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = ({
       className="settings-modal"
       title={getLanguageData('settings')}
       visible={visible}
-      onCancel={onClose}
+      onCancel={()=> setVisible(false)}
       onOk={handleOk}>
       <div className="settings-content">
         <div className="languages-setting">

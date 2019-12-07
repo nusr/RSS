@@ -10,40 +10,23 @@ import { checkForUpdates, restartToUpdate, UPDATER_STATUS_MAP } from './updater'
 
 const template: MenuItemConstructorOptions[] = [
   {
-    label: 'Edit',
+    label: 'Subscriptions',
     submenu: [
       {
-        accelerator: 'CmdOrCtrl+Z',
-        label: 'Undo',
-        role: 'undo',
+        click: (menuItem: MenuItem, browserWindow: BrowserWindow) => {
+          if (browserWindow) {
+            browserWindow.webContents.send('IMPORT_FORM_OPML')
+          }
+        },
+        label: 'Import from OPML',
       },
       {
-        accelerator: 'Shift+CmdOrCtrl+Z',
-        label: 'Redo',
-        role: 'redo',
-      },
-      {
-        type: 'separator',
-      },
-      {
-        accelerator: 'CmdOrCtrl+X',
-        label: 'Cut',
-        role: 'cut',
-      },
-      {
-        accelerator: 'CmdOrCtrl+C',
-        label: 'Copy',
-        role: 'copy',
-      },
-      {
-        accelerator: 'CmdOrCtrl+V',
-        label: 'Paste',
-        role: 'paste',
-      },
-      {
-        accelerator: 'CmdOrCtrl+A',
-        label: 'Select All',
-        role: 'selectAll',
+        click: (menuItem: MenuItem, browserWindow: BrowserWindow) => {
+          if (browserWindow) {
+            browserWindow.webContents.send('EXPORT_TO_OPML')
+          }
+        },
+        label: 'Export to OPML',
       },
     ],
   },
@@ -128,10 +111,7 @@ function addPreferencesMenu(
   position: number
 ) {
   const settingsMenu = {
-    click: (
-      menuItem: MenuItem,
-      browserWindow: BrowserWindow
-    ) => {
+    click: (menuItem: MenuItem, browserWindow: BrowserWindow) => {
       if (browserWindow) {
         browserWindow.webContents.send('SETTINGS_MODAL', 'OPEN')
       }
