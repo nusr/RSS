@@ -2,9 +2,9 @@ import { createModel } from 'hox'
 import { useState, useEffect } from 'react'
 import { EMenuKey, IArticle, EArticleFilter } from '../shared'
 import Services from '../service'
-import useMessageModel from './message'
 import useLanguageModel from './language'
 import useMenuModel from './menu'
+import Toast from '../components/Toast'
 type CountType = {
   [key: string]: number
 }
@@ -26,7 +26,6 @@ type ArticlesState = {
   countArticlesNum: CountType
 }
 function useArticles() {
-  const { setMessageParams } = useMessageModel()
   const { getLanguageData } = useLanguageModel()
   const { selectedKey } = useMenuModel()
   const [countArticlesNum, setCountArticlesNum] = useState<CountType>({})
@@ -110,7 +109,6 @@ function useArticles() {
     setCountArticlesNum(result)
   }
   const asyncFetchAllArticles = async () => {
-
     setIsFetching(true)
     const articles = await Services.getAllArticles()
     setArticleList(articles)
@@ -127,8 +125,8 @@ function useArticles() {
   }
   const asyncSetAllArticlesRead = (ids: string[]) => {
     Services.setArticlesIsRead(ids).then(() => {
-      setMessageParams({
-        message: getLanguageData('doYouWantSetAllArticlesBeRead'),
+      Toast({
+        content: getLanguageData('doYouWantSetAllArticlesBeRead'),
       })
     })
   }

@@ -1,6 +1,7 @@
 import { Modal } from '../Modal'
 import React, { useState } from 'react'
-import { useLanguageModel, useMessageModel } from '../../store'
+import Toast from '../Toast'
+import { useLanguageModel } from '../../store'
 import './index.less'
 
 export interface IAddFeedProps {
@@ -15,42 +16,41 @@ enum KeyMap {
 
 export const AddFeed: React.FunctionComponent<IAddFeedProps> = props => {
   const { getLanguageData } = useLanguageModel()
-  const { setMessageParams } = useMessageModel()
   const { onOk, visible, onCancel } = props
   const [feedUrl, setFeedUrl] = useState<string>('')
-  
+
   function handleSubmit() {
     const temp = feedUrl.trim()
     if (
       /^https?:\/\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i.test(
-        temp,
+        temp
       )
     ) {
       onOk(temp)
     } else {
-      setMessageParams({
-        message: getLanguageData('invalidFeedUrl'),
+      Toast({
+        content: getLanguageData('invalidFeedUrl'),
+        duration: 0,
       })
     }
   }
-  
+
   function onKeyDown(event: React.KeyboardEvent<HTMLElement>) {
     if (event.keyCode !== KeyMap.ENTER) {
       return
     }
     handleSubmit()
   }
-  
-  
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFeedUrl(e.target.value)
   }
-  
+
   function onClose() {
     onCancel()
     setFeedUrl('')
   }
-  
+
   return (
     <Modal
       className="add-feed-modal"

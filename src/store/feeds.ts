@@ -2,7 +2,7 @@ import { createModel } from 'hox'
 import React, { useState } from 'react'
 import { IFeed } from '../shared'
 import useLanguageModel from './language'
-import useMessageModel from './message'
+import Toast from '../components/Toast'
 import useArticlesModel from './articles'
 import Services from '../service'
 type FeedsState = {
@@ -20,7 +20,6 @@ type FeedsState = {
 }
 function useFeeds() {
   const { asyncFetchAllArticles } = useArticlesModel()
-  const { setMessageParams } = useMessageModel()
   const { getLanguageData } = useLanguageModel()
   const [isCreating, setIsCreating] = useState<boolean>(false)
   const [isUpdating, setIsUpdating] = useState<boolean>(false)
@@ -36,8 +35,8 @@ function useFeeds() {
     setFeedList(feeds)
     await asyncFetchAllArticles()
     if (showMessage) {
-      setMessageParams({
-        message: getLanguageData('feedsAreUpdated'),
+      Toast({
+        content: getLanguageData('feedsAreUpdated'),
       })
     }
     setIsUpdating(false)
@@ -52,9 +51,10 @@ function useFeeds() {
       })
       .catch(error => {
         console.error(error)
-        setMessageParams({
-          message: JSON.stringify(error),
+        Toast({
+          content: JSON.stringify(error),
         })
+
         setIsCreating(false)
       })
   }
@@ -67,8 +67,8 @@ function useFeeds() {
       })
       .catch(error => {
         console.error(error)
-        setMessageParams({
-          message: JSON.stringify(error),
+        Toast({
+          content: JSON.stringify(error),
         })
         setIsCreating(false)
       })

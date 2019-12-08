@@ -15,10 +15,9 @@ export interface IAppProps {
 export const App: React.FunctionComponent<IAppProps> = () => {
   const [initOver, setInitOver] = useState<boolean>(false)
   const { language, setLanguage } = useLanguageModel()
+  /* eslint-disable */
   useEffect(() => {
     ipcRenderer.send('GET_LOCALE')
-  }, [])
-  useEffect(() => {
     ipcRenderer.on('RETURN_LOCALE', (event, locale: string) => {
       setInitOver(true)
       if (!language) {
@@ -30,6 +29,7 @@ export const App: React.FunctionComponent<IAppProps> = () => {
       }
     })
   }, [])
+  /* eslint-enable */
   if (!initOver) {
     return null
   }
