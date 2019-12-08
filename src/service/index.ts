@@ -21,6 +21,12 @@ const Logic = {
     console.info(`插入文章成功！`)
     return newFeed
   },
+  batchCreateFeed: async (feedUrls: string[]) => {
+    for (const feed of feedUrls) {
+      await Logic.createFeed(feed)
+    }
+    return true
+  },
   deleteFeeds: async (feedIds: string[]) => {
     return await feedDB.deleteFeeds(feedIds)
   },

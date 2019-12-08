@@ -21,7 +21,8 @@ export default class ArticleDB extends BaseModel<IArticle> {
     return this.updateOne<boolean>(articleId, 'isStarred', isStarred)
   }
   public async batchInsertArticles(articles: IArticle[]) {
-    return this.insert(articles)
+    const list = articles.filter(item => item.id)
+    return this.insert(list)
   }
   public makeArticleBaseOnItem(item: FeedParser.Item, feedId: string) {
     const id = item.guid || item.link
@@ -44,7 +45,7 @@ export default class ArticleDB extends BaseModel<IArticle> {
       link: item.link,
       originLink: item.origlink,
       publishTime: item.pubdate ? item.pubdate.getTime() : Date.now(),
-      summary: item.summary.substr(0, 96),
+      summary: item.summary && item.summary.substr(0, 96),
       time: item.date ? item.date.getTime() : Date.now(),
       title: item.title,
     }

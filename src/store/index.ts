@@ -4,6 +4,7 @@ import useArticlesModel from './articles'
 import useLanguageModel from './language'
 import useOnlineModel from './online'
 import useMessageModel from './message'
+import useUserModel from './user'
 export {
   useMenuModel,
   useFeedsModel,
@@ -11,4 +12,5 @@ export {
   useLanguageModel,
   useOnlineModel,
   useMessageModel,
+  useUserModel,
 }

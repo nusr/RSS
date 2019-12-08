@@ -5,7 +5,6 @@ import useLanguageModel from './language'
 import useMessageModel from './message'
 import useArticlesModel from './articles'
 import Services from '../service'
-
 type FeedsState = {
   isCreating: boolean
   setIsCreating: React.Dispatch<React.SetStateAction<boolean>>
@@ -15,6 +14,7 @@ type FeedsState = {
   setFeedList: React.Dispatch<React.SetStateAction<IFeed[]>>
   asyncFetchAllFeeds(showMessage?: boolean): void
   asyncDeleteFeeds(ids: string[]): void
+  asyncBatchCreateFeed(feedUrls: string[]): void
   asyncCreateFeed(feedUrl: string): void
   getCurrentFeed(feedId?: string): IFeed | undefined
 }
@@ -27,11 +27,12 @@ function useFeeds() {
   const [feedList, setFeedList] = useState<IFeed[]>([])
   const asyncFetchAllFeeds = async (showMessage?: boolean) => {
     setIsUpdating(true)
-    const feeds: IFeed[] = await Services.getAllFeeds()
+    let feeds: IFeed[] = await Services.getAllFeeds()
+    feeds = feeds.filter(item => item.id)
+    console.info(feeds)
     for (const feed of feeds) {
       await Services.updateFeedArticles(feed)
     }
-    console.info(feeds)
     setFeedList(feeds)
     await asyncFetchAllArticles()
     if (showMessage) {
@@ -52,7 +53,22 @@ function useFeeds() {
       .catch(error => {
         console.error(error)
         setMessageParams({
-          message: getLanguageData('un_found_feed'),
+          message: JSON.stringify(error),
+        })
+        setIsCreating(false)
+      })
+  }
+  const asyncBatchCreateFeed = (feedUrls: string[]) => {
+    setIsCreating(true)
+    Services.batchCreateFeed(feedUrls)
+      .then(() => {
+        setIsCreating(false)
+        asyncFetchAllFeeds(true)
+      })
+      .catch(error => {
+        console.error(error)
+        setMessageParams({
+          message: JSON.stringify(error),
         })
         setIsCreating(false)
       })
@@ -75,6 +91,7 @@ function useFeeds() {
     asyncDeleteFeeds,
     asyncCreateFeed,
     getCurrentFeed,
+    asyncBatchCreateFeed,
   }
 }
 

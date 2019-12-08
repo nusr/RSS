@@ -1,22 +1,23 @@
 import { createModel } from 'hox'
 import { useState } from 'react'
-import { messages, LANGUAGE_KEY_TYPE } from '../locales'
-
-const LANGUAGE = 'LANGUAGE'
-const languageDefault = (localStorage.getItem(LANGUAGE) || navigator.language) as LANGUAGE_KEY_TYPE
+import { messages, LANGUAGE_MAP } from '../locales'
+import { LANGUAGE_KEY } from '../shared'
 type LanguageState = {
-  language: LANGUAGE_KEY_TYPE;
-  setLanguage(language: LANGUAGE_KEY_TYPE): void;
-  getLanguageData(key: string): string;
+  language: LANGUAGE_MAP
+  setLanguage(language: LANGUAGE_MAP): void
+  getLanguageData(key: string): string
 }
 function useLanguage() {
-  const [language, setLang] = useState<LANGUAGE_KEY_TYPE>(languageDefault)
+  const [language, setLang] = useState<LANGUAGE_MAP>(
+    localStorage.getItem(LANGUAGE_KEY) as LANGUAGE_MAP
+  )
   const getLanguageData = (key: string) => {
-    return messages[language][key]
+    const data = messages[language] || {}
+    return data[key]
   }
-  const setLanguage = (lang: LANGUAGE_KEY_TYPE) => {
+  const setLanguage = (lang: LANGUAGE_MAP) => {
     setLang(lang)
-    localStorage.setItem(LANGUAGE, lang)
+    localStorage.setItem(LANGUAGE_KEY, lang)
   }
   return {
     language,

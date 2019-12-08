@@ -29,7 +29,7 @@ module.exports = {
     path: path.resolve(__dirname, '../public'),
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.tsx', '.node'],
   },
   target: 'electron-main',
 }

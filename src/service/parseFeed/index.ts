@@ -112,7 +112,7 @@ export function parseFeed(feedUrl: string, eTag: string) {
       })
       .catch(error => {
         console.error(error)
-        return reject(new LogicError(ELogicError.FEED_PARSER_FETCH_ERROR))
+        return reject(error)
       })
   })
 }

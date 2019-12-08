@@ -39,6 +39,9 @@ export default class FeedDB extends BaseModel<IFeed> {
     return this.updateAll(feed.id, feed)
   }
   public async insertFeed(feed: IFeed) {
+    if (!feed.id) {
+      return false
+    }
     return this.insert([feed])
   }
   public async deleteFeeds(ids: string[]) {

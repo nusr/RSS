@@ -10,6 +10,7 @@ import {
   useOnlineModel,
   useLanguageModel,
   useArticlesModel,
+  useUserModel,
 } from '../../store'
 import './index.less'
 type MenuItemType = {
@@ -44,6 +45,8 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
   const { selectedKey, setSelectedKey, showMenu } = useMenuModel()
   const { onlineStatus, setOnlineStatus } = useOnlineModel()
   const { countArticlesNum } = useArticlesModel()
+  const { userAccount } = useUserModel()
+
   const {
     feedList = [],
     asyncFetchAllFeeds,
@@ -97,6 +100,7 @@ export const AppMenu: React.FunctionComponent<AppMenuProps> = () => {
       <div className="menu-content">
         <div className="menu-header">
           <Avatar src={Logo} />
+          {userAccount && <div className="title">{userAccount}</div>}
           <div className="date-text">{new Date().toDateString()}</div>
           {isReady && <div>sync...</div>}
         </div>

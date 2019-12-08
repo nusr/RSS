@@ -1,3 +1,5 @@
+export * from './electron'
+export * from './opml'
 export function timeToDateString(time: number) {
   return new Date(time).toDateString()
 }
@@ -36,6 +38,3 @@ export function throttle<F extends (...params: any[]) => void>(
   return wrapper
 }
 /* eslint-enable */
-export function sleep(seconds: number) {
-  return new Promise(resolve => setTimeout(resolve, seconds * 1000))
-}

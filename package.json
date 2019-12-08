@@ -14,7 +14,7 @@
     "prebuild": "npm run build:main",
     "predev": "npm run build:main",
     "prepackage:mac": "npm run build",
-    "dev": "cross-env BROWSER=none concurrently \"npm run start\" \"wait-on http://localhost:3000 && electron . --debug\"",
+    "dev": "cross-env BROWSER=none concurrently \"npm run start\" \"wait-on http://localhost:3000 && electron .\"",
     "package:mac": "electron-builder build -m",
     "package:linux": "electron-builder build -l",
     "package:win": "electron-builder build --win",
@@ -45,7 +45,8 @@
     "iconv-lite": "^0.5.0",
     "nedb": "^1.8.0",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "xml2js": "^0.4.22"
   },
   "devDependencies": {
     "@jest-runner/electron": "^2.0.2",
@@ -55,6 +56,7 @@
     "@types/node": "12.12.14",
     "@types/react": "16.9.13",
     "@types/react-dom": "16.9.4",
+    "@types/xml2js": "^0.4.5",
     "@typescript-eslint/eslint-plugin": "^2.6.1",
     "@typescript-eslint/parser": "^2.6.1",
     "concurrently": "^5.0.0",

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, systemPreferences } from 'electron'
+import { app, BrowserWindow, systemPreferences, ipcMain } from 'electron'
 import isDev from 'electron-is-dev'
 import path from 'path'
 import { initMenu } from './menu'
@@ -15,6 +15,7 @@ function createWindow() {
       nodeIntegration: true,
       webviewTag: true,
       webSecurity: false,
+      minimumFontSize: 12,
     },
     frame: !isWindows,
     height: 600,
@@ -24,7 +25,7 @@ function createWindow() {
     icon: path.join(__dirname, './icons/png/256x256.png'),
     show: false,
     titleBarStyle: 'hiddenInset',
-    // vibrancy: 'dark',
+    title: 'RSS',
   })
   if (isDev) {
     mainWindow.loadURL('http://localhost:3000')
@@ -40,6 +41,10 @@ function createWindow() {
     if (mainWindow) {
       mainWindow.show()
     }
+  })
+  ipcMain.on('GET_LOCALE', event => {
+    const locale = app.getLocale()
+    event.sender.send('RETURN_LOCALE', locale)
   })
   // 监控深色模式切换
   systemPreferences.subscribeNotification(

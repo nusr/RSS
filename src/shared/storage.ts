@@ -1,0 +1,3 @@
+const STORAGE_PREFIX = 'rss_'
+export const LANGUAGE_KEY = `${STORAGE_PREFIX}LANGUAGE`
+export const ACCOUNT_KEY = `${STORAGE_PREFIX}ACCOUNT`

@@ -1,6 +1,9 @@
 import enUS from './enUS'
 import zhCN from './zhCN'
-export type LANGUAGE_KEY_TYPE = 'en-US' | 'zh-CN'
+export enum LANGUAGE_MAP {
+  en = 'en-US',
+  zh = 'zh-CN',
+}
 type Value = {
   [key: string]: string;
 }

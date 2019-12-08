@@ -4,12 +4,10 @@ import { ipcRenderer } from 'electron'
 import { IFeed } from '../../shared'
 import { Settings } from '../Settings'
 import { useLanguageModel, useFeedsModel } from '../../store'
-import { LANGUAGE_KEY_TYPE } from '../../locales'
+import { LANGUAGE_MAP } from '../../locales'
 import './index.less'
-const LanguageList: LANGUAGE_KEY_TYPE[] = ['en-US', 'zh-CN']
-type ISettingsModalOwnProps = {
-
-}
+const LanguageList = Object.values(LANGUAGE_MAP)
+type ISettingsModalOwnProps = {}
 
 export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = () => {
   const [visible, setVisible] = useState<boolean>(false)
@@ -41,7 +39,7 @@ export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = ()
     setDeletedIds([...needDeletedIds, feedId])
   }
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    setLanguage(e.target.value as LANGUAGE_KEY_TYPE)
+    setLanguage(e.target.value as LANGUAGE_MAP)
   }
 
   return (
@@ -49,7 +47,7 @@ export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = ()
       className="settings-modal"
       title={getLanguageData('settings')}
       visible={visible}
-      onCancel={()=> setVisible(false)}
+      onCancel={() => setVisible(false)}
       onOk={handleOk}>
       <div className="settings-content">
         <div className="languages-setting">
