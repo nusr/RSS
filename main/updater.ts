@@ -79,7 +79,9 @@ function initAutoUpdater() {
     setUpdaterStatus(UPDATER_STATUS_MAP.NORMAL)
   })
 
-  autoUpdater.on('download-progress')
+  autoUpdater.on('download-progress', event => {
+    console.info(event)
+  })
 
   autoUpdater.on('update-downloaded', (info: UpdateInfo) => {
     dialog

@@ -1,6 +1,5 @@
 import { IFeed } from '../shared'
 import fs from 'fs'
-import xml2js from 'xml2js'
 const DEFAULT_TITLE = 'https://github.com/nusr/RSS'
 export function get(data: object, path: string, defaultValue = null) {
   const result = String.prototype.split
@@ -12,44 +11,53 @@ export function get(data: object, path: string, defaultValue = null) {
     )
   return result === undefined || result === data ? defaultValue : result
 }
-function getFeed(list, result = []) {
-  list.forEach(item => {
-    const feed = get(item, '$.xmlUrl', '')
-    result.push(feed)
-    if (item.outline) {
-      getFeed(item.outline, result)
+function parseOPML(result) {
+  const title = get(result, 'title[0].textContent', '').split(' - ')
+  const feeds = []
+  get(result, 'outline', []).forEach(item => {
+    const url = item.xmlUrl
+    if (/^https?:\/\/\S*$/i.test(url)) {
+      feeds.push(url)
     }
   })
-}
-function parseOPML(result) {
-  const title = get(result, 'opml.head[0].title[0]', '').split(' - ')
-  const outline = get(result, 'opml.body[0].outline', [])
-  let feeds: string[] = []
-  getFeed(outline, feeds)
-  feeds = feeds.filter(item => /^https?:\/\/\S*$/i.test(item))
   const realTitle = title[1] || DEFAULT_TITLE
   return {
     title: realTitle,
     feeds,
   }
 }
+export function convertXmlToJSON(xmlString: string) {
+  const xmlDoc = new window.DOMParser().parseFromString(xmlString, 'text/xml')
+  const result = {}
+  Array.prototype.forEach.call(xmlDoc.all, item => {
+    const {nodeName} = item
+    const obj = {
+      textContent: item.textContent,
+    }
+    const list = item.attributes
+    const tempLen = list.length
+    for (let i = 0; i < tempLen; i++) {
+      const temp = list[i]
+      obj[temp.nodeName] = temp.nodeValue
+    }
+    if (result[nodeName]) {
+      result[nodeName].push(obj)
+    } else {
+      result[nodeName] = [obj]
+    }
+  })
+  return result
+}
 export function importFromOPML(filePath: string) {
   return new Promise((resolve, reject) => {
-    fs.readFile(filePath, (error, data) => {
+    fs.readFile(filePath, 'utf-8', (error, data) => {
       if (error) {
         console.error(error)
         reject(error)
         return
       }
-      const parser = new xml2js.Parser()
-      parser.parseString(data, (parserError, result) => {
-        if (parserError) {
-          console.error(parserError)
-          reject(parserError)
-        } else {
-          resolve(parseOPML(result))
-        }
-      })
+      const temp = convertXmlToJSON(data)
+      resolve(parseOPML(temp))
     })
   })
 }
@@ -58,24 +66,28 @@ export function exportToOPML(
   filePath: string,
   author: string = DEFAULT_TITLE
 ) {
-  const body: string[] = feeds.map(
-    ({ id, title, link }) =>
-      `<outline htmlUrl="${link}" title="${title}" xmlUrl="${id}" type="rss" text="${title}"/>`
-  )
-  const result = `<?xml version="1.0" encoding="UTF-8"?>
-<opml version="1.0">
-  <head>
-    <title>Subscriptions - ${author}</title>
-  </head>
-  <body>
-    ${body.join('\n')}
-  </body>
-</opml>`
-  fs.writeFile(filePath, result, error => {
-    if (error) {
-      console.error(error)
-    } else {
-      console.info('success')
-    }
+  return new Promise((resolve, reject) => {
+    const body: string[] = feeds.map(
+      ({ id, title, link }) =>
+        `<outline htmlUrl="${link}" title="${title}" xmlUrl="${id}" type="rss" text="${title}"/>`
+    )
+    const result = `<?xml version="1.0" encoding="UTF-8"?>
+  <opml version="1.0">
+    <head>
+      <title>Subscriptions - ${author}</title>
+    </head>
+    <body>
+      ${body.join('\n')}
+    </body>
+  </opml>`
+    fs.writeFile(filePath, result, error => {
+      if (error) {
+        console.error(error)
+        reject(error)
+      } else {
+        resolve()
+      }
+    })
   })
 }
+

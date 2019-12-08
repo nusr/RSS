@@ -1,5 +1,5 @@
 import { remote } from 'electron'
-const {dialog} = remote
+const { dialog } = remote
 export function showMessageBox(message: string) {
   dialog
     .showMessageBox({
@@ -13,11 +13,18 @@ export function showMessageBox(message: string) {
 export function showErrorBox(title: string, content = '') {
   dialog.showErrorBox(title, content)
 }
-export function Notification(title: string, body = '') {
-  const myNotification = new window.Notification(title, {
+export function Notification(
+  title: string,
+  clickCallback?: Function,
+  body = ''
+) {
+  const notification = new window.Notification(title, {
     body,
+    timestamp: 5000
   })
-  myNotification.onclick = () => {
-    console.info('Notification clicked')
+  notification.onclick = () => {
+    if (clickCallback) {
+      clickCallback()
+    }
   }
 }

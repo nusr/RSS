@@ -19,7 +19,7 @@ export const App: React.FunctionComponent<IAppProps> = () => {
     ipcRenderer.send('GET_LOCALE')
   }, [])
   useEffect(() => {
-    ipcRenderer.on('RETURN_LOCALE', (Event, locale: string) => {
+    ipcRenderer.on('RETURN_LOCALE', (event, locale: string) => {
       setInitOver(true)
       if (!language) {
         let result = LANGUAGE_MAP.en
