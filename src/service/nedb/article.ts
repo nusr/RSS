@@ -5,8 +5,8 @@ export default class ArticleDB extends BaseModel<IArticle> {
   public constructor() {
     super(EDBName.article)
   }
-  public async getAllArticles(): Promise<IArticle[]> {
-    return (await this.getAll()) as IArticle[]
+  public async getAllArticles(options: object): Promise<IArticle[]> {
+    return (await this.getAll(options)) as IArticle[]
   }
   public async getArticle(articleId: string) {
     return this.find(articleId)
@@ -21,7 +21,7 @@ export default class ArticleDB extends BaseModel<IArticle> {
     return this.updateOne<boolean>(articleId, 'isStarred', isStarred)
   }
   public async batchInsertArticles(articles: IArticle[]) {
-    const list = articles.filter(item => item.id)
+    const list = articles.filter(item => item.id && item.feedId)
     return this.insert(list)
   }
   public makeArticleBaseOnItem(item: FeedParser.Item, feedId: string) {

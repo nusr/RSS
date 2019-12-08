@@ -10,9 +10,9 @@ export class BaseModel<Type> {
       autoload: true,
     })
   }
-  protected getAll() {
+  protected getAll(options: object = {}) {
     return new Promise((resolve, reject) => {
-      this.dataBase.find({}, (error: Error, list: Type[]) => {
+      this.dataBase.find(options, (error: Error, list: Type[]) => {
         if (error) {
           console.error(error)
           reject()

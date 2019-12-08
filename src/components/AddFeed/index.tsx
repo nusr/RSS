@@ -10,9 +10,9 @@ export interface IAddFeedProps {
   onCancel: () => void;
 }
 
-enum KeyMap {
-  ENTER = 13,
-}
+// enum KeyMap {
+//   ENTER = 13,
+// }
 
 export const AddFeed: React.FunctionComponent<IAddFeedProps> = props => {
   const { getLanguageData } = useLanguageModel()
@@ -35,12 +35,12 @@ export const AddFeed: React.FunctionComponent<IAddFeedProps> = props => {
     }
   }
 
-  function onKeyDown(event: React.KeyboardEvent<HTMLElement>) {
-    if (event.keyCode !== KeyMap.ENTER) {
-      return
-    }
-    handleSubmit()
-  }
+  // function onKeyDown(event: React.KeyboardEvent<HTMLElement>) {
+  //   if (event.keyCode !== KeyMap.ENTER) {
+  //     return
+  //   }
+  //   handleSubmit()
+  // }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFeedUrl(e.target.value)
@@ -63,7 +63,6 @@ export const AddFeed: React.FunctionComponent<IAddFeedProps> = props => {
         placeholder={getLanguageData('feedUrl')}
         value={feedUrl}
         onChange={handleChange}
-        onKeyDown={onKeyDown}
       />
     </Modal>
   )

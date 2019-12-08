@@ -46,15 +46,19 @@ export const ImportOPML: React.FunctionComponent<ImportOPMLProps> = props => {
         if (canceled || !filePath) {
           return
         }
-        exportToOPML(feedList, filePath).then(() => {
-          Notification(
-            '导出成功',
-            () => {
-              shell.openItem(filePath)
-            },
-            `导出到: ${filePath}`
-          )
-        })
+        exportToOPML(feedList, filePath)
+          .then(() => {
+            Notification(
+              '导出成功',
+              () => {
+                shell.openItem(filePath)
+              },
+              `导出到: ${filePath}`
+            )
+          })
+          .catch(error => {
+            Notification('导出失败', () => {}, JSON.stringify(error))
+          })
       })
     })
   }, [])

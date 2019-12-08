@@ -12,7 +12,7 @@ type ISettingsModalOwnProps = {}
 export const SettingsModal: React.FunctionComponent<ISettingsModalOwnProps> = () => {
   const [visible, setVisible] = useState<boolean>(false)
   const { feedList = [], asyncDeleteFeeds } = useFeedsModel()
-  const { language, setLanguage, getLanguageData } = useLanguageModel()
+  const { language = '', setLanguage, getLanguageData } = useLanguageModel()
   const [allFeeds, setFeeds] = useState<IFeed[]>(feedList)
   const [needDeletedIds, setDeletedIds] = useState<string[]>([])
   useEffect(() => {

@@ -1,5 +1,4 @@
 import { ELogicError, IFeed } from '../shared'
-import LogicError from './error'
 import { parseFeed } from './parseFeed'
 import { articleDB, feedDB } from './nedb'
 
@@ -7,12 +6,12 @@ const Logic = {
   createFeed: async (feedUrl: string) => {
     const feeds: IFeed[] = await Logic.getAllFeeds()
     if (feeds && feeds.find((item: IFeed) => item.id === feedUrl)) {
-      throw new Error(`你已经订阅${feedUrl}`)
+      return Promise.reject(`你已经订阅${feedUrl}`)
     }
     console.info(`正在解析 ${feedUrl} ...`)
     const newFeed = await parseFeed(feedUrl, '')
     if (!newFeed) {
-      throw new LogicError(ELogicError.FEED_PARSER_NOT_FOUND)
+      return Promise.reject(ELogicError.FEED_PARSER_NOT_FOUND)
     }
     const { articles, ...rest } = newFeed
     await feedDB.insertFeed(rest)
@@ -36,8 +35,8 @@ const Logic = {
   getArticle: async (articleId: string) => {
     return articleDB.find(articleId)
   },
-  getAllArticles: async () => {
-    return articleDB.getAllArticles()
+  getAllArticles: async (options: object) => {
+    return articleDB.getAllArticles(options)
   },
   setArticlesIsRead: async (articleIds: string[]) => {
     return await articleDB.setArticlesIsRead(articleIds)
@@ -52,7 +51,6 @@ const Logic = {
     }
     console.info(`更新 ${feed.id} ...`)
     newFeed.createTime = feed.createTime
-    newFeed.id = feed.id
     const { articles = [], ...rest } = newFeed
     await feedDB.updateFeed(rest)
     console.info(`更新成功！`)

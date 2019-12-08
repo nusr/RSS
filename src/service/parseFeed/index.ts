@@ -3,15 +3,14 @@ import http from 'http'
 import https from 'https'
 import url from 'url'
 import { ELogicError, IArticle, IFeed } from '../../shared'
-import LogicError from '../error'
 import { feedDB, articleDB } from '../nedb'
 import { TextTransform } from './TextTransform'
-
+import Toast from '../../components/Toast'
 function feedXmlRequest(feedUrl: string, options: http.RequestOptions) {
   return new Promise<http.IncomingMessage>((resolve, reject) => {
     const parseResult = url.parse(feedUrl)
     if (!parseResult) {
-      return reject(new LogicError(ELogicError.FEED_PARSER_WRONG_URL))
+      return reject(ELogicError.FEED_PARSER_WRONG_URL)
     }
     const { protocol, host = '', hostname, path, port } = parseResult
     const client = protocol === 'http:' ? http : https
@@ -107,10 +106,13 @@ export function parseFeed(feedUrl: string, eTag: string) {
           return resolve(null)
         } else {
           console.error(response)
-          return reject(new LogicError(ELogicError.FEED_PARSER_FETCH_ERROR))
+          return reject(ELogicError.FEED_PARSER_FETCH_ERROR)
         }
       })
       .catch(error => {
+        Toast({
+          content: JSON.stringify(error),
+        })
         console.error(error)
         return reject(error)
       })

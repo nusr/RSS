@@ -1,7 +1,7 @@
-import { app, BrowserWindow, systemPreferences, ipcMain } from 'electron'
+import { app, BrowserWindow, systemPreferences, ipcMain, Menu } from 'electron'
 import isDev from 'electron-is-dev'
 import path from 'path'
-import { initMenu } from './menu'
+import { initMenu, IMPORT_KEY } from './menu'
 import { initUpdaterMenuItems } from './updater'
 let mainWindow: BrowserWindow | null = null
 const isWindows = process.platform === 'win32'
@@ -15,7 +15,7 @@ function createWindow() {
       nodeIntegration: true,
       webviewTag: true,
       webSecurity: false,
-      minimumFontSize: 12,
+      // minimumFontSize: 12,
     },
     frame: !isWindows,
     height: 600,
@@ -25,7 +25,7 @@ function createWindow() {
     icon: path.join(__dirname, './icons/png/256x256.png'),
     show: false,
     titleBarStyle: 'hiddenInset',
-    title: 'RSS',
+    // title: 'RSS',
   })
   if (isDev) {
     mainWindow.loadURL('http://localhost:3000')
@@ -45,6 +45,13 @@ function createWindow() {
   ipcMain.on('GET_LOCALE', event => {
     const locale = app.getLocale()
     event.sender.send('RETURN_LOCALE', locale)
+  })
+  ipcMain.on('ENABLE_IMPORT_OPML', (event, enabled) => {
+    const menu = Menu.getApplicationMenu()
+    if (!menu) return
+    const item = menu.getMenuItemById(IMPORT_KEY)
+    item.enabled = enabled
+    Menu.setApplicationMenu(menu)
   })
   // 监控深色模式切换
   systemPreferences.subscribeNotification(

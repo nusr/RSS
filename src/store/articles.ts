@@ -5,6 +5,7 @@ import Services from '../service'
 import useLanguageModel from './language'
 import useMenuModel from './menu'
 import Toast from '../components/Toast'
+
 type CountType = {
   [key: string]: number
 }
@@ -38,34 +39,34 @@ function useArticles() {
   )
   const [searchValue, setSearchValue] = useState<string>('')
   useEffect(() => {
-    if (isFetching) {
+    if (articleList.length <= 0) {
       return
     }
-    let list: IArticle[] = []
-    let result: IArticle[] = []
+    let list: IArticle[]
     // 右侧筛选
-    switch (selectedKey) {
-      case EMenuKey.ALL_ITEMS:
-        list = articleList
-        break
-      case EMenuKey.STARRED_ITEMS:
-        list = articleList.filter(item => item.isStarred)
-        break
-      default:
-        list = articleList.filter(item => item.feedId === selectedKey)
-        break
+    if (selectedKey === EMenuKey.ALL_ITEMS) {
+      list = articleList
+    } else if (selectedKey === EMenuKey.STARRED_ITEMS) {
+      list = articleList.filter(item => item.isStarred)
+    } else {
+      list = articleList.filter(item => {
+        const check = item.feedId === selectedKey
+        debugger
+        return check
+      })
     }
+    debugger
     // 中间栏状态筛选
-    list.forEach(item => {
+    list = list.filter(item => {
       if (articleStatus === 'STARRED') {
-        item.isStarred && result.push(item)
+        return item.isStarred
       } else if (articleStatus === 'UNREAD') {
-        item.isUnread && result.push(item)
+        return item.isUnread
       } else {
-        result.push(item)
+        return true
       }
     })
-    list = result
+    console.log(list)
     // 搜索
     if (searchValue) {
       const keys = searchValue
@@ -73,7 +74,7 @@ function useArticles() {
         .map(key => key.trim())
         .filter(key => !!key)
       const len = keys.length
-      result = list.filter((article: IArticle) => {
+      list = list.filter((article: IArticle) => {
         const str = article.title + article.author + article.summary
         let i = 0
         for (; i < len; i++) {
@@ -84,10 +85,9 @@ function useArticles() {
         return false
       })
     }
-
-    console.info(result)
-    setArticleListData(result)
-  }, [selectedKey, articleList, articleStatus, isFetching, searchValue])
+    console.log(list)
+    setArticleListData(list)
+  }, [selectedKey, articleList, articleStatus, searchValue])
 
   const getMenuCount = (articles: IArticle[]) => {
     const starKey = EMenuKey.STARRED_ITEMS
@@ -110,7 +110,8 @@ function useArticles() {
   }
   const asyncFetchAllArticles = async () => {
     setIsFetching(true)
-    const articles = await Services.getAllArticles()
+
+    const articles = await Services.getAllArticles({})
     setArticleList(articles)
     getMenuCount(articles)
     setIsFetching(false)

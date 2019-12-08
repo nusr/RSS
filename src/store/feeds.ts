@@ -1,10 +1,13 @@
 import { createModel } from 'hox'
+import { ipcRenderer } from 'electron'
 import React, { useState } from 'react'
 import { IFeed } from '../shared'
 import useLanguageModel from './language'
-import Toast from '../components/Toast'
 import useArticlesModel from './articles'
+import Toast from '../components/Toast'
+import { Notification } from '../utils'
 import Services from '../service'
+// import { articleDB, feedDB } from '../service/nedb'
 type FeedsState = {
   isCreating: boolean
   setIsCreating: React.Dispatch<React.SetStateAction<boolean>>
@@ -26,14 +29,18 @@ function useFeeds() {
   const [feedList, setFeedList] = useState<IFeed[]>([])
   const asyncFetchAllFeeds = async (showMessage?: boolean) => {
     setIsUpdating(true)
+    // await articleDB.removeAll()
+    // await feedDB.removeAll()
+
     let feeds: IFeed[] = await Services.getAllFeeds()
     feeds = feeds.filter(item => item.id)
     console.info(feeds)
     for (const feed of feeds) {
       await Services.updateFeedArticles(feed)
     }
+    asyncFetchAllArticles()
     setFeedList(feeds)
-    await asyncFetchAllArticles()
+    ipcRenderer.send('ENABLE_IMPORT_OPML', feeds.length <= 0)
     if (showMessage) {
       Toast({
         content: getLanguageData('feedsAreUpdated'),
@@ -54,7 +61,6 @@ function useFeeds() {
         Toast({
           content: JSON.stringify(error),
         })
-
         setIsCreating(false)
       })
   }
@@ -64,12 +70,11 @@ function useFeeds() {
       .then(() => {
         setIsCreating(false)
         asyncFetchAllFeeds(true)
+        Notification(`导入OPML文件成功`)
       })
       .catch(error => {
         console.error(error)
-        Toast({
-          content: JSON.stringify(error),
-        })
+        Notification('导入OPML文件失败', () => {}, JSON.stringify(error))
         setIsCreating(false)
       })
   }

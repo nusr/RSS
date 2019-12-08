@@ -7,7 +7,7 @@ import {
   shell,
 } from 'electron'
 import { checkForUpdates, restartToUpdate, UPDATER_STATUS_MAP } from './updater'
-
+export const IMPORT_KEY = 'IMPORT_FORM_OPML'
 const template: MenuItemConstructorOptions[] = [
   {
     label: 'Subscriptions',
@@ -19,6 +19,8 @@ const template: MenuItemConstructorOptions[] = [
           }
         },
         label: 'Import from OPML',
+        enabled: false,
+        id: IMPORT_KEY
       },
       {
         click: (menuItem: MenuItem, browserWindow: BrowserWindow) => {
