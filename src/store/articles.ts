@@ -51,11 +51,9 @@ function useArticles() {
     } else {
       list = articleList.filter(item => {
         const check = item.feedId === selectedKey
-        debugger
         return check
       })
     }
-    debugger
     // 中间栏状态筛选
     list = list.filter(item => {
       if (articleStatus === 'STARRED') {
